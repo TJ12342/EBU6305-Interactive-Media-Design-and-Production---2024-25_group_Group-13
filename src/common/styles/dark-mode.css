@@ -1,0 +1,109 @@
+/* 暗黑模式样式 */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* 暗黑模式下的头部导航 */
+body.dark-mode header {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .logo h1 {
+    color: #4db6ac;
+}
+
+body.dark-mode nav ul li a {
+    color: #e0e0e0;
+}
+
+body.dark-mode nav ul li a:hover,
+body.dark-mode nav ul li a.active {
+    color: #4db6ac;
+    border-bottom: 2px solid #4db6ac;
+}
+
+body.dark-mode .dark-mode-toggle button {
+    background: #4db6ac;
+    color: #121212;
+}
+
+body.dark-mode .dark-mode-toggle button:hover {
+    background: #80cbc4;
+}
+
+body.dark-mode .language-selector select {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+/* 暗黑模式下的英雄区域 */
+body.dark-mode .hero {
+    background: linear-gradient(135deg, #1a2930 0%, #0f2027 100%);
+}
+
+body.dark-mode .hero-content h2 {
+    color: #4db6ac;
+}
+
+body.dark-mode .hero-content p {
+    color: #80cbc4;
+}
+
+body.dark-mode .cta-button {
+    background-color: #00897b;
+}
+
+body.dark-mode .cta-button:hover {
+    background-color: #00695c;
+}
+
+body.dark-mode .hero-animation {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 暗黑模式下的功能特色区域 */
+body.dark-mode .features {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .features h2 {
+    color: #4db6ac;
+}
+
+body.dark-mode .feature-card {
+    background-color: #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .feature-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .feature-card h3 {
+    color: #4db6ac;
+}
+
+/* 暗黑模式下的页脚 */
+body.dark-mode footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .footer-links ul li a {
+    color: #4db6ac;
+}
+
+body.dark-mode .footer-links ul li a:hover {
+    color: #80cbc4;
+}
+
+body.dark-mode .footer-bottom {
+    border-top: 1px solid #333;
+}
+
+body.dark-mode .footer-bottom a {
+    color: #4db6ac;
+} 
