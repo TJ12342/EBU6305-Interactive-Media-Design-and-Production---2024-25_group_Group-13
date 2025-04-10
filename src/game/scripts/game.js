@@ -1,0 +1,1484 @@
+// 等待DOM完全加载
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('游戏页面已加载');
+    
+    // 延迟初始化，确保DOM完全渲染
+    setTimeout(function() {
+        console.log('开始初始化游戏组件 - 延迟执行');
+        
+        // 初始化游戏选择
+        initGameSelection();
+        
+        // 检查Canvas元素是否存在
+        console.log('抛物线射手Canvas:', document.getElementById('parabola-shooter-canvas'));
+        console.log('顶点猎人Canvas:', document.getElementById('vertex-hunter-canvas'));
+        
+        // 初始化游戏
+        initParabolaShooterGame();
+        initEquationMatchingGame();
+        initVertexHunterGame();
+        
+        // 初始化游戏结束弹窗
+        initGameOverModal();
+        
+        // 初始化排行榜
+        initLeaderboard();
+    }, 300); // 延迟300毫秒确保DOM完全渲染
+});
+
+// 游戏选择功能
+function initGameSelection() {
+    const playButtons = document.querySelectorAll('.play-btn');
+    const gameArea = document.getElementById('game-area');
+    const gameSelectionSection = document.querySelector('.game-selection');
+    const gameContents = document.querySelectorAll('.game-content');
+    const backButton = document.getElementById('back-to-selection');
+    const currentGameTitle = document.getElementById('current-game-title');
+    
+    // 为每个游戏按钮添加点击事件
+    playButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const gameId = this.getAttribute('data-game');
+            
+            // 显示游戏区域，隐藏选择区域
+            gameArea.style.display = 'block';
+            gameSelectionSection.style.display = 'none';
+            
+            // 隐藏所有游戏内容
+            gameContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // 显示选中的游戏
+            const selectedGame = document.getElementById(`${gameId}-game`);
+            if (selectedGame) {
+                selectedGame.style.display = 'flex';
+                
+                // 更新游戏标题
+                currentGameTitle.textContent = document.querySelector(`#${gameId} h3`).textContent;
+                
+                // 重置游戏状态
+                resetGame(gameId);
+            }
+        });
+    });
+    
+    // 返回游戏选择按钮
+    if (backButton) {
+        backButton.addEventListener('click', function() {
+            gameArea.style.display = 'none';
+            gameSelectionSection.style.display = 'block';
+            
+            // 停止所有游戏计时器
+            stopAllGameTimers();
+        });
+    }
+    
+    // 重新开始按钮
+    const restartButton = document.getElementById('restart-game');
+    if (restartButton) {
+        restartButton.addEventListener('click', function() {
+            // 获取当前游戏ID
+            const currentGameId = getCurrentGameId();
+            if (currentGameId) {
+                resetGame(currentGameId);
+            }
+        });
+    }
+}
+
+// 获取当前正在进行的游戏ID
+function getCurrentGameId() {
+    const gameContents = document.querySelectorAll('.game-content');
+    let currentGameId = null;
+    
+    gameContents.forEach(content => {
+        if (content.style.display === 'flex') {
+            currentGameId = content.id.replace('-game', '');
+        }
+    });
+    
+    return currentGameId;
+}
+
+// 重置游戏状态
+function resetGame(gameId) {
+    // 重置分数
+    document.getElementById('current-score').textContent = '0';
+    
+    // 重置计时器
+    resetGameTimer();
+    
+    // 根据游戏类型进行特定的重置
+    switch (gameId) {
+        case 'parabola-shooter':
+            resetParabolaShooterGame();
+            break;
+        case 'equation-matching':
+            resetEquationMatchingGame();
+            break;
+        case 'vertex-hunter':
+            resetVertexHunterGame();
+            break;
+    }
+}
+
+// 停止所有游戏计时器
+function stopAllGameTimers() {
+    if (window.gameTimer) {
+        clearInterval(window.gameTimer);
+        window.gameTimer = null;
+    }
+}
+
+// 重置游戏计时器
+function resetGameTimer() {
+    const timerDisplay = document.getElementById('timer-display');
+    const defaultTime = 60; // 默认60秒
+    
+    // 停止现有计时器
+    stopAllGameTimers();
+    
+    // 重置显示时间
+    timerDisplay.textContent = defaultTime;
+    
+    // 启动新计时器
+    let timeLeft = defaultTime;
+    window.gameTimer = setInterval(function() {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+            // 游戏时间结束
+            clearInterval(window.gameTimer);
+            gameOver();
+        }
+    }, 1000);
+}
+
+// 游戏结束处理
+function gameOver() {
+    const finalScore = document.getElementById('current-score').textContent;
+    const gameOverModal = document.getElementById('game-over-modal');
+    const finalScoreDisplay = document.getElementById('final-score');
+    const achievementText = document.getElementById('achievement-text');
+    
+    // 更新分数显示
+    finalScoreDisplay.textContent = finalScore;
+    
+    // 根据分数显示不同的成就文本
+    const score = parseInt(finalScore);
+    if (score >= 500) {
+        achievementText.textContent = '数学天才!';
+    } else if (score >= 300) {
+        achievementText.textContent = '二次方程大师!';
+    } else if (score >= 100) {
+        achievementText.textContent = '抛物线高手!';
+    } else {
+        achievementText.textContent = '继续加油!';
+    }
+    
+    // 显示弹窗
+    gameOverModal.style.display = 'flex';
+    
+    // 保存分数到排行榜（这里仅模拟）
+    saveScore(score);
+}
+
+// 初始化游戏结束弹窗
+function initGameOverModal() {
+    const gameOverModal = document.getElementById('game-over-modal');
+    const playAgainButton = document.getElementById('play-again');
+    const chooseAnotherButton = document.getElementById('choose-another-game');
+    
+    // 再玩一次按钮
+    if (playAgainButton) {
+        playAgainButton.addEventListener('click', function() {
+            // 隐藏弹窗
+            gameOverModal.style.display = 'none';
+            
+            // 重置当前游戏
+            const currentGameId = getCurrentGameId();
+            if (currentGameId) {
+                resetGame(currentGameId);
+            }
+        });
+    }
+    
+    // 选择其他游戏按钮
+    if (chooseAnotherButton) {
+        chooseAnotherButton.addEventListener('click', function() {
+            // 隐藏弹窗
+            gameOverModal.style.display = 'none';
+            
+            // 返回游戏选择界面
+            document.getElementById('game-area').style.display = 'none';
+            document.querySelector('.game-selection').style.display = 'block';
+            
+            // 停止所有游戏计时器
+            stopAllGameTimers();
+        });
+    }
+}
+
+// 保存分数（模拟）
+function saveScore(score) {
+    const currentGameId = getCurrentGameId();
+    if (!currentGameId) return;
+    
+    // 这里简单模拟保存分数的逻辑
+    // 在实际应用中，应该将分数发送到服务器或保存到本地存储
+    console.log(`保存分数: ${score} 分，游戏: ${currentGameId}`);
+    
+    // 更新排行榜显示
+    updateLeaderboard(currentGameId);
+}
+
+// 初始化排行榜
+function initLeaderboard() {
+    const tabButtons = document.querySelectorAll('.leaderboard-tabs .tab-btn');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 移除所有活动状态
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // 添加当前按钮的活动状态
+            this.classList.add('active');
+            
+            // 更新排行榜
+            const gameId = this.getAttribute('data-game');
+            updateLeaderboard(gameId);
+        });
+    });
+    
+    // 默认显示第一个游戏的排行榜
+    updateLeaderboard('parabola-shooter');
+}
+
+// 更新排行榜（模拟数据）
+function updateLeaderboard(gameId) {
+    const leaderboardData = document.getElementById('leaderboard-data');
+    
+    // 清空现有数据
+    leaderboardData.innerHTML = '';
+    
+    // 模拟数据
+    const data = getLeaderboardData(gameId);
+    
+    // 填充表格
+    data.forEach((entry, index) => {
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${entry.player}</td>
+            <td>${entry.score}</td>
+            <td>${entry.date}</td>
+        `;
+        
+        leaderboardData.appendChild(row);
+    });
+}
+
+// 获取排行榜数据（模拟）
+function getLeaderboardData(gameId) {
+    // 模拟不同游戏的排行榜数据
+    const data = {
+        'parabola-shooter': [
+            { player: '数学王子', score: 950, date: '2025-03-15' },
+            { player: '抛物线高手', score: 920, date: '2025-03-10' },
+            { player: '函数达人', score: 880, date: '2025-03-18' },
+            { player: '几何大师', score: 850, date: '2025-03-05' },
+            { player: '代数专家', score: 820, date: '2025-03-12' }
+        ],
+        'equation-matching': [
+            { player: '匹配王者', score: 880, date: '2025-03-14' },
+            { player: '方程高手', score: 860, date: '2025-03-11' },
+            { player: '图像达人', score: 830, date: '2025-03-17' },
+            { player: '图形专家', score: 800, date: '2025-03-09' },
+            { player: '数学爱好者', score: 780, date: '2025-03-13' }
+        ],
+        'vertex-hunter': [
+            { player: '顶点猎手', score: 920, date: '2025-03-16' },
+            { player: '公式大师', score: 900, date: '2025-03-08' },
+            { player: '计算天才', score: 870, date: '2025-03-19' },
+            { player: '函数专家', score: 840, date: '2025-03-07' },
+            { player: '坐标高手', score: 810, date: '2025-03-14' }
+        ]
+    };
+    
+    return data[gameId] || [];
+}
+
+// ===== 抛物线射手游戏 =====
+function initParabolaShooterGame() {
+    console.log('初始化抛物线射手游戏');
+    
+    const canvas = document.getElementById('parabola-shooter-canvas');
+    if (!canvas) {
+        console.error('无法找到抛物线射手游戏的canvas元素');
+        return;
+    }
+    
+    // 强制设置canvas尺寸
+    const canvasContainer = canvas.parentElement;
+    if (canvasContainer) {
+        // 强制设置容器尺寸，确保它是可见的
+        canvasContainer.style.width = '100%';
+        canvasContainer.style.minHeight = '400px';
+        canvasContainer.style.minWidth = '600px';
+        canvasContainer.style.border = '1px solid #ddd';
+        canvasContainer.style.display = 'flex';
+        
+        console.log('Canvas容器尺寸:', canvasContainer.clientWidth, 'x', canvasContainer.clientHeight);
+    }
+    
+    // 使用固定尺寸初始化canvas
+    canvas.width = 600;
+    canvas.height = 400;
+    canvas.style.backgroundColor = 'white';
+    
+    console.log('设置Canvas尺寸为:', canvas.width, 'x', canvas.height);
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('无法获取Canvas上下文');
+        return;
+    }
+    
+    // 获取控制滑块
+    const aSlider = document.getElementById('a-slider');
+    const bSlider = document.getElementById('b-slider');
+    const cSlider = document.getElementById('c-slider');
+    
+    // 获取显示元素
+    const aValue = document.getElementById('a-value');
+    const bValue = document.getElementById('b-value');
+    const cValue = document.getElementById('c-value');
+    const currentEquation = document.getElementById('current-equation');
+    
+    // 检查必要的元素
+    if (!aSlider || !bSlider || !cSlider || !aValue || !bValue || !cValue || !currentEquation) {
+        console.error('抛物线射手游戏所需的UI元素不完整');
+        return;
+    }
+    
+    // 射击按钮
+    const shootButton = document.getElementById('shoot-button');
+    if (!shootButton) {
+        console.error('无法找到射击按钮');
+        return;
+    }
+    
+    // 游戏状态变量
+    let a = parseFloat(aSlider.value);
+    let b = parseFloat(bSlider.value);
+    let c = parseFloat(cSlider.value);
+    let score = 0;
+    let target = generateTarget();
+    
+    // 在确保DOM完全加载后的一段时间内强制更新
+    setTimeout(() => {
+        console.log('强制更新Canvas绘制...');
+        try {
+            // 确保sliders值被正确加载
+            a = parseFloat(aSlider.value);
+            b = parseFloat(bSlider.value);
+            c = parseFloat(cSlider.value);
+            console.log('当前参数:', a, b, c);
+            
+            // 更新显示
+            updateParabolaDisplay();
+            
+            // 强制重绘
+            drawParabolaShooterGame();
+        } catch (e) {
+            console.error('Canvas绘制更新出错:', e);
+        }
+    }, 500);
+    
+    // 监听滑块变化
+    aSlider.addEventListener('input', function() {
+        a = parseFloat(this.value);
+        if (a === 0) a = 0.1;  // 防止a为0
+        updateParabolaDisplay();
+    });
+    
+    bSlider.addEventListener('input', function() {
+        b = parseFloat(this.value);
+        updateParabolaDisplay();
+    });
+    
+    cSlider.addEventListener('input', function() {
+        c = parseFloat(this.value);
+        updateParabolaDisplay();
+    });
+    
+    // 射击按钮
+    shootButton.addEventListener('click', function() {
+        checkHit();
+    });
+    
+    // 窗口大小变化时固定Canvas尺寸
+    window.addEventListener('resize', function() {
+        // 保持固定尺寸，确保绘图质量
+        canvas.width = 600;
+        canvas.height = 400;
+        drawParabolaShooterGame();
+    });
+    
+    // 更新参数显示
+    function updateParabolaDisplay() {
+        aValue.textContent = a.toFixed(1);
+        bValue.textContent = b.toFixed(1);
+        cValue.textContent = c.toFixed(1);
+        currentEquation.textContent = formatQuadraticFunction(a, b, c);
+        
+        // 重绘画布
+        drawParabolaShooterGame();
+    }
+    
+    // 绘制游戏
+    function drawParabolaShooterGame() {
+        // 检查Canvas上下文
+        if (!ctx) {
+            console.error('无法获取Canvas上下文，无法绘制');
+            return;
+        }
+        
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        console.log('绘制抛物线射手游戏:', width, 'x', height);
+        
+        try {
+            // 清除画布
+            ctx.clearRect(0, 0, width, height);
+            
+            // 绘制白色背景
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+            
+            // 绘制坐标系
+            drawCoordinateSystem(ctx, width, height, centerX, centerY);
+            
+            // 绘制抛物线
+            drawGameParabola(ctx, a, b, c, width, height, centerX, centerY);
+            
+            // 绘制目标
+            drawTarget(ctx, target, width, height, centerX, centerY);
+            
+            console.log('Canvas绘制完成');
+        } catch (e) {
+            console.error('绘制过程出错:', e);
+        }
+    }
+    
+    // 绘制坐标系
+    function drawCoordinateSystem(ctx, width, height, centerX, centerY) {
+        // 绘制网格背景
+        ctx.fillStyle = '#f9f9f9';
+        ctx.fillRect(0, 0, width, height);
+        
+        // 绘制细网格线
+        ctx.beginPath();
+        ctx.strokeStyle = '#e0e0e0';
+        ctx.lineWidth = 0.5;
+        
+        // 水平网格线
+        for (let y = 0; y < height; y += 20) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(width, y);
+        }
+        
+        // 垂直网格线
+        for (let x = 0; x < width; x += 20) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, height);
+        }
+        
+        ctx.stroke();
+        
+        // 绘制主坐标轴
+        ctx.beginPath();
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        
+        // X轴
+        ctx.moveTo(0, centerY);
+        ctx.lineTo(width, centerY);
+        
+        // Y轴
+        ctx.moveTo(centerX, 0);
+        ctx.lineTo(centerX, height);
+        
+        ctx.stroke();
+        
+        // 绘制刻度
+        ctx.fillStyle = '#333';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // X轴刻度
+        for (let i = -5; i <= 5; i++) {
+            if (i === 0) continue;
+            
+            const x = centerX + i * (width / 12);
+            
+            ctx.beginPath();
+            ctx.strokeStyle = '#555';
+            ctx.lineWidth = 1;
+            ctx.moveTo(x, centerY - 5);
+            ctx.lineTo(x, centerY + 5);
+            ctx.stroke();
+            
+            ctx.fillText(i.toString(), x, centerY + 15);
+        }
+        
+        // Y轴刻度
+        for (let i = -3; i <= 3; i++) {
+            if (i === 0) continue;
+            
+            const y = centerY - i * (height / 8);
+            
+            ctx.beginPath();
+            ctx.strokeStyle = '#555';
+            ctx.lineWidth = 1;
+            ctx.moveTo(centerX - 5, y);
+            ctx.lineTo(centerX + 5, y);
+            ctx.stroke();
+            
+            ctx.fillText(i.toString(), centerX - 15, y);
+        }
+        
+        // 坐标轴标签
+        ctx.fillText('x', width - 10, centerY - 15);
+        ctx.fillText('y', centerX + 15, 10);
+    }
+    
+    // 绘制抛物线
+    function drawGameParabola(ctx, a, b, c, width, height, centerX, centerY) {
+        const scaleX = width / 12;  // 每单位x对应的像素数
+        const scaleY = height / 8;  // 每单位y对应的像素数
+        
+        console.log('绘制抛物线，参数:', a, b, c);
+        
+        ctx.beginPath();
+        ctx.strokeStyle = '#00acc1';
+        ctx.lineWidth = 3;
+        
+        let isFirstPoint = true;
+        // 在x轴范围内绘制抛物线
+        for (let pixelX = 0; pixelX <= width; pixelX += 2) {
+            // 将像素坐标转换为数学坐标
+            const x = (pixelX - centerX) / scaleX;
+            const y = a * x * x + b * x + c;
+            
+            // 将数学坐标转换回像素坐标
+            const canvasY = centerY - y * scaleY;
+            
+            if (isFirstPoint) {
+                ctx.moveTo(pixelX, canvasY);
+                isFirstPoint = false;
+            } else {
+                ctx.lineTo(pixelX, canvasY);
+            }
+        }
+        
+        ctx.stroke();
+        
+        // 绘制顶点
+        const vertexX = -b / (2 * a);
+        const vertexY = a * vertexX * vertexX + b * vertexX + c;
+        
+        // 将顶点坐标转换为像素坐标
+        const vertexPixelX = centerX + vertexX * scaleX;
+        const vertexPixelY = centerY - vertexY * scaleY;
+        
+        // 绘制顶点点
+        ctx.beginPath();
+        ctx.fillStyle = '#e91e63';
+        ctx.arc(vertexPixelX, vertexPixelY, 4, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    
+    // 绘制目标
+    function drawTarget(ctx, target, width, height, centerX, centerY) {
+        const scaleX = width / 12;
+        const scaleY = height / 8;
+        
+        const canvasX = centerX + target.x * scaleX;
+        const canvasY = centerY - target.y * scaleY;
+        
+        console.log('绘制目标点:', target.x, target.y, '在位置:', canvasX, canvasY);
+        
+        // 绘制外圈
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 87, 34, 0.3)';
+        ctx.arc(canvasX, canvasY, 20, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // 绘制内圈
+        ctx.beginPath();
+        ctx.fillStyle = '#ff5722';
+        ctx.arc(canvasX, canvasY, 10, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // 绘制目标坐标
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(`(${target.x}, ${target.y})`, canvasX, canvasY - 25);
+    }
+    
+    // 生成新目标
+    function generateTarget() {
+        const x = Math.floor(Math.random() * 9) - 4; // -4 到 4
+        const y = Math.floor(Math.random() * 5) - 2; // -2 到 2
+        return { x, y };
+    }
+    
+    // 检查命中
+    function checkHit() {
+        // 计算目标点的y值应该是多少
+        const expectedY = a * target.x * target.x + b * target.x + c;
+        
+        // 检查是否足够接近
+        const distance = Math.abs(expectedY - target.y);
+        const hitThreshold = 0.5; // 允许的误差范围
+        
+        if (distance <= hitThreshold) {
+            // 命中目标
+            handleHit();
+        } else {
+            // 未命中
+            handleMiss(expectedY);
+        }
+    }
+    
+    // 处理命中
+    function handleHit() {
+        // 增加分数
+        score += 10;
+        document.getElementById('current-score').textContent = score;
+        
+        // 动画效果（简单闪烁）
+        animateHit();
+        
+        // 生成新目标
+        setTimeout(() => {
+            target = generateTarget();
+            drawParabolaShooterGame();
+        }, 500);
+    }
+    
+    // 处理未命中
+    function handleMiss(calculatedY) {
+        // 显示实际函数经过的点
+        animateMiss(calculatedY);
+        
+        // 短暂延迟后重绘
+        setTimeout(() => {
+            drawParabolaShooterGame();
+        }, 500);
+    }
+    
+    // 命中动画
+    function animateHit() {
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const scaleX = width / 12;
+        const scaleY = height / 8;
+        
+        const canvasX = centerX + target.x * scaleX;
+        const canvasY = centerY - target.y * scaleY;
+        
+        // 闪烁效果
+        ctx.beginPath();
+        ctx.fillStyle = '#4caf50';
+        ctx.arc(canvasX, canvasY, 30, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // 显示 +10 分
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('+10', canvasX, canvasY);
+    }
+    
+    // 未命中动画
+    function animateMiss(calculatedY) {
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const scaleX = width / 12;
+        const scaleY = height / 8;
+        
+        const canvasX = centerX + target.x * scaleX;
+        const canvasY = centerY - calculatedY * scaleY;
+        
+        // 实际点
+        ctx.beginPath();
+        ctx.fillStyle = '#f44336';
+        ctx.arc(canvasX, canvasY, 5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // 连线
+        ctx.beginPath();
+        ctx.strokeStyle = '#f44336';
+        ctx.setLineDash([3, 3]);
+        ctx.moveTo(canvasX, canvasY);
+        ctx.lineTo(centerX + target.x * scaleX, centerY - target.y * scaleY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // 显示实际y值
+        ctx.fillStyle = '#f44336';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText(`计算值: ${calculatedY.toFixed(1)}`, canvasX + 10, canvasY);
+    }
+    
+    // 重置游戏
+    window.resetParabolaShooterGame = function() {
+        score = 0;
+        a = 1;
+        b = 0;
+        c = 0;
+        
+        // 重置滑块
+        aSlider.value = a;
+        bSlider.value = b;
+        cSlider.value = c;
+        
+        // 更新显示
+        updateParabolaDisplay();
+        
+        // 生成新目标
+        target = generateTarget();
+        drawParabolaShooterGame();
+    };
+}
+
+// 格式化二次函数表达式
+function formatQuadraticFunction(a, b, c) {
+    let expression = 'f(x) = ';
+    
+    // a项
+    if (a === 1) {
+        expression += 'x²';
+    } else if (a === -1) {
+        expression += '-x²';
+    } else {
+        expression += a.toFixed(1) + 'x²';
+    }
+    
+    // b项
+    if (b !== 0) {
+        if (b > 0) {
+            expression += ' + ' + b.toFixed(1) + 'x';
+        } else {
+            expression += ' - ' + Math.abs(b).toFixed(1) + 'x';
+        }
+    }
+    
+    // c项
+    if (c !== 0) {
+        if (c > 0) {
+            expression += ' + ' + c.toFixed(1);
+        } else {
+            expression += ' - ' + Math.abs(c).toFixed(1);
+        }
+    }
+    
+    return expression;
+}
+
+// ===== 方程配对游戏 =====
+function initEquationMatchingGame() {
+    console.log('初始化方程配对游戏');
+    
+    // 获取游戏元素
+    const equationList = document.getElementById('equation-list');
+    const graphGrid = document.getElementById('graph-grid');
+    
+    if (!equationList || !graphGrid) {
+        console.error('无法找到方程配对游戏所需的HTML元素');
+        return;
+    }
+    
+    // 游戏变量
+    let score = 0;
+    let selectedEquation = null;
+    let selectedGraph = null;
+    let matchedPairs = 0;
+    let equations = [];
+    let currentLevel = 1;
+    
+    // 初始化游戏
+    startNewLevel();
+    
+    // 开始新关卡
+    function startNewLevel() {
+        console.log('开始方程配对游戏第', currentLevel, '关');
+        
+        // 清空现有内容
+        equationList.innerHTML = '';
+        graphGrid.innerHTML = '';
+        
+        // 重置状态
+        selectedEquation = null;
+        selectedGraph = null;
+        matchedPairs = 0;
+        
+        // 生成新的方程和图形
+        generateEquations();
+        renderEquations();
+        renderGraphs();
+    }
+    
+    // 生成方程组
+    function generateEquations() {
+        equations = [];
+        
+        // 根据难度决定方程数量
+        const numEquations = Math.min(3 + currentLevel, 6);
+        
+        for (let i = 0; i < numEquations; i++) {
+            // 生成随机系数
+            let a = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 0.5);
+            let b = Math.random() * 8 - 4;
+            let c = Math.random() * 6 - 3;
+            
+            // 四舍五入系数使其更易读
+            a = Math.round(a * 10) / 10;
+            b = Math.round(b * 10) / 10;
+            c = Math.round(c * 10) / 10;
+            
+            // 确保方程不同
+            if (equations.some(eq => eq.a === a && eq.b === b && eq.c === c)) {
+                i--; // 重新生成
+                continue;
+            }
+            
+            // 创建方程
+            const equation = {
+                id: i + 1,
+                a: a,
+                b: b,
+                c: c,
+                text: formatQuadraticFunction(a, b, c),
+                matched: false
+            };
+            
+            equations.push(equation);
+        }
+    }
+    
+    // 渲染方程列表
+    function renderEquations() {
+        equationList.innerHTML = '';
+        
+        // 随机排序方程
+        const shuffledEquations = [...equations].sort(() => Math.random() - 0.5);
+        
+        // 创建方程项
+        shuffledEquations.forEach(equation => {
+            const item = document.createElement('div');
+            item.className = 'equation-item';
+            item.dataset.id = equation.id;
+            item.textContent = equation.text;
+            
+            if (equation.matched) {
+                item.classList.add('matched');
+                item.style.opacity = '0.5';
+                item.style.pointerEvents = 'none';
+            } else {
+                // 添加点击事件
+                item.addEventListener('click', function() {
+                    selectEquation(this, equation);
+                });
+            }
+            
+            equationList.appendChild(item);
+        });
+    }
+    
+    // 渲染图形网格
+    function renderGraphs() {
+        graphGrid.innerHTML = '';
+        
+        // 随机排序方程以创建图形
+        const shuffledEquations = [...equations].sort(() => Math.random() - 0.5);
+        
+        // 为每个方程创建图形
+        shuffledEquations.forEach(equation => {
+            // 创建图形项
+            const graphItem = document.createElement('div');
+            graphItem.className = 'graph-item';
+            graphItem.dataset.id = equation.id;
+            
+            if (equation.matched) {
+                graphItem.classList.add('matched');
+                graphItem.style.opacity = '0.5';
+                graphItem.style.pointerEvents = 'none';
+            } else {
+                // 添加点击事件
+                graphItem.addEventListener('click', function() {
+                    selectGraph(this, equation);
+                });
+            }
+            
+            // 创建canvas元素绘制图形
+            const canvas = document.createElement('canvas');
+            canvas.width = 150;
+            canvas.height = 150;
+            graphItem.appendChild(canvas);
+            
+            // 绘制图形
+            drawParabola(canvas, equation.a, equation.b, equation.c);
+            
+            // 添加到网格
+            graphGrid.appendChild(graphItem);
+        });
+    }
+    
+    // 绘制抛物线
+    function drawParabola(canvas, a, b, c) {
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        // 清除画布
+        ctx.clearRect(0, 0, width, height);
+        
+        // 绘制背景
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, width, height);
+        
+        // 绘制坐标轴
+        ctx.beginPath();
+        ctx.strokeStyle = '#888';
+        ctx.lineWidth = 1;
+        
+        // X轴
+        ctx.moveTo(0, centerY);
+        ctx.lineTo(width, centerY);
+        
+        // Y轴
+        ctx.moveTo(centerX, 0);
+        ctx.lineTo(centerX, height);
+        
+        ctx.stroke();
+        
+        // 绘制抛物线
+        const scaleX = width / 10;  // 每单位x对应的像素数
+        const scaleY = height / 10;  // 每单位y对应的像素数
+        
+        ctx.beginPath();
+        ctx.strokeStyle = '#00acc1';
+        ctx.lineWidth = 2;
+        
+        let isFirstPoint = true;
+        
+        // 在x轴范围内绘制抛物线
+        for (let pixelX = 0; pixelX <= width; pixelX += 2) {
+            // 将像素坐标转换为数学坐标
+            const x = (pixelX - centerX) / scaleX;
+            const y = a * x * x + b * x + c;
+            
+            // 将数学坐标转换回像素坐标
+            const canvasY = centerY - y * scaleY;
+            
+            // 如果y值超出画布范围，跳过
+            if (canvasY < 0 || canvasY > height) continue;
+            
+            if (isFirstPoint) {
+                ctx.moveTo(pixelX, canvasY);
+                isFirstPoint = false;
+            } else {
+                ctx.lineTo(pixelX, canvasY);
+            }
+        }
+        
+        ctx.stroke();
+    }
+    
+    // 选择方程
+    function selectEquation(element, equation) {
+        // 如果已匹配，不做任何操作
+        if (equation.matched) return;
+        
+        // 移除之前选择的方程
+        const previouslySelected = document.querySelector('.equation-item.selected');
+        if (previouslySelected) {
+            previouslySelected.classList.remove('selected');
+        }
+        
+        // 选择当前方程
+        element.classList.add('selected');
+        selectedEquation = equation;
+        
+        // 检查是否可以匹配
+        checkForMatch();
+    }
+    
+    // 选择图形
+    function selectGraph(element, equation) {
+        // 如果已匹配，不做任何操作
+        if (equation.matched) return;
+        
+        // 移除之前选择的图形
+        const previouslySelected = document.querySelector('.graph-item.selected');
+        if (previouslySelected) {
+            previouslySelected.classList.remove('selected');
+        }
+        
+        // 选择当前图形
+        element.classList.add('selected');
+        selectedGraph = equation;
+        
+        // 检查是否可以匹配
+        checkForMatch();
+    }
+    
+    // 检查是否匹配
+    function checkForMatch() {
+        // 如果没有选择方程或图形，返回
+        if (!selectedEquation || !selectedGraph) return;
+        
+        // 检查是否匹配
+        if (selectedEquation.id === selectedGraph.id) {
+            // 匹配成功
+            handleCorrectMatch();
+        } else {
+            // 匹配失败
+            handleIncorrectMatch();
+        }
+    }
+    
+    // 处理正确匹配
+    function handleCorrectMatch() {
+        console.log('正确匹配！');
+        
+        // 更新方程和图形的状态
+        const equationIndex = equations.findIndex(eq => eq.id === selectedEquation.id);
+        equations[equationIndex].matched = true;
+        
+        // 获取选中的元素
+        const selectedEquationElement = document.querySelector(`.equation-item.selected`);
+        const selectedGraphElement = document.querySelector(`.graph-item.selected`);
+        
+        // 添加匹配样式并禁用点击
+        selectedEquationElement.classList.remove('selected');
+        selectedEquationElement.classList.add('matched');
+        selectedEquationElement.style.opacity = '0.5';
+        selectedEquationElement.style.backgroundColor = '#a5d6a7';
+        selectedEquationElement.style.pointerEvents = 'none';
+        
+        selectedGraphElement.classList.remove('selected');
+        selectedGraphElement.classList.add('matched');
+        selectedGraphElement.style.opacity = '0.5';
+        selectedGraphElement.style.backgroundColor = '#a5d6a7';
+        selectedGraphElement.style.pointerEvents = 'none';
+        
+        // 增加分数
+        score += 10;
+        document.getElementById('current-score').textContent = score;
+        
+        // 增加匹配对数
+        matchedPairs++;
+        
+        // 重置选中状态
+        selectedEquation = null;
+        selectedGraph = null;
+        
+        // 检查是否完成所有匹配
+        if (matchedPairs === equations.length) {
+            // 关卡完成
+            setTimeout(handleLevelComplete, 1000);
+        }
+    }
+    
+    // 处理错误匹配
+    function handleIncorrectMatch() {
+        console.log('匹配错误！');
+        
+        // 获取选中的元素
+        const selectedEquationElement = document.querySelector(`.equation-item.selected`);
+        const selectedGraphElement = document.querySelector(`.graph-item.selected`);
+        
+        // 添加错误样式
+        selectedEquationElement.classList.add('incorrect');
+        selectedGraphElement.classList.add('incorrect');
+        
+        // 短暂震动效果
+        selectedEquationElement.style.animation = 'shake 0.5s';
+        selectedGraphElement.style.animation = 'shake 0.5s';
+        
+        // 1秒后恢复
+        setTimeout(() => {
+            selectedEquationElement.classList.remove('selected', 'incorrect');
+            selectedGraphElement.classList.remove('selected', 'incorrect');
+            selectedEquationElement.style.animation = '';
+            selectedGraphElement.style.animation = '';
+            
+            // 重置选中状态
+            selectedEquation = null;
+            selectedGraph = null;
+        }, 1000);
+    }
+    
+    // 处理关卡完成
+    function handleLevelComplete() {
+        console.log('关卡完成！');
+        
+        // 增加关卡
+        currentLevel++;
+        
+        // 如果是最后一关，显示游戏结束
+        if (currentLevel > 5) {
+            // 显示游戏结束
+            gameOver();
+        } else {
+            // 开始新关卡
+            startNewLevel();
+        }
+    }
+    
+    // 重置游戏
+    window.resetEquationMatchingGame = function() {
+        score = 0;
+        currentLevel = 1;
+        document.getElementById('current-score').textContent = '0';
+        startNewLevel();
+    };
+    
+    // 添加样式
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        
+        .equation-item.incorrect, .graph-item.incorrect {
+            background-color: #ffcdd2 !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== 顶点猎人游戏 =====
+function initVertexHunterGame() {
+    console.log('初始化顶点猎人游戏');
+    
+    const canvas = document.getElementById('vertex-hunter-canvas');
+    if (!canvas) {
+        console.error('无法找到顶点猎人游戏的canvas元素');
+        return;
+    }
+    
+    // 强制设置canvas尺寸
+    const canvasContainer = canvas.parentElement;
+    if (canvasContainer) {
+        // 强制设置容器尺寸，确保它是可见的
+        canvasContainer.style.width = '100%';
+        canvasContainer.style.minHeight = '400px';
+        canvasContainer.style.minWidth = '500px';
+        canvasContainer.style.border = '1px solid #ddd';
+        canvasContainer.style.display = 'flex';
+        
+        console.log('顶点猎人容器尺寸:', canvasContainer.clientWidth, 'x', canvasContainer.clientHeight);
+    }
+    
+    // 使用固定尺寸初始化canvas
+    canvas.width = 600;
+    canvas.height = 400;
+    canvas.style.backgroundColor = 'white';
+    
+    console.log('设置顶点猎人Canvas尺寸为:', canvas.width, 'x', canvas.height);
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('无法获取Canvas上下文');
+        return;
+    }
+    
+    console.log('顶点猎人游戏初始化，Canvas尺寸:', canvas.width, 'x', canvas.height);
+    
+    // 游戏UI元素
+    const equationDisplay = document.getElementById('vertex-hunter-equation');
+    const vertexXInput = document.getElementById('vertex-x');
+    const vertexYInput = document.getElementById('vertex-y');
+    const submitButton = document.getElementById('submit-vertex');
+    const feedbackDisplay = document.getElementById('vertex-feedback');
+    
+    // 检查所需UI元素
+    if (!equationDisplay || !vertexXInput || !vertexYInput || !submitButton || !feedbackDisplay) {
+        console.error('顶点猎人游戏所需的UI元素不完整');
+        return;
+    }
+    
+    // 游戏变量
+    let a, b, c;
+    let correctVertexX, correctVertexY;
+    let score = 0;
+    
+    // 生成新的二次函数
+    generateNewFunction();
+    
+    // 在确保DOM完全加载后的一段时间内强制更新
+    setTimeout(() => {
+        console.log('强制更新顶点猎人Canvas绘制...');
+        try {
+            // 重新生成函数，确保有值
+            generateNewFunction();
+            // 绘制初始函数
+            drawVertexHunterFunction();
+        } catch (e) {
+            console.error('Canvas绘制更新出错:', e);
+        }
+    }, 500);
+    
+    // 绘制初始函数
+    drawVertexHunterFunction();
+    
+    // 提交答案按钮
+    submitButton.addEventListener('click', function() {
+        checkVertexAnswer();
+    });
+    
+    // 窗口大小变化时保持固定Canvas尺寸
+    window.addEventListener('resize', function() {
+        // 保持固定尺寸，确保绘图质量
+        canvas.width = 600;
+        canvas.height = 400;
+        drawVertexHunterFunction();
+    });
+    
+    // 生成新的二次函数
+    function generateNewFunction() {
+        // 生成随机系数
+        a = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 0.5);
+        b = Math.random() * 8 - 4;
+        c = Math.random() * 6 - 3;
+        
+        // 计算正确的顶点坐标
+        correctVertexX = -b / (2 * a);
+        correctVertexY = a * correctVertexX * correctVertexX + b * correctVertexX + c;
+        
+        console.log('生成新函数，参数:', a, b, c);
+        console.log('顶点坐标:', correctVertexX, correctVertexY);
+        
+        // 更新方程显示
+        equationDisplay.textContent = formatQuadraticFunction(a, b, c);
+        
+        // 清空输入框
+        vertexXInput.value = '';
+        vertexYInput.value = '';
+        
+        // 清空反馈
+        feedbackDisplay.textContent = '';
+        feedbackDisplay.className = 'feedback-message';
+    }
+    
+    // 绘制函数
+    function drawVertexHunterFunction() {
+        // 检查Canvas上下文
+        if (!ctx) {
+            console.error('无法获取Canvas上下文，无法绘制');
+            return;
+        }
+        
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        console.log('绘制顶点猎人函数:', width, 'x', height);
+        
+        try {
+            // 清除画布
+            ctx.clearRect(0, 0, width, height);
+            
+            // 绘制白色背景
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+            
+            // 绘制网格背景
+            ctx.fillStyle = '#f9f9f9';
+            ctx.fillRect(0, 0, width, height);
+            
+            // 绘制细网格线
+            ctx.beginPath();
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 0.5;
+            
+            // 水平网格线
+            for (let y = 0; y < height; y += 20) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+            }
+            
+            // 垂直网格线
+            for (let x = 0; x < width; x += 20) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+            }
+            
+            ctx.stroke();
+            
+            // 绘制主坐标轴
+            ctx.beginPath();
+            ctx.strokeStyle = '#555';
+            ctx.lineWidth = 2;
+            
+            // X轴
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            
+            // Y轴
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, height);
+            
+            ctx.stroke();
+            
+            // 绘制刻度
+            ctx.fillStyle = '#333';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // X轴刻度
+            for (let i = -5; i <= 5; i++) {
+                if (i === 0) continue;
+                
+                const x = centerX + i * (width / 12);
+                
+                ctx.beginPath();
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 1;
+                ctx.moveTo(x, centerY - 5);
+                ctx.lineTo(x, centerY + 5);
+                ctx.stroke();
+                
+                ctx.fillText(i.toString(), x, centerY + 15);
+            }
+            
+            // Y轴刻度
+            for (let i = -3; i <= 3; i++) {
+                if (i === 0) continue;
+                
+                const y = centerY - i * (height / 8);
+                
+                ctx.beginPath();
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 1;
+                ctx.moveTo(centerX - 5, y);
+                ctx.lineTo(centerX + 5, y);
+                ctx.stroke();
+                
+                ctx.fillText(i.toString(), centerX - 15, y);
+            }
+            
+            // 绘制抛物线
+            drawVertexParabola();
+            
+            console.log('顶点猎人Canvas绘制完成');
+        } catch (e) {
+            console.error('绘制顶点猎人图形出错:', e);
+        }
+    }
+    
+    // 绘制抛物线
+    function drawVertexParabola() {
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const scaleX = width / 12;
+        const scaleY = height / 8;
+        
+        ctx.beginPath();
+        ctx.strokeStyle = '#673ab7';
+        ctx.lineWidth = 3;
+        
+        let isFirstPoint = true;
+        // 在x轴范围内绘制抛物线
+        for (let pixelX = 0; pixelX <= width; pixelX += 2) {
+            // 将像素坐标转换为数学坐标
+            const x = (pixelX - centerX) / scaleX;
+            const y = a * x * x + b * x + c;
+            
+            // 将数学坐标转换回像素坐标
+            const canvasY = centerY - y * scaleY;
+            
+            if (isFirstPoint) {
+                ctx.moveTo(pixelX, canvasY);
+                isFirstPoint = false;
+            } else {
+                ctx.lineTo(pixelX, canvasY);
+            }
+        }
+        
+        ctx.stroke();
+    }
+    
+    // 检查顶点答案
+    function checkVertexAnswer() {
+        const userX = parseFloat(vertexXInput.value);
+        const userY = parseFloat(vertexYInput.value);
+        
+        if (isNaN(userX) || isNaN(userY)) {
+            feedbackDisplay.textContent = '请输入有效的坐标值';
+            feedbackDisplay.className = 'feedback-message error';
+            return;
+        }
+        
+        // 计算误差
+        const xError = Math.abs(userX - correctVertexX);
+        const yError = Math.abs(userY - correctVertexY);
+        
+        // 允许的误差范围
+        const allowedError = 0.2;
+        
+        if (xError <= allowedError && yError <= allowedError) {
+            // 答案正确
+            feedbackDisplay.textContent = '答案正确！顶点坐标: (' + correctVertexX.toFixed(1) + ', ' + correctVertexY.toFixed(1) + ')';
+            feedbackDisplay.className = 'feedback-message correct';
+            
+            // 增加分数
+            score += 10;
+            document.getElementById('current-score').textContent = score;
+            
+            // 生成新的函数
+            setTimeout(function() {
+                generateNewFunction();
+                drawVertexHunterFunction();
+            }, 1500);
+        } else {
+            // 答案错误
+            feedbackDisplay.textContent = '答案不正确，请再试一次';
+            feedbackDisplay.className = 'feedback-message error';
+        }
+    }
+    
+    // 重置顶点猎人游戏
+    window.resetVertexHunterGame = function() {
+        score = 0;
+        generateNewFunction();
+        drawVertexHunterFunction();
+    };
+} 
