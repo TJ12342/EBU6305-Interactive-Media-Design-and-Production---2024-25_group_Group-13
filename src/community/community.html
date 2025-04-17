@@ -7,25 +7,33 @@
     <link rel="stylesheet" href="../common/styles/main.css">
     <link rel="stylesheet" href="../common/styles/dark-mode.css">
     <link rel="stylesheet" href="styles/community.css">
+    <script src="../common/scripts/i18n.js" defer></script>
 </head>
 <body>
     <!-- 顶部导航栏 -->
     <header>
         <div class="logo">
-            <h1>Quadratic Equations & Parabolas</h1>
+            <h1 data-i18n="nav.home">Quadratic Equations & Parabolas</h1>
         </div>
         <nav>
             <ul>
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../learning/learning.html">Learning</a></li>
-                <li><a href="../game/game.html">Games</a></li>
-                <li><a href="../test/test.html">Tests</a></li>
-                <li><a href="community.html" class="active">Community</a></li>
+                <li><a href="../../index.html" data-i18n="nav.home">Home</a></li>
+                <li><a href="../learning/learning.html" data-i18n="nav.learning">Learning</a></li>
+                <li><a href="../game/game.html" data-i18n="nav.game">Games</a></li>
+                <li><a href="../test/test.html" data-i18n="nav.test">Tests</a></li>
+                <li><a href="community.html" class="active" data-i18n="nav.community">Community</a></li>
             </ul>
         </nav>
         <!-- 暗黑模式切换 -->
         <div class="dark-mode-toggle">
-            <button id="dark-mode-btn">Toggle Dark Mode</button>
+            <button id="dark-mode-btn" data-i18n="common.darkMode">Toggle Dark Mode</button>
+        </div>
+        <!-- 语言切换 -->
+        <div class="language-selector">
+            <select id="language">
+                <option value="en" data-i18n="common.english">English</option>
+                <option value="zh" data-i18n="common.chinese">中文</option>
+            </select>
         </div>
     </header>
 
@@ -33,43 +41,210 @@
     <main class="community-container">
         <!-- 导航面包屑 -->
         <div class="breadcrumb">
-            <a href="../../index.html">Home</a> > <span>Community</span>
+            <a href="../../index.html" data-i18n="nav.home">Home</a> > <span data-i18n="nav.community">Community</span>
         </div>
 
         <!-- 欢迎区块 -->
         <section class="community-welcome">
-            <h2>Welcome to the Math Learning Community</h2>
-            <p>Connect with fellow students learning about quadratic equations and parabolas.</p>
+            <h2 data-i18n="community.welcome.title">Welcome to the Learning Community</h2>
+            <p data-i18n="community.welcome.description">Here, you can share your learning experiences, ask questions, participate in discussions, and interact with other math enthusiasts.</p>
             
             <div class="community-stats">
                 <div class="stat-item">
-                    <div class="stat-number">0</div>
-                    <div class="stat-label">Members</div>
+                    <div class="stat-number" id="member-count">1,234</div>
+                    <div class="stat-label" data-i18n="community.stats.members">Members</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">0</div>
-                    <div class="stat-label">Topics</div>
+                    <div class="stat-number" id="active-count">456</div>
+                    <div class="stat-label" data-i18n="community.stats.active">Active Today</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="topic-count">789</div>
+                    <div class="stat-label" data-i18n="community.stats.topics">Topics</div>
                 </div>
             </div>
         </section>
 
         <!-- 社区主体内容 -->
         <div class="community-main">
-            <!-- 主内容区 -->
-            <div class="community-content">
-                <div class="community-message">
-                    <h3>Community Coming Soon!</h3>
-                    <p>We're working on building this space for discussion and collaboration.</p>
-                    <p>Check back soon for forums, topic discussions, and resource sharing.</p>
-                </div>
-                
-                <!-- 简单的讨论预览区域 -->
-                <div class="discussion-preview">
-                    <h3>Discussion Topics</h3>
-                    <div class="topic-placeholder">
-                        <p>No topics yet. Be the first to start a discussion!</p>
-                        <button disabled>Create Topic (Coming Soon)</button>
+            <!-- 侧边栏 -->
+            <aside class="community-sidebar">
+                <!-- 用户信息卡片 -->
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <img src="../assets/images/community/avatar-default.jpg" alt="User Avatar" id="user-avatar">
                     </div>
+                    <div class="user-info">
+                        <h3 class="user-name" id="user-name">Guest</h3>
+                        <p class="user-status" id="login-status"><span data-i18n="community.posting.loginPrompt">Please</span> <a href="#" id="login-link" onclick="document.getElementById('login-modal').classList.remove('hidden'); return false;" data-i18n="community.posting.login">login</a> <span data-i18n="community.posting.participatePrompt">to participate in discussions</span></p>
+                    </div>
+                    <button id="new-post-btn" disabled data-i18n="community.posting.newPost" onclick="if(currentUser) { document.getElementById('new-topic-modal').classList.remove('hidden'); } else { document.getElementById('login-modal').classList.remove('hidden'); }">Create New Topic</button>
+                </div>
+
+                <!-- 热门话题 -->
+                <div class="hot-topics">
+                    <h3 data-i18n="community.hotTopics.title">Hot Topics</h3>
+                    <ul id="hot-topics-list">
+                        <li><a href="#">How to quickly solve quadratic equations?</a> <span class="topic-heat">🔥</span></li>
+                        <li><a href="#">Applications of parabolas in physics</a> <span class="topic-heat">🔥</span></li>
+                        <li><a href="#">Quadratic function transformation techniques</a></li>
+                        <li><a href="#">Help: How to understand the discriminant?</a></li>
+                        <li><a href="#">Sharing my parabola drawing tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- 社区规则 -->
+                <div class="community-rules">
+                    <h3 data-i18n="community.rules.title">Community Rules</h3>
+                    <ul>
+                        <li data-i18n="community.rules.rule1">Respect others, communicate friendly</li>
+                        <li data-i18n="community.rules.rule2">Focus on math learning related topics</li>
+                        <li data-i18n="community.rules.rule3">Search for similar questions before asking</li>
+                        <li data-i18n="community.rules.rule4">Provide detailed explanations when sharing solutions</li>
+                    </ul>
+                    <a href="#" class="rules-link" data-i18n="community.rules.viewAll">View Complete Rules</a>
+                </div>
+            </aside>
+
+            <!-- 主要内容区 -->
+            <div class="community-content">
+                <!-- 分类标签 -->
+                <div class="topic-categories">
+                    <button class="category-btn active" data-category="all" data-i18n="community.categories.all">All</button>
+                    <button class="category-btn" data-category="question" data-i18n="community.categories.questions">Questions</button>
+                    <button class="category-btn" data-category="share" data-i18n="community.categories.experiences">Experiences</button>
+                    <button class="category-btn" data-category="discuss" data-i18n="community.categories.discussions">Discussions</button>
+                    <button class="category-btn" data-category="resource" data-i18n="community.categories.resources">Resources</button>
+                </div>
+
+                <!-- 搜索框 -->
+                <div class="search-bar">
+                    <input type="text" id="community-search" data-i18n-placeholder="community.search.placeholder" placeholder="Search topics...">
+                    <button id="search-btn" data-i18n="community.search.button">Search</button>
+                </div>
+
+                <!-- 话题列表 -->
+                <div class="topic-list" id="topic-list">
+                    <!-- 置顶话题 -->
+                    <div class="topic-item pinned">
+                        <div class="topic-icon">📌</div>
+                        <div class="topic-content">
+                            <h3 class="topic-title"><a href="#">Community Guide: How to Ask and Answer</a></h3>
+                            <div class="topic-meta">
+                                <span class="topic-category official">Official</span>
+                                <span class="topic-author">Author: Admin</span>
+                                <span class="topic-time">2025-03-01</span>
+                            </div>
+                            <p class="topic-preview">This guide introduces how to ask high-quality questions in the community and how to provide helpful answers. Following these suggestions can make our community more efficient and friendly...</p>
+                            <div class="topic-stats">
+                                <span class="views">👁️ 1024</span>
+                                <span class="replies">💬 57</span>
+                                <span class="likes">❤️ 138</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 普通话题 -->
+                    <div class="topic-item">
+                        <div class="topic-icon">❓</div>
+                        <div class="topic-content">
+                            <h3 class="topic-title"><a href="#">How to understand the discriminant of quadratic functions?</a></h3>
+                            <div class="topic-meta">
+                                <span class="topic-category question">Question</span>
+                                <span class="topic-author">Author: MathEnthusiast</span>
+                                <span class="topic-time">2025-03-15</span>
+                            </div>
+                            <p class="topic-preview">I'm confused about the discriminant Δ=b²-4ac of quadratic functions, especially its relationship with the graph and equation solutions. Could someone explain the geometric meaning of the discriminant in detail...</p>
+                            <div class="topic-stats">
+                                <span class="views">👁️ 256</span>
+                                <span class="replies">💬 12</span>
+                                <span class="likes">❤️ 24</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-icon">📝</div>
+                        <div class="topic-content">
+                            <h3 class="topic-title"><a href="#">Understanding Quadratic Function Transformations</a></h3>
+                            <div class="topic-meta">
+                                <span class="topic-category share">Experience</span>
+                                <span class="topic-author">Author: FunctionMaster</span>
+                                <span class="topic-time">2025-03-14</span>
+                            </div>
+                            <p class="topic-preview">I've summarized a method for understanding quadratic function transformations, including intuitive understanding of translations, stretches, compressions, etc. This approach has helped me solve related problems quickly in exams...</p>
+                            <div class="topic-stats">
+                                <span class="views">👁️ 320</span>
+                                <span class="replies">💬 18</span>
+                                <span class="likes">❤️ 45</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-icon">💬</div>
+                        <div class="topic-content">
+                            <h3 class="topic-title"><a href="#">Real-world Applications of Parabolas</a></h3>
+                            <div class="topic-meta">
+                                <span class="topic-category discuss">Discussion</span>
+                                <span class="topic-author">Author: PhysicsLover</span>
+                                <span class="topic-time">2025-03-12</span>
+                            </div>
+                            <p class="topic-preview">I've been researching applications of parabolas in the real world and found many interesting examples like bridge design, satellite dishes, fountain water jets, etc. Does anyone know of other application cases for parabolas?</p>
+                            <div class="topic-stats">
+                                <span class="views">👁️ 185</span>
+                                <span class="replies">💬 23</span>
+                                <span class="likes">❤️ 37</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-icon">📚</div>
+                        <div class="topic-content">
+                            <h3 class="topic-title"><a href="#">Sharing an Online Quadratic Equation Solver</a></h3>
+                            <div class="topic-meta">
+                                <span class="topic-category resource">Resource</span>
+                                <span class="topic-author">Author: ToolExpert</span>
+                                <span class="topic-time">2025-03-10</span>
+                            </div>
+                            <p class="topic-preview">I found a great online tool that not only solves quadratic equations but also provides detailed solution steps and graphical analysis. It's very helpful for learning quadratic equations, sharing with everyone...</p>
+                            <div class="topic-stats">
+                                <span class="views">👁️ 210</span>
+                                <span class="replies">💬 8</span>
+                                <span class="likes">❤️ 31</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-icon">❓</div>
+                        <div class="topic-content">
+                            <h3 class="topic-title"><a href="#">How to Solve Quadratic Equations with Parameters?</a></h3>
+                            <div class="topic-meta">
+                                <span class="topic-category question">Question</span>
+                                <span class="topic-author">Author: HighSchooler</span>
+                                <span class="topic-time">2025-03-08</span>
+                            </div>
+                            <p class="topic-preview">I've been learning quadratic equations with parameters and encountered some difficult problems. Especially when discussing root conditions for different parameter values, are there any good solving approaches or techniques?</p>
+                            <div class="topic-stats">
+                                <span class="views">👁️ 167</span>
+                                <span class="replies">💬 15</span>
+                                <span class="likes">❤️ 19</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 分页 -->
+                <div class="pagination">
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn">...</button>
+                    <button class="page-btn">Next »</button>
                 </div>
             </div>
         </div>
@@ -79,17 +254,651 @@
     <footer>
         <div class="footer-content">
             <div class="footer-contact">
-                <h3>Contact Us</h3>
-                <p>Email: contact@quadraticlearning.com</p>
+                <h3 data-i18n="common.contact">Contact Us</h3>
+                <p data-i18n="common.email">Email: contact@quadraticlearning.com</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.</p>
+            <p data-i18n="common.copyright">© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.</p>
+            <p><a href="../common/privacy.html" data-i18n="common.privacy">Privacy Policy</a> | <a href="../common/terms.html" data-i18n="common.terms">Terms of Use</a></p>
         </div>
     </footer>
 
+    <!-- 登录模态框 -->
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('login-modal').classList.add('hidden');">&times;</span>
+            <h2 data-i18n="community.posting.loginTitle">Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username" data-i18n="community.posting.username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" data-i18n="community.posting.password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" data-i18n="community.posting.loginButton">Login</button>
+                <p class="register-link"><span data-i18n="community.posting.noAccount">Don't have an account?</span> <a href="#" id="register-link" data-i18n="community.posting.register">Register</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- 创建新话题模态框 -->
+    <div id="new-topic-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 data-i18n="community.posting.newPost">Create New Topic</h2>
+            <form id="new-topic-form">
+                <div class="form-group">
+                    <label for="topic-title" data-i18n="community.posting.title">Title</label>
+                    <input type="text" id="topic-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="topic-category" data-i18n="community.posting.category">Category</label>
+                    <select id="topic-category" required>
+                        <option value="">Select Category</option>
+                        <option value="question" data-i18n="community.categories.questions">Questions</option>
+                        <option value="share" data-i18n="community.categories.experiences">Experiences</option>
+                        <option value="discuss" data-i18n="community.categories.discussions">Discussions</option>
+                        <option value="resource" data-i18n="community.categories.resources">Resources</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="topic-content" data-i18n="community.posting.content">Content</label>
+                    <textarea id="topic-content" rows="6" required></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-cancel" id="cancel-topic" data-i18n="community.posting.cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="community.posting.post">Post Topic</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- JavaScript 文件 -->
+    <script src="../common/scripts/main.js"></script>
     <script src="../common/scripts/dark-mode.js"></script>
     <script src="scripts/community.js"></script>
+
+    <!-- 社区功能的本地存储脚本 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Community script loaded");
+        
+        // 初始化变量
+        let currentUser = null;
+        let communityPosts = [];
+        const defaultPosts = [
+            {
+                id: 1000,
+                title: "How to understand the discriminant of quadratic functions?",
+                category: "question",
+                content: "I'm confused about the discriminant Δ=b²-4ac of quadratic functions, especially its relationship with the graph and equation solutions. Could someone explain the geometric meaning of the discriminant in detail?",
+                author: "MathEnthusiast",
+                date: "2025-03-15",
+                views: 256,
+                likes: 24,
+                replies: []
+            },
+            {
+                id: 1001,
+                title: "Understanding Quadratic Function Transformations",
+                category: "share",
+                content: "I've summarized a method for understanding quadratic function transformations, including intuitive understanding of translations, stretches, compressions, etc. This approach has helped me solve related problems quickly in exams.",
+                author: "FunctionMaster",
+                date: "2025-03-14",
+                views: 320,
+                likes: 45,
+                replies: []
+            },
+            {
+                id: 1002,
+                title: "Real-world Applications of Parabolas",
+                category: "discuss",
+                content: "I've been researching applications of parabolas in the real world and found many interesting examples like bridge design, satellite dishes, fountain water jets, etc. Does anyone know of other application cases for parabolas?",
+                author: "PhysicsLover",
+                date: "2025-03-12",
+                views: 185,
+                likes: 37,
+                replies: []
+            },
+            {
+                id: 1003,
+                title: "Sharing an Online Quadratic Equation Solver",
+                category: "resource",
+                content: "I found a great online tool that not only solves quadratic equations but also provides detailed solution steps and graphical analysis. It's very helpful for learning quadratic equations, sharing with everyone!",
+                author: "ToolExpert",
+                date: "2025-03-10",
+                views: 210,
+                likes: 31,
+                replies: []
+            },
+            {
+                id: 1004,
+                title: "How to Solve Quadratic Equations with Parameters?",
+                category: "question",
+                content: "I've been learning quadratic equations with parameters and encountered some difficult problems. Especially when discussing root conditions for different parameter values, are there any good solving approaches or techniques?",
+                author: "HighSchooler",
+                date: "2025-03-08",
+                views: 167,
+                likes: 19,
+                replies: []
+            }
+        ];
+
+        // DOM元素引用
+        const loginModal = document.getElementById('login-modal');
+        const newPostBtn = document.getElementById('new-post-btn');
+        const newTopicModal = document.getElementById('new-topic-modal');
+        const newTopicForm = document.getElementById('new-topic-form');
+        const loginForm = document.getElementById('login-form');
+        const topicList = document.getElementById('topic-list');
+        const closeModals = document.querySelectorAll('.close, .close-modal');
+        const cancelButton = document.getElementById('cancel-topic');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+
+        // 初始化社区
+        function initCommunity() {
+            console.log("Initializing community");
+            
+            // 确保登录链接事件绑定正常工作
+            document.querySelectorAll('#login-link, #new-post-btn, .close, .close-modal, #cancel-topic').forEach(el => {
+                console.log("Found element to bind event:", el.id || el.className);
+            });
+            
+            // 确保登录表单提交事件正常工作
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log("Login form submitted directly");
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (username && password) {
+                    // 简单登录逻辑
+                    currentUser = {
+                        username: username,
+                        avatar: '../assets/images/community/avatar-default.jpg'
+                    };
+                    
+                    // 保存用户信息
+                    localStorage.setItem('communityUser', JSON.stringify(currentUser));
+                    
+                    // 更新UI
+                    updateUserUI(currentUser);
+                    updateStats();
+                    
+                    // 关闭模态框
+                    document.getElementById('login-modal').classList.add('hidden');
+                    
+                    // 清空表单
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    
+                    console.log("User logged in:", currentUser.username);
+                }
+            });
+            
+            // 从localStorage获取用户数据
+            const savedUser = localStorage.getItem('communityUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    console.log("User loaded:", currentUser);
+                    updateUserUI(currentUser);
+                } catch (e) {
+                    console.error("Error parsing user data:", e);
+                    localStorage.removeItem('communityUser');
+                }
+            }
+            
+            // 从localStorage获取帖子数据
+            let savedPosts = localStorage.getItem('communityPosts');
+            if (savedPosts) {
+                try {
+                    communityPosts = JSON.parse(savedPosts);
+                    console.log("Posts loaded:", communityPosts.length);
+                } catch (e) {
+                    console.error("Error parsing posts data:", e);
+                    localStorage.removeItem('communityPosts');
+                    communityPosts = [...defaultPosts];
+                    localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                }
+            } else {
+                // 如果没有保存的帖子，使用默认帖子
+                console.log("Using default posts");
+                communityPosts = [...defaultPosts];
+                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+            }
+            
+            // 清除页面上的默认帖子，以便重新渲染
+            clearDefaultPosts();
+            
+            // 渲染帖子和更新统计
+            renderPosts();
+            updateStats();
+            
+            // 绑定事件监听器
+            bindEventListeners();
+        }
+        
+        // 清除页面上的默认帖子（保留置顶帖子）
+        function clearDefaultPosts() {
+            const pinnedPost = topicList.querySelector('.pinned');
+            const nonPinnedPosts = topicList.querySelectorAll('.topic-item:not(.pinned)');
+            
+            // 移除非置顶帖子
+            nonPinnedPosts.forEach(post => post.remove());
+            
+            // 如果置顶帖子存在，保留它
+            if (pinnedPost) {
+                topicList.innerHTML = '';
+                topicList.appendChild(pinnedPost);
+            }
+        }
+
+        // 更新用户界面
+        function updateUserUI(user) {
+            console.log("Updating UI for user:", user ? user.username : "Guest");
+            
+            const userNameElement = document.getElementById('user-name');
+            const loginStatusElement = document.getElementById('login-status');
+            
+            if (!userNameElement || !loginStatusElement) {
+                console.error("Required UI elements not found");
+                return;
+            }
+            
+            if (user) {
+                // 用户已登录
+                userNameElement.textContent = user.username;
+                loginStatusElement.innerHTML = `<span>${user.username}</span> · <a href="#" id="logout-link">Logout</a>`;
+                newPostBtn.disabled = false;
+                
+                // 添加登出事件监听
+                const logoutLink = document.getElementById('logout-link');
+                if (logoutLink) {
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        logout();
+                    });
+                }
+            } else {
+                // 用户未登录
+                userNameElement.textContent = 'Guest';
+                
+                const loginPrompt = document.querySelector('[data-i18n="community.posting.loginPrompt"]') ? 
+                    document.querySelector('[data-i18n="community.posting.loginPrompt"]').textContent : 'Please';
+                const loginText = document.querySelector('[data-i18n="community.posting.login"]') ? 
+                    document.querySelector('[data-i18n="community.posting.login"]').textContent : 'login';
+                const participateText = document.querySelector('[data-i18n="community.posting.participatePrompt"]') ? 
+                    document.querySelector('[data-i18n="community.posting.participatePrompt"]').textContent : 'to participate in discussions';
+                
+                loginStatusElement.innerHTML = 
+                    `<span>${loginPrompt}</span> <a href="#" id="login-link">${loginText}</a> <span>${participateText}</span>`;
+                newPostBtn.disabled = true;
+                
+                // 登录链接的事件监听器将在bindEventListeners函数中绑定
+            }
+        }
+
+        // 登出功能
+        function logout() {
+            console.log("User logging out");
+            currentUser = null;
+            localStorage.removeItem('communityUser');
+            updateUserUI(null);
+            bindEventListeners(); // 重新绑定登录链接事件
+            updateStats();
+        }
+
+        // 渲染帖子列表
+        function renderPosts() {
+            console.log("Rendering posts");
+            
+            // 保存置顶帖子
+            const pinnedPost = topicList.querySelector('.pinned');
+            topicList.innerHTML = '';
+            
+            if (pinnedPost) {
+                topicList.appendChild(pinnedPost);
+            }
+            
+            // 按日期排序帖子（降序）
+            communityPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // 渲染每个帖子
+            communityPosts.forEach(post => {
+                const postElement = createPostElement(post);
+                topicList.appendChild(postElement);
+            });
+            
+            // 为帖子添加交互事件
+            addPostInteractions();
+        }
+        
+        // 为帖子添加交互事件
+        function addPostInteractions() {
+            // 添加点赞事件
+            document.querySelectorAll('.topic-item:not(.pinned) .likes').forEach(likeElement => {
+                likeElement.style.cursor = 'pointer';
+                likeElement.addEventListener('click', function() {
+                    const postId = this.closest('.topic-item').dataset.postId;
+                    const post = communityPosts.find(p => p.id == postId);
+                    
+                    if (!post) return;
+                    
+                    if (currentUser) {
+                        post.likes++;
+                        updatePostInStorage(post);
+                        this.innerHTML = `❤️ ${post.likes}`;
+                    } else {
+                        alert('请先登录后再点赞');
+                        loginModal.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            // 添加浏览事件
+            document.querySelectorAll('.topic-item:not(.pinned) .topic-title a').forEach(titleElement => {
+                titleElement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const postId = this.closest('.topic-item').dataset.postId;
+                    const post = communityPosts.find(p => p.id == postId);
+                    
+                    if (!post) return;
+                    
+                    post.views++;
+                    updatePostInStorage(post);
+                    this.closest('.topic-item').querySelector('.views').innerHTML = `👁️ ${post.views}`;
+                    alert(`查看帖子: ${post.title}\n\n${post.content}`);
+                });
+            });
+        }
+
+        // 更新帖子到本地存储
+        function updatePostInStorage(post) {
+            const postIndex = communityPosts.findIndex(p => p.id == post.id);
+            if (postIndex !== -1) {
+                communityPosts[postIndex] = post;
+                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+            }
+        }
+
+        // 创建帖子元素
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'topic-item';
+            postDiv.dataset.postId = post.id;
+            
+            // 根据分类设置图标
+            let icon = '💬';
+            if (post.category === 'question') icon = '❓';
+            else if (post.category === 'share') icon = '📝';
+            else if (post.category === 'resource') icon = '📚';
+            
+            postDiv.innerHTML = `
+                <div class="topic-icon">${icon}</div>
+                <div class="topic-content">
+                    <h3 class="topic-title"><a href="#">${post.title}</a></h3>
+                    <div class="topic-meta">
+                        <span class="topic-category ${post.category}">${getCategoryName(post.category)}</span>
+                        <span class="topic-author">Author: ${post.author}</span>
+                        <span class="topic-time">${post.date}</span>
+                    </div>
+                    <p class="topic-preview">${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}</p>
+                    <div class="topic-stats">
+                        <span class="views">👁️ ${post.views}</span>
+                        <span class="replies">💬 ${post.replies ? post.replies.length : 0}</span>
+                        <span class="likes" style="cursor:pointer;">❤️ ${post.likes}</span>
+                    </div>
+                </div>
+            `;
+            
+            return postDiv;
+        }
+
+        // 获取分类名称
+        function getCategoryName(category) {
+            const categories = {
+                'question': document.querySelector('[data-i18n="community.categories.questions"]')?.textContent || 'Questions',
+                'share': document.querySelector('[data-i18n="community.categories.experiences"]')?.textContent || 'Experiences',
+                'discuss': document.querySelector('[data-i18n="community.categories.discussions"]')?.textContent || 'Discussions',
+                'resource': document.querySelector('[data-i18n="community.categories.resources"]')?.textContent || 'Resources'
+            };
+            
+            return categories[category] || category;
+        }
+
+        // 更新统计数据
+        function updateStats() {
+            document.getElementById('member-count').textContent = currentUser ? '1,235' : '1,234';
+            document.getElementById('active-count').textContent = currentUser ? '457' : '456';
+            document.getElementById('topic-count').textContent = communityPosts.length;
+        }
+        
+        // 绑定所有事件监听器
+        function bindEventListeners() {
+            console.log("Binding event listeners");
+            
+            // 绑定登录链接事件
+            const loginLink = document.getElementById('login-link');
+            if (loginLink) {
+                console.log("Login link found, binding click event");
+                loginLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log("Login link clicked");
+                    loginModal.classList.remove('hidden');
+                });
+            } else {
+                console.warn("Login link not found");
+            }
+            
+            // 绑定发布新帖子按钮事件
+            newPostBtn.addEventListener('click', function() {
+                console.log("New post button clicked");
+                if (currentUser) {
+                    newTopicModal.classList.remove('hidden');
+                } else {
+                    loginModal.classList.remove('hidden');
+                }
+            });
+            
+            // 绑定登录表单提交事件
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log("Login form submitted");
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (username && password) {
+                    // 简单登录逻辑
+                    currentUser = {
+                        username: username,
+                        avatar: '../assets/images/community/avatar-default.jpg'
+                    };
+                    
+                    // 保存用户信息
+                    localStorage.setItem('communityUser', JSON.stringify(currentUser));
+                    
+                    // 更新UI
+                    updateUserUI(currentUser);
+                    updateStats();
+                    
+                    // 关闭模态框
+                    loginModal.classList.add('hidden');
+                    
+                    // 清空表单
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    
+                    console.log("User logged in:", currentUser.username);
+                }
+            });
+            
+            // 绑定新帖子表单提交事件
+            newTopicForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log("New topic form submitted");
+                
+                if (!currentUser) {
+                    alert('请先登录后再发布讨论');
+                    loginModal.classList.remove('hidden');
+                    return;
+                }
+                
+                const title = document.getElementById('topic-title').value;
+                const category = document.getElementById('topic-category').value;
+                const content = document.getElementById('topic-content').value;
+                
+                if (!title || !category || !content) {
+                    alert('请填写所有字段');
+                    return;
+                }
+                
+                // 创建新帖子
+                const newPost = {
+                    id: Date.now(),
+                    title: title,
+                    category: category,
+                    content: content,
+                    author: currentUser.username,
+                    date: new Date().toISOString().split('T')[0],
+                    views: 0,
+                    likes: 0,
+                    replies: []
+                };
+                
+                console.log("New post created:", newPost);
+                
+                // 添加到帖子列表
+                communityPosts.push(newPost);
+                
+                // 保存到localStorage
+                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                
+                // 重新渲染帖子
+                renderPosts();
+                
+                // 更新统计
+                updateStats();
+                
+                // 关闭模态框并清空表单
+                newTopicModal.classList.add('hidden');
+                document.getElementById('topic-title').value = '';
+                document.getElementById('topic-category').value = '';
+                document.getElementById('topic-content').value = '';
+                
+                console.log("New post added and UI updated");
+            });
+            
+            // 绑定关闭模态框事件
+            closeModals.forEach(button => {
+                button.addEventListener('click', function() {
+                    loginModal.classList.add('hidden');
+                    newTopicModal.classList.add('hidden');
+                });
+            });
+            
+            // 绑定取消新帖子事件
+            cancelButton.addEventListener('click', function() {
+                newTopicModal.classList.add('hidden');
+            });
+            
+            // 绑定分类筛选事件
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // 移除所有active类
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // 添加active到当前按钮
+                    this.classList.add('active');
+                    
+                    // 筛选帖子
+                    const topicItems = document.querySelectorAll('.topic-item:not(.pinned)');
+                    topicItems.forEach(item => {
+                        const itemCategory = item.querySelector('.topic-category');
+                        if (category === 'all' || (itemCategory && itemCategory.classList.contains(category))) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // 绑定搜索功能
+            document.getElementById('search-btn').addEventListener('click', function() {
+                const searchText = document.getElementById('community-search').value.toLowerCase();
+                if (!searchText) return;
+                
+                const topicItems = document.querySelectorAll('.topic-item:not(.pinned)');
+                topicItems.forEach(item => {
+                    const title = item.querySelector('.topic-title').textContent.toLowerCase();
+                    const content = item.querySelector('.topic-preview').textContent.toLowerCase();
+                    
+                    if (title.includes(searchText) || content.includes(searchText)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // 重置分类按钮状态
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector('.category-btn[data-category="all"]').classList.add('active');
+            });
+        }
+
+        // 初始化社区
+        initCommunity();
+    });
+    </script>
+
+    <!-- 添加额外的样式确保模态框正确显示 -->
+    <style>
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal:not(.hidden) {
+        display: flex;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        width: 80%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .modal.dark-mode .modal-content {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .close, .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    </style>
 </body>
 </html> 
