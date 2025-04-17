@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests - Quadratic Equations & Parabolas</title>
+    <link rel="stylesheet" href="../common/styles/main.css">
+    <link rel="stylesheet" href="../common/styles/dark-mode.css">
+    <link rel="stylesheet" href="styles/test.css">
+    <script src="../common/scripts/i18n.js" defer></script>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header>
+        <div class="logo">
+            <h1>Quadratic Equations & Parabolas</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../learning/learning.html">Learning</a></li>
+                <li><a href="../game/game.html">Games</a></li>
+                <li><a href="test.html" class="active">Tests</a></li>
+                <li><a href="../community/community.html">Community</a></li>
+            </ul>
+        </nav>
+        <!-- 暗黑模式切换 -->
+        <div class="dark-mode-toggle">
+            <button id="dark-mode-btn">Toggle Dark Mode</button>
+        </div>
+        <!-- 语言切换 -->
+        <div class="language-selector">
+            <select id="language">
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="test-container">
+        <!-- 导航面包屑 -->
+        <div class="breadcrumb">
+            <a href="../../index.html">Home</a> > <span>Tests</span>
+        </div>
+        
+        <!-- 测试介绍 -->
+        <section class="test-intro">
+            <h2>Knowledge Assessment</h2>
+            <p>Test your understanding of quadratic equations and parabolas. This assessment includes various question types and will provide detailed analysis and recommendations upon completion.</p>
+            
+            <div class="difficulty-selection">
+                <h3>Select Difficulty</h3>
+                <div class="difficulty-buttons">
+                    <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+                    <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+                    <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+                </div>
+            </div>
+            
+            <div class="start-test-container">
+                <button id="start-test-btn">Begin Test</button>
+            </div>
+        </section>
+        
+        <!-- 测试区域 -->
+        <section class="test-area" id="test-area">
+            <!-- 测试头部 -->
+            <div class="test-header">
+                <div class="test-info">
+                    <span class="question-counter">Question <span id="current-question">1</span> / <span id="total-questions">10</span></span>
+                    <span class="difficulty-badge" id="test-difficulty">Medium</span>
+                </div>
+                <div class="test-timer">
+                    Time remaining: <span id="timer">20:00</span>
+                </div>
+            </div>
+            
+            <!-- 测试内容 -->
+            <div class="test-content">
+                <div class="question-container" id="question-container">
+                    <!-- 问题将通过JavaScript动态插入 -->
+                </div>
+                
+                <!-- 导航按钮 -->
+                <div class="test-navigation">
+                    <button id="prev-question" disabled>Previous</button>
+                    <button id="next-question">Next</button>
+                    <button id="submit-test" style="display: none;">Submit Test</button>
+                </div>
+            </div>
+            
+            <!-- 问题导航 -->
+            <div class="question-navigation">
+                <h3>Question Navigation</h3>
+                <div class="question-dots" id="question-dots">
+                    <!-- 问题导航点将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- 测试结果 -->
+        <section class="test-results" id="test-results">
+            <h2>Test Results</h2>
+            
+            <div class="results-summary">
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="score-percentage">85%</span>
+                    </div>
+                    <div class="score-details">
+                        <p>Score: <span id="score-value">17</span> / <span id="total-score">20</span></p>
+                        <p>Time used: <span id="time-used">15:30</span></p>
+                    </div>
+                </div>
+                
+                <div class="performance-summary">
+                    <h3>Performance Summary</h3>
+                    <p id="performance-text">You have a good understanding of quadratic equations and parabolas! You excelled in graph transformations, but there's room for improvement in equation solving.</p>
+                </div>
+            </div>
+            
+            <div class="results-details">
+                <h3>Detailed Analysis</h3>
+                
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Q#</th>
+                            <th>Type</th>
+                            <th>Difficulty</th>
+                            <th>Result</th>
+                            <th>Explanation</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table-body">
+                        <!-- 结果表格将通过JavaScript动态生成 -->
+                    </tbody>
+                </table>
+                
+                <div class="topic-breakdown">
+                    <h3>Knowledge Mastery</h3>
+                    <div class="topic-bars">
+                        <div class="topic-bar">
+                            <div class="topic-name">Basic Concepts</div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 90%;">90%</div>
+                            </div>
+                        </div>
+                        <div class="topic-bar">
+                            <div class="topic-name">Graph Transformations</div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 85%;">85%</div>
+                            </div>
+                        </div>
+                        <div class="topic-bar">
+                            <div class="topic-name">Equation Solving</div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 70%;">70%</div>
+                            </div>
+                        </div>
+                        <div class="topic-bar">
+                            <div class="topic-name">Applied Problems</div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 75%;">75%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recommendations">
+                <h3>Learning Recommendations</h3>
+                <ul id="recommendations-list">
+                    <li>Review methods for solving quadratic equations, especially using the discriminant.</li>
+                    <li>Practice more applied problems to improve problem-solving skills.</li>
+                    <li>Continue strengthening your knowledge of graph transformations, which is your strong point.</li>
+                </ul>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="review-test">Review Questions & Answers</button>
+                <button id="retry-test">Retake Test</button>
+                <button id="share-results">Share Results</button>
+            </div>
+        </section>
+        
+        <!-- 题目模板（不显示，仅作为参考使用） -->
+        <template id="question-templates">
+            <!-- 选择题模板 -->
+            <div class="question multiple-choice" data-type="multiple-choice">
+                <h3 class="question-title">Which of the following is the vertex coordinate of the quadratic function f(x) = x² - 4x + 3?</h3>
+                <div class="question-options">
+                    <div class="option">
+                        <input type="radio" id="q1_a" name="q1" value="A">
+                        <label for="q1_a">A. (2, -1)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1_b" name="q1" value="B">
+                        <label for="q1_b">B. (2, 1)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1_c" name="q1" value="C">
+                        <label for="q1_c">C. (-2, 1)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1_d" name="q1" value="D">
+                        <label for="q1_d">D. (-2, -1)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 填空题模板 -->
+            <div class="question fill-in-blank" data-type="fill-in-blank">
+                <h3 class="question-title">The vertex coordinates of the quadratic function f(x) = 2x² - 8x + 9 are (______, ______).</h3>
+                <div class="blank-inputs">
+                    <input type="number" step="0.1" placeholder="x-coordinate">
+                    <input type="number" step="0.1" placeholder="y-coordinate">
+                </div>
+            </div>
+            
+            <!-- 图像题模板 -->
+            <div class="question graph-question" data-type="graph-question">
+                <h3 class="question-title">Based on the parabola shown below, write the corresponding quadratic function expression.</h3>
+                <div class="question-image">
+                    <img src="../assets/images/test/test-parabola.jpg" alt="Parabola graph">
+                </div>
+                <div class="equation-input">
+                    <span>f(x) = </span>
+                    <input type="number" step="0.1" placeholder="a"> x² + 
+                    <input type="number" step="0.1" placeholder="b"> x + 
+                    <input type="number" step="0.1" placeholder="c">
+                </div>
+            </div>
+        </template>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>Email: contact@quadraticlearning.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.</p>
+            <p><a href="../common/privacy.html">Privacy Policy</a> | <a href="../common/terms.html">Terms of Use</a></p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 文件 -->
+    <script src="../common/scripts/main.js"></script>
+    <script src="../common/scripts/dark-mode.js"></script>
+    <script src="scripts/test.js"></script>
+    <!-- i18n 脚本已在head中加载 -->
+</body>
+</html> 

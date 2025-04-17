@@ -3,29 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning - Quadratic Equations & Parabolas</title>
+    <title data-i18n="learning.pageTitle">Learning - Quadratic Equations & Parabolas</title>
     <link rel="stylesheet" href="../common/styles/main.css">
     <link rel="stylesheet" href="../common/styles/dark-mode.css">
     <link rel="stylesheet" href="styles/learning.css">
+    <script src="../common/scripts/i18n.js" defer></script>
 </head>
 <body>
     <!-- 顶部导航栏 -->
     <header>
         <div class="logo">
-            <h1>Quadratic Equations & Parabolas</h1>
+            <h1 data-i18n="nav.home">Quadratic Equations & Parabolas</h1>
         </div>
         <nav>
             <ul>
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="learning.html" class="active">Learning</a></li>
-                <li><a href="../game/game.html">Games</a></li>
-                <li><a href="../test/test.html">Tests</a></li>
-                <li><a href="../community/community.html">Community</a></li>
+                <li><a href="../../index.html" data-i18n="nav.home">Home</a></li>
+                <li><a href="learning.html" class="active" data-i18n="nav.learning">Learning</a></li>
+                <li><a href="../game/game.html" data-i18n="nav.game">Games</a></li>
+                <li><a href="../test/test.html" data-i18n="nav.test">Tests</a></li>
+                <li><a href="../community/community.html" data-i18n="nav.community">Community</a></li>
             </ul>
         </nav>
         <!-- 暗黑模式切换 -->
         <div class="dark-mode-toggle">
-            <button id="dark-mode-btn">Toggle Dark Mode</button>
+            <button id="dark-mode-btn" data-i18n="common.darkMode">Toggle Dark Mode</button>
+        </div>
+        <!-- 语言切换 -->
+        <div class="language-selector">
+            <select id="language">
+                <option value="en" data-i18n="common.english">English</option>
+                <option value="zh" data-i18n="common.chinese">中文</option>
+            </select>
         </div>
     </header>
 
@@ -33,16 +41,16 @@
     <main class="learning-container">
         <!-- 导航面包屑 -->
         <div class="breadcrumb">
-            <a href="../../index.html">Home</a> > <span>Learning</span>
+            <a href="../../index.html" data-i18n="nav.home">Home</a> > <span data-i18n="nav.learning">Learning</span>
         </div>
 
         <!-- 简介区域 -->
         <section class="intro-section">
-            <h2>Introduction to Quadratic Equations and Parabolas</h2>
+            <h2 data-i18n="learning.intro.title">Introduction to Quadratic Equations and Parabolas</h2>
             <div class="intro-content">
                 <div class="intro-text">
-                    <p>A quadratic equation is a type of equation that contains a variable raised to the power of 2. The general form is <strong>ax² + bx + c = 0</strong>, where a ≠ 0.</p>
-                    <p>Understanding the properties of a parabola is crucial for understanding many real-world applications.</p>
+                    <p data-i18n="learning.content.basicConcepts.intro">A quadratic equation is a type of equation that contains a variable raised to the power of 2. The general form is <strong>ax² + bx + c = 0</strong>, where a ≠ 0.</p>
+                    <p data-i18n="learning.intro.description2">Understanding the properties of a parabola is crucial for understanding many real-world applications.</p>
                 </div>
                 <div class="intro-video">
                     <div class="video-container">
@@ -56,22 +64,27 @@
 
         <!-- 学习模块选择区域 -->
         <section class="module-selection">
-            <h2>Learning Modules</h2>
+            <h2 data-i18n="learning.modules.title">Learning Modules</h2>
             <div class="module-cards">
                 <div class="module-card" id="basic-concepts">
-                    <h3>Basic Concepts</h3>
-                    <p>Learn the basic definitions and properties of quadratic equations and parabolas</p>
-                    <a href="#module-basic-concepts" class="module-btn">Start Learning</a>
+                    <h3 data-i18n="learning.modules.basicConcepts.title">Basic Concepts</h3>
+                    <p data-i18n="learning.modules.basicConcepts.description">Learn the basic definitions and properties of quadratic equations and parabolas</p>
+                    <a href="#module-basic-concepts" class="module-btn" data-i18n="learning.modules.basicConcepts.button">Start Learning</a>
                 </div>
                 <div class="module-card" id="coefficients">
-                    <h3>Coefficient Effects</h3>
-                    <p>Explore how coefficients affect the shape of the parabola</p>
-                    <a href="#module-coefficients" class="module-btn">Start Learning</a>
+                    <h3 data-i18n="learning.modules.coefficients.title">Coefficient Effects</h3>
+                    <p data-i18n="learning.modules.coefficients.description">Explore how coefficients affect the shape of the parabola</p>
+                    <a href="#module-coefficients" class="module-btn" data-i18n="learning.modules.coefficients.button">Start Learning</a>
                 </div>
                 <div class="module-card" id="graph-transformations">
-                    <h3>Graph Transformations</h3>
-                    <p>Learn about parabola translations, stretches, and other transformations</p>
-                    <a href="#module-graph-transformations" class="module-btn">Start Learning</a>
+                    <h3 data-i18n="learning.modules.transformations.title">Graph Transformations</h3>
+                    <p data-i18n="learning.modules.transformations.description">Learn about parabola translations, stretches, and other transformations</p>
+                    <a href="#module-graph-transformations" class="module-btn" data-i18n="learning.modules.transformations.button">Start Learning</a>
+                </div>
+                <div class="module-card" id="practical-applications">
+                    <h3 data-i18n="learning.modules.applications.title">Practical Applications</h3>
+                    <p data-i18n="learning.modules.applications.description">Explore real-world applications of quadratic equations</p>
+                    <a href="#module-practical-applications" class="module-btn" data-i18n="learning.modules.applications.button">Start Learning</a>
                 </div>
             </div>
         </section>
@@ -80,60 +93,125 @@
         <div class="module-content-container">
             <!-- 基本概念模块 -->
             <section id="module-basic-concepts" class="module-content">
-                <h2>Basic Concepts</h2>
+                <h2 data-i18n="learning.content.basicConcepts.title">Basic Concepts</h2>
                 
                 <div class="concept-section">
-                    <h3>Definition of Quadratic Equations</h3>
-                    <p>A quadratic equation is a polynomial equation of the second degree. The general form is:</p>
+                    <h3 data-i18n="learning.content.basicConcepts.standardForm.title">Definition of Quadratic Equations</h3>
+                    <p data-i18n="learning.content.basicConcepts.standardForm.description">A quadratic equation is a polynomial equation of the second degree. The general form is:</p>
                     <div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
                     <p>When a = 0, the equation reduces to a linear equation.</p>
                 </div>
                 
                 <div class="concept-section">
-                    <h3>Quadratic Functions</h3>
+                    <h3 data-i18n="learning.content.basicConcepts.vertexForm.title">Quadratic Functions</h3>
                     <p>A quadratic function is defined as:</p>
                     <div class="formula">f(x) = ax² + bx + c, where a ≠ 0</div>
                     <p>The graph of a quadratic function is a parabola.</p>
                 </div>
                 
-                <div class="coming-soon">
-                    <p>More interactive content coming soon!</p>
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.basicConcepts.factorizedForm.title">Key Points of a Parabola</h3>
+                    <ul>
+                        <li><strong>Vertex:</strong> The point on the parabola where the y-value is at its maximum or minimum. For the function f(x) = ax² + bx + c, the x-coordinate of the vertex is -b/(2a), and the y-coordinate can be found by substituting this x-value into the function.</li>
+                        <li><strong>Axis of Symmetry:</strong> The vertical line passing through the vertex, about which the parabola is symmetric. The equation of the axis of symmetry is x = -b/(2a).</li>
+                        <li><strong>Direction of Opening:</strong> When a > 0, the parabola opens upward; when a < 0, the parabola opens downward.</li>
+                        <li><strong>Zeros (Roots):</strong> The points where the graph intersects the x-axis, i.e., the solutions to f(x) = 0.</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h3>Interactive Demonstration</h3>
+                    <div class="interactive-container">
+                        <div id="basic-concepts-graph" style="min-height: 300px; min-width: 400px;"></div>
+                        <div class="controls">
+                            <div class="control-group">
+                                <label>a: <span id="a-value">1</span></label>
+                                <input type="range" id="a-slider" min="-3" max="3" step="0.1" value="1">
+                            </div>
+                            <div class="control-group">
+                                <label>b: <span id="b-value">0</span></label>
+                                <input type="range" id="b-slider" min="-5" max="5" step="0.1" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label>c: <span id="c-value">0</span></label>
+                                <input type="range" id="c-slider" min="-5" max="5" step="0.1" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equation-display">
+                        Equation: <span id="current-equation">f(x) = x²</span>
+                    </div>
+                    <div class="key-points">
+                        <div><strong>Vertex:</strong> <span id="vertex">(0, 0)</span></div>
+                        <div><strong>Axis of Symmetry:</strong> <span id="axis">x = 0</span></div>
+                        <div><strong>Direction:</strong> <span id="direction">Upward</span></div>
+                    </div>
                 </div>
             </section>
             
-            <!-- 系数影响模块内容 -->
+            <!-- 其他模块内容可以根据需要添加 -->
             <section id="module-coefficients" class="module-content">
-                <h2>Coefficient Effects</h2>
-                <div class="coming-soon">
-                    <p>This module is under development. Check back soon!</p>
-                </div>
+                <!-- 系数影响模块内容 -->
+                <h2 data-i18n="learning.modules.coefficients.title">Coefficient Effects</h2>
+                <p>This section explores how coefficients a, b, and c affect the shape and position of the parabola.</p>
+                <!-- 其他内容 -->
             </section>
             
-            <!-- 图像变化模块内容 -->
             <section id="module-graph-transformations" class="module-content">
-                <h2>Graph Transformations</h2>
-                <div class="coming-soon">
-                    <p>This module is under development. Check back soon!</p>
-                </div>
+                <!-- 图像变化模块内容 -->
+                <h2 data-i18n="learning.modules.transformations.title">Graph Transformations</h2>
+                <p>This section covers how to transform the shape of a parabola through translations, stretches, compressions, etc.</p>
+                <!-- 其他内容 -->
+            </section>
+            
+            <section id="module-practical-applications" class="module-content">
+                <!-- 实际应用模块内容 -->
+                <h2 data-i18n="learning.modules.applications.title">Practical Applications</h2>
+                <p>This section explores case studies of quadratic equations in physics, engineering, economics, and other fields.</p>
+                <!-- 其他内容 -->
             </section>
         </div>
+
+        <!-- 知识扩展区域 -->
+        <section class="resources">
+            <h2 data-i18n="learning.resources.title">Additional Resources</h2>
+            <div class="resource-list">
+                <div class="resource-item">
+                    <h3 data-i18n="learning.resources.resource1.title">Complete Quadratic Equations Lecture Notes</h3>
+                    <p data-i18n="learning.resources.resource1.description">PDF document containing all concepts, proofs, and problem-solving techniques</p>
+                    <a href="#" class="download-btn" data-i18n="learning.resources.resource1.button">Download PDF</a>
+                </div>
+                <div class="resource-item">
+                    <h3 data-i18n="learning.resources.resource2.title">Exercise Set</h3>
+                    <p data-i18n="learning.resources.resource2.description">Exercises and detailed solutions at various difficulty levels</p>
+                    <a href="#" class="download-btn" data-i18n="learning.resources.resource2.button">Download PDF</a>
+                </div>
+                <div class="resource-item">
+                    <h3 data-i18n="learning.resources.resource3.title">Quadratic Equation Solver</h3>
+                    <p data-i18n="learning.resources.resource3.description">Online tool, input coefficients for detailed solution steps</p>
+                    <a href="#" class="tool-btn" data-i18n="learning.resources.resource3.button">Use Tool</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- 页脚 -->
     <footer>
         <div class="footer-content">
             <div class="footer-contact">
-                <h3>Contact Us</h3>
-                <p>Email: contact@quadraticlearning.com</p>
+                <h3 data-i18n="common.contact">Contact Us</h3>
+                <p data-i18n="common.email">Email: contact@quadraticlearning.com</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.</p>
+            <p data-i18n="common.copyright">© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.</p>
+            <p><a href="../common/privacy.html" data-i18n="common.privacy">Privacy Policy</a> | <a href="../common/terms.html" data-i18n="common.terms">Terms of Use</a></p>
         </div>
     </footer>
 
     <!-- JavaScript 文件 -->
-    <script src="scripts/learning.js"></script>
+    <script src="../common/scripts/main.js"></script>
     <script src="../common/scripts/dark-mode.js"></script>
+    <script src="scripts/learning.js"></script>
 </body>
 </html> 
