@@ -722,38 +722,4 @@ body.dark-mode .leaderboard-table tr:hover {
         flex-direction: column;
         align-items: center;
     }
-}
-
-/* 添加的样式 */
-.coming-soon-overlay {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    padding: 20px;
-    background-color: rgba(200, 200, 200, 0.1);
-    color: #666;
-}
-
-.coming-soon-overlay p {
-    margin: 10px 0;
-    font-size: 18px;
-}
-
-.coming-soon-overlay p:first-child {
-    font-weight: bold;
-    font-size: 24px;
-    color: #3498db;
-}
-
-body.dark-mode .coming-soon-overlay {
-    background-color: rgba(0, 0, 0, 0.2);
-    color: #ddd;
-}
-
-body.dark-mode .coming-soon-overlay p:first-child {
-    color: #3498db;
 } 
