@@ -11,8 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化系数效应的交互式图表
     initCoefficientEffectsGraph();
     
+    // 初始化图形变换的交互式图表
+    initTransformationsGraph();
+    
     // 初始化小测验功能
     initQuizFunctionality();
+    
+    // 初始化变换测验功能
+    initTransformationsQuiz();
     
     // 初始化返回顶部功能
     initBackToTop();
@@ -815,6 +821,434 @@ function initCoefficientEffectsGraph() {
             ctx.setLineDash([]);
         }
     }
+}
+
+// 初始化图形变换的交互式图表
+function initTransformationsGraph() {
+    const graphContainer = document.getElementById('transformations-graph');
+    if (!graphContainer) {
+        console.log('Transformations graph container not found');
+        return;
+    }
+    
+    console.log('Initializing transformations graph', graphContainer.clientWidth, graphContainer.clientHeight);
+    
+    // Set minimum dimensions for the container
+    if (graphContainer.clientHeight < 300) {
+        graphContainer.style.minHeight = '300px';
+    }
+    
+    // Create canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = graphContainer.clientWidth || 600;
+    canvas.height = graphContainer.clientHeight || 300;
+    graphContainer.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Cannot get canvas context');
+        return;
+    }
+    
+    // Get sliders
+    const aSlider = document.getElementById('trans-a-slider');
+    const hSlider = document.getElementById('trans-h-slider');
+    const kSlider = document.getElementById('trans-k-slider');
+    
+    if (!aSlider || !hSlider || !kSlider) {
+        console.error('Transformation sliders not found');
+        return;
+    }
+    
+    // Get display elements
+    const aValue = document.getElementById('trans-a-value');
+    const hValue = document.getElementById('trans-h-value');
+    const kValue = document.getElementById('trans-k-value');
+    const currentEquation = document.getElementById('trans-current-equation');
+    const vertex = document.getElementById('trans-vertex');
+    const direction = document.getElementById('trans-direction');
+    const transformList = document.getElementById('trans-list');
+    
+    if (!aValue || !hValue || !kValue || !currentEquation || !vertex || !direction || !transformList) {
+        console.error('Transformation display elements not found');
+        return;
+    }
+    
+    // Initialize parameters
+    let a = parseFloat(aSlider.value);
+    let h = parseFloat(hSlider.value);
+    let k = parseFloat(kSlider.value);
+    
+    // Update display
+    updateTransDisplay();
+    
+    // Draw initial function
+    drawTransFunction();
+    
+    // Add event listeners to sliders
+    aSlider.addEventListener('input', function() {
+        a = parseFloat(this.value);
+        updateTransDisplay();
+        drawTransFunction();
+    });
+    
+    hSlider.addEventListener('input', function() {
+        h = parseFloat(this.value);
+        updateTransDisplay();
+        drawTransFunction();
+    });
+    
+    kSlider.addEventListener('input', function() {
+        k = parseFloat(this.value);
+        updateTransDisplay();
+        drawTransFunction();
+    });
+    
+    // Resize canvas on window resize
+    window.addEventListener('resize', function() {
+        if (graphContainer.clientWidth > 0 && graphContainer.clientHeight > 0) {
+            canvas.width = graphContainer.clientWidth;
+            canvas.height = graphContainer.clientHeight;
+            drawTransFunction();
+        }
+    });
+    
+    // Update display values
+    function updateTransDisplay() {
+        // Update coefficient displays
+        aValue.textContent = a.toFixed(1);
+        hValue.textContent = h.toFixed(1);
+        kValue.textContent = k.toFixed(1);
+        
+        // Update equation display
+        currentEquation.textContent = formatVertexForm(a, h, k);
+        
+        // Update vertex
+        vertex.textContent = `(${h.toFixed(1)}, ${k.toFixed(1)})`;
+        
+        // Update direction
+        direction.textContent = a > 0 ? 'Upward' : 'Downward';
+        
+        // Update transformation list
+        updateTransformationList(a, h, k);
+    }
+    
+    // Update transformation list display
+    function updateTransformationList(a, h, k) {
+        let transformations = [];
+        
+        // Check for a coefficient effect
+        if (Math.abs(a) !== 1) {
+            if (Math.abs(a) > 1) {
+                transformations.push(`Vertical stretch by factor of ${Math.abs(a).toFixed(1)}`);
+            } else {
+                transformations.push(`Vertical compression by factor of ${Math.abs(a).toFixed(1)}`);
+            }
+        }
+        
+        // Check for reflection
+        if (a < 0) {
+            transformations.push("Reflection across x-axis");
+        }
+        
+        // Check for horizontal shift
+        if (h !== 0) {
+            const direction = h > 0 ? "right" : "left";
+            transformations.push(`Horizontal shift ${Math.abs(h).toFixed(1)} units ${direction}`);
+        }
+        
+        // Check for vertical shift
+        if (k !== 0) {
+            const direction = k > 0 ? "up" : "down";
+            transformations.push(`Vertical shift ${Math.abs(k).toFixed(1)} units ${direction}`);
+        }
+        
+        // Display transformations
+        if (transformations.length === 0) {
+            transformList.textContent = "None";
+        } else {
+            transformList.textContent = transformations.join(", ");
+        }
+    }
+    
+    // Draw function
+    function drawTransFunction() {
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, width, height);
+        
+        // Draw coordinate axes
+        drawTransAxis(ctx, width, height, centerX, centerY);
+        
+        // Draw original parabola (faded)
+        drawTransParabola(ctx, 1, 0, 0, width, height, centerX, centerY, true);
+        
+        // Draw transformed parabola
+        drawTransParabola(ctx, a, h, k, width, height, centerX, centerY, false);
+        
+        // Draw special points
+        drawTransSpecialPoints(ctx, a, h, k, width, height, centerX, centerY);
+    }
+    
+    // Draw coordinate axes
+    function drawTransAxis(ctx, width, height, centerX, centerY) {
+        // Scale factors for coordinate system
+        const scaleX = width / 20;
+        const scaleY = height / 10;
+        
+        // Draw axes
+        ctx.beginPath();
+        ctx.strokeStyle = '#aaa';
+        ctx.lineWidth = 1;
+        
+        // X-axis
+        ctx.moveTo(0, centerY);
+        ctx.lineTo(width, centerY);
+        
+        // Y-axis
+        ctx.moveTo(centerX, 0);
+        ctx.lineTo(centerX, height);
+        
+        ctx.stroke();
+        
+        // Draw grid lines
+        ctx.beginPath();
+        ctx.strokeStyle = '#eee';
+        ctx.setLineDash([1, 2]);
+        
+        // Vertical grid lines
+        for (let x = -10; x <= 10; x++) {
+            if (x === 0) continue; // Skip axis
+            const xPos = centerX + x * scaleX;
+            ctx.moveTo(xPos, 0);
+            ctx.lineTo(xPos, height);
+        }
+        
+        // Horizontal grid lines
+        for (let y = -5; y <= 5; y++) {
+            if (y === 0) continue; // Skip axis
+            const yPos = centerY - y * scaleY;
+            ctx.moveTo(0, yPos);
+            ctx.lineTo(width, yPos);
+        }
+        
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Draw axis labels and ticks
+        ctx.font = '12px Arial';
+        ctx.fillStyle = '#555';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        
+        // X-axis ticks and labels
+        for (let x = -10; x <= 10; x += 2) {
+            const xPos = centerX + x * scaleX;
+            
+            // Draw tick
+            ctx.beginPath();
+            ctx.moveTo(xPos, centerY - 3);
+            ctx.lineTo(xPos, centerY + 3);
+            ctx.stroke();
+            
+            // Draw label (skip origin)
+            if (x !== 0) {
+                ctx.fillText(x.toString(), xPos, centerY + 5);
+            }
+        }
+        
+        // Y-axis ticks and labels
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        
+        for (let y = -5; y <= 5; y++) {
+            const yPos = centerY - y * scaleY;
+            
+            // Draw tick
+            ctx.beginPath();
+            ctx.moveTo(centerX - 3, yPos);
+            ctx.lineTo(centerX + 3, yPos);
+            ctx.stroke();
+            
+            // Draw label (skip origin)
+            if (y !== 0) {
+                ctx.fillText(y.toString(), centerX - 5, yPos);
+            }
+        }
+        
+        // Draw origin
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'top';
+        ctx.fillText('O', centerX - 5, centerY + 5);
+    }
+    
+    // Draw parabola
+    function drawTransParabola(ctx, a, h, k, width, height, centerX, centerY, isOriginal) {
+        const scaleX = width / 20;
+        const scaleY = height / 10;
+        
+        // Set styles based on whether this is the original or transformed parabola
+        if (isOriginal) {
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+        } else {
+            ctx.strokeStyle = '#1565C0';
+            ctx.lineWidth = 2;
+        }
+        
+        ctx.beginPath();
+        
+        // Calculate points for the parabola
+        for (let x = -10; x <= 10; x += 0.1) {
+            // Convert to canvas coordinates
+            const xPos = centerX + x * scaleX;
+            
+            // Calculate y value using vertex form: f(x) = a(x-h)^2 + k
+            const yValue = a * Math.pow(x - h, 2) + k;
+            
+            // Convert to canvas coordinates (flipping y)
+            const yPos = centerY - yValue * scaleY;
+            
+            if (x === -10) {
+                ctx.moveTo(xPos, yPos);
+            } else {
+                ctx.lineTo(xPos, yPos);
+            }
+        }
+        
+        ctx.stroke();
+    }
+    
+    // Draw special points
+    function drawTransSpecialPoints(ctx, a, h, k, width, height, centerX, centerY) {
+        const scaleX = width / 20;
+        const scaleY = height / 10;
+        
+        // Draw vertex
+        const vertexX = centerX + h * scaleX;
+        const vertexY = centerY - k * scaleY;
+        
+        ctx.beginPath();
+        ctx.fillStyle = '#E91E63';
+        ctx.arc(vertexX, vertexY, 5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Draw y-intercept
+        const yIntercept = a * Math.pow(0 - h, 2) + k;
+        const yInterceptX = centerX;
+        const yInterceptY = centerY - yIntercept * scaleY;
+        
+        ctx.beginPath();
+        ctx.fillStyle = '#4CAF50';
+        ctx.arc(yInterceptX, yInterceptY, 5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Draw x-intercepts if they exist
+        // Solving a(x-h)^2 + k = 0
+        // (x-h)^2 = -k/a
+        if (a !== 0 && k <= 0) {
+            const radical = Math.sqrt(-k / a);
+            const x1 = h + radical;
+            const x2 = h - radical;
+            
+            const x1Pos = centerX + x1 * scaleX;
+            const x2Pos = centerX + x2 * scaleX;
+            const interceptY = centerY;
+            
+            ctx.beginPath();
+            ctx.fillStyle = '#FF9800';
+            ctx.arc(x1Pos, interceptY, 5, 0, Math.PI * 2);
+            ctx.arc(x2Pos, interceptY, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    
+    // Format vertex form of quadratic function
+    function formatVertexForm(a, h, k) {
+        let result = 'f(x) = ';
+        
+        // a coefficient
+        if (a === 1) {
+            // No need to display a
+        } else if (a === -1) {
+            result += '-';
+        } else {
+            result += a;
+        }
+        
+        // (x-h)² term
+        if (h === 0) {
+            result += 'x²';
+        } else if (h > 0) {
+            result += '(x-' + h + ')²';
+        } else {
+            result += '(x+' + Math.abs(h) + ')²';
+        }
+        
+        // k term
+        if (k !== 0) {
+            if (k > 0) {
+                result += '+' + k;
+            } else {
+                result += k;
+            }
+        }
+        
+        return result;
+    }
+}
+
+// Initialize transformations quiz functionality
+function initTransformationsQuiz() {
+    const checkButton = document.getElementById('check-trans-quiz');
+    if (!checkButton) {
+        console.log('Transformations quiz button not found');
+        return;
+    }
+    
+    checkButton.addEventListener('click', function() {
+        const questions = document.querySelectorAll('#module-graph-transformations .quiz-question');
+        let score = 0;
+        
+        questions.forEach(question => {
+            const feedbackDiv = question.querySelector('.quiz-feedback');
+            const correctAnswer = feedbackDiv.getAttribute('data-correct');
+            const selectedOption = question.querySelector('input:checked');
+            
+            // Reset previous feedback
+            feedbackDiv.textContent = '';
+            feedbackDiv.className = 'quiz-feedback';
+            
+            if (!selectedOption) {
+                feedbackDiv.textContent = 'Please select an answer.';
+                feedbackDiv.classList.add('no-answer');
+                return;
+            }
+            
+            if (selectedOption.value === correctAnswer) {
+                feedbackDiv.textContent = 'Correct!';
+                feedbackDiv.classList.add('correct');
+                score++;
+            } else {
+                feedbackDiv.textContent = 'Incorrect. Try again.';
+                feedbackDiv.classList.add('incorrect');
+            }
+        });
+        
+        // Update total score
+        const resultsDiv = document.getElementById('trans-quiz-results');
+        if (resultsDiv) {
+            resultsDiv.textContent = `Score: ${score}/${questions.length}`;
+            
+            if (score === questions.length) {
+                resultsDiv.textContent += ' - Perfect!';
+            }
+        }
+    });
 }
 
 // 初始化小测验功能

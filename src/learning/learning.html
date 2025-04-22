@@ -313,10 +313,225 @@
             </section>
             
             <section id="module-graph-transformations" class="module-content">
-                <!-- 图像变化模块内容 -->
+                <!-- Graph Transformations Module Content -->
                 <h2 data-i18n="learning.modules.transformations.title">Graph Transformations</h2>
-                <p>This section covers how to transform the shape of a parabola through translations, stretches, compressions, etc.</p>
-                <!-- 其他内容 -->
+                
+                <div class="intro-text">
+                    <p data-i18n="learning.content.transformations.intro">A quadratic function can be transformed in various ways to shift, stretch, compress, or reflect its graph. Understanding these transformations helps in analyzing and manipulating parabolas for various applications.</p>
+                </div>
+                
+                <!-- Standard Form vs. Vertex Form -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.transformations.forms.title">Standard Form vs. Vertex Form</h3>
+                    <p data-i18n="learning.content.transformations.forms.description">To better understand transformations, we need to compare the standard form and vertex form of quadratic functions:</p>
+                    
+                    <ul>
+                        <li><strong>Standard Form:</strong> f(x) = ax² + bx + c</li>
+                        <li><strong>Vertex Form:</strong> f(x) = a(x - h)² + k, where (h, k) is the vertex</li>
+                    </ul>
+                    
+                    <p>The vertex form is particularly useful for understanding transformations, as it directly shows how the parabola has been shifted from the origin.</p>
+                    
+                    <div class="formula">
+                        Converting from standard form to vertex form:<br>
+                        f(x) = ax² + bx + c = a(x - h)² + k, where h = -b/(2a) and k = c - b²/(4a)
+                    </div>
+                </div>
+                
+                <!-- Horizontal Translations -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.transformations.horizontal.title">Horizontal Translations</h3>
+                    <p data-i18n="learning.content.transformations.horizontal.description">The graph of f(x) = a(x - h)² + k is shifted h units horizontally from the basic parabola f(x) = ax²:</p>
+                    
+                    <ul>
+                        <li>If h > 0, the parabola shifts h units to the right</li>
+                        <li>If h < 0, the parabola shifts |h| units to the left</li>
+                    </ul>
+                    
+                    <div class="coefficient-demo">
+                        <div class="demo-illustration">
+                            <img src="../assets/images/learning/horizontal-shift.svg" alt="Horizontal shift of parabolas" class="demo-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vertical Translations -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.transformations.vertical.title">Vertical Translations</h3>
+                    <p data-i18n="learning.content.transformations.vertical.description">The graph of f(x) = a(x - h)² + k is shifted k units vertically from the basic parabola f(x) = ax²:</p>
+                    
+                    <ul>
+                        <li>If k > 0, the parabola shifts k units upward</li>
+                        <li>If k < 0, the parabola shifts |k| units downward</li>
+                    </ul>
+                    
+                    <div class="coefficient-demo">
+                        <div class="demo-illustration">
+                            <img src="../assets/images/learning/vertical-shift.svg" alt="Vertical shift of parabolas" class="demo-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stretching and Compression -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.transformations.stretching.title">Vertical Stretching and Compression</h3>
+                    <p data-i18n="learning.content.transformations.stretching.description">The coefficient 'a' in f(x) = a(x - h)² + k affects the vertical stretching or compression of the parabola:</p>
+                    
+                    <ul>
+                        <li>If |a| > 1, the parabola is stretched vertically (becomes narrower)</li>
+                        <li>If 0 < |a| < 1, the parabola is compressed vertically (becomes wider)</li>
+                        <li>If a < 0, the parabola is also reflected across the x-axis (opens downward)</li>
+                    </ul>
+                    
+                    <div class="coefficient-demo">
+                        <div class="demo-illustration">
+                            <img src="../assets/images/learning/a-coefficient-effect.svg" alt="Stretching and compression of parabolas" class="demo-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reflections -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.transformations.reflections.title">Reflections</h3>
+                    <p data-i18n="learning.content.transformations.reflections.description">Parabolas can be reflected across the x-axis or y-axis:</p>
+                    
+                    <ul>
+                        <li><strong>Reflection across the x-axis:</strong> Replace f(x) with -f(x)</li>
+                        <li><strong>Reflection across the y-axis:</strong> Replace x with -x in the function</li>
+                    </ul>
+                    
+                    <div class="coefficient-demo">
+                        <div class="demo-illustration">
+                            <img src="../assets/images/learning/reflections.svg" alt="Reflections of parabolas" class="demo-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sequence of Transformations -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.transformations.sequence.title">Sequence of Transformations</h3>
+                    <p data-i18n="learning.content.transformations.sequence.description">When applying multiple transformations, the order matters. The conventional order is:</p>
+                    
+                    <ol>
+                        <li>Stretching/compression (multiplication by a)</li>
+                        <li>Reflection (if applicable)</li>
+                        <li>Horizontal translation (replace x with x - h)</li>
+                        <li>Vertical translation (add k)</li>
+                    </ol>
+                    
+                    <div class="example-box">
+                        <h4>Example: Transform f(x) = x² into g(x) = -2(x - 3)² + 4</h4>
+                        <p>This involves:</p>
+                        <ul>
+                            <li>Stretching by a factor of 2</li>
+                            <li>Reflection across the x-axis (negative sign)</li>
+                            <li>Horizontal shift 3 units to the right</li>
+                            <li>Vertical shift 4 units upward</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Interactive Demonstration -->
+                <div class="interactive-demo">
+                    <h3 data-i18n="learning.content.transformations.interactive.title">Interactive Transformation Explorer</h3>
+                    <p data-i18n="learning.content.transformations.interactive.description">Adjust the sliders to see how different transformations affect the parabola.</p>
+                    
+                    <div class="interactive-container">
+                        <div id="transformations-graph" style="min-height: 300px; min-width: 400px;"></div>
+                        <div class="controls">
+                            <div class="control-group">
+                                <label data-i18n="learning.content.transformations.interactive.a">a: <span id="trans-a-value">1</span></label>
+                                <input type="range" id="trans-a-slider" min="-3" max="3" step="0.1" value="1">
+                                <div class="control-description" data-i18n="learning.content.transformations.interactive.aDesc">Stretching/compression & reflection</div>
+                            </div>
+                            <div class="control-group">
+                                <label data-i18n="learning.content.transformations.interactive.h">h: <span id="trans-h-value">0</span></label>
+                                <input type="range" id="trans-h-slider" min="-5" max="5" step="0.5" value="0">
+                                <div class="control-description" data-i18n="learning.content.transformations.interactive.hDesc">Horizontal shift</div>
+                            </div>
+                            <div class="control-group">
+                                <label data-i18n="learning.content.transformations.interactive.k">k: <span id="trans-k-value">0</span></label>
+                                <input type="range" id="trans-k-slider" min="-5" max="5" step="0.5" value="0">
+                                <div class="control-description" data-i18n="learning.content.transformations.interactive.kDesc">Vertical shift</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equation-display">
+                        Equation: <span id="trans-current-equation">f(x) = x²</span>
+                    </div>
+                    <div class="key-points">
+                        <div><strong data-i18n="learning.content.transformations.interactive.vertex">Vertex:</strong> <span id="trans-vertex">(0, 0)</span></div>
+                        <div><strong data-i18n="learning.content.transformations.interactive.direction">Direction:</strong> <span id="trans-direction">Upward</span></div>
+                        <div><strong data-i18n="learning.content.transformations.interactive.transformations">Applied Transformations:</strong> <span id="trans-list">None</span></div>
+                    </div>
+                </div>
+                
+                <!-- Real-world Applications -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.transformations.applications.title">Applications of Transformations</h3>
+                    <p data-i18n="learning.content.transformations.applications.description">Understanding parabola transformations has practical applications:</p>
+                    
+                    <div class="application-examples">
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.transformations.applications.example1.title">Architecture</h4>
+                            <p data-i18n="learning.content.transformations.applications.example1.description">Arches and domes often follow parabolic shapes. Engineers can transform basic parabolas to achieve specific heights, widths, and structural properties.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.transformations.applications.example2.title">Optics</h4>
+                            <p data-i18n="learning.content.transformations.applications.example2.description">Parabolic mirrors and lenses use transformed parabolas to focus light. The precise shape determines the focal point's position.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.transformations.applications.example3.title">Physics</h4>
+                            <p data-i18n="learning.content.transformations.applications.example3.description">Projectile motion equations can be rewritten in vertex form to easily determine maximum height, distance traveled, and time in air.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mini Quiz -->
+                <div class="mini-quiz">
+                    <h3 data-i18n="learning.content.transformations.quiz.title">Quick Check</h3>
+                    <p data-i18n="learning.content.transformations.quiz.instruction">Test your understanding of parabola transformations:</p>
+                    
+                    <div class="quiz-questions">
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.transformations.quiz.q1">What is the vertex of the parabola f(x) = 2(x - 3)² + 4?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="trans-q1" value="a"> <span data-i18n="learning.content.transformations.quiz.q1a">(3, 4)</span></label>
+                                <label><input type="radio" name="trans-q1" value="b"> <span data-i18n="learning.content.transformations.quiz.q1b">(-3, 4)</span></label>
+                                <label><input type="radio" name="trans-q1" value="c"> <span data-i18n="learning.content.transformations.quiz.q1c">(3, -4)</span></label>
+                                <label><input type="radio" name="trans-q1" value="d"> <span data-i18n="learning.content.transformations.quiz.q1d">(4, 3)</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="a"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.transformations.quiz.q2">How would you transform the basic parabola f(x) = x² to get g(x) = -3(x + 2)² - 5?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="trans-q2" value="a"> <span data-i18n="learning.content.transformations.quiz.q2a">Stretch by 3, reflect, shift 2 right, shift 5 up</span></label>
+                                <label><input type="radio" name="trans-q2" value="b"> <span data-i18n="learning.content.transformations.quiz.q2b">Stretch by 3, reflect, shift 2 left, shift 5 down</span></label>
+                                <label><input type="radio" name="trans-q2" value="c"> <span data-i18n="learning.content.transformations.quiz.q2c">Compress by 3, shift 2 left, shift 5 down</span></label>
+                                <label><input type="radio" name="trans-q2" value="d"> <span data-i18n="learning.content.transformations.quiz.q2d">Reflect, stretch by 3, shift 2 right, shift 5 down</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="b"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.transformations.quiz.q3">If a parabola has vertex at (-2, 3) and opens downward with a vertical stretch of 4, what is its equation in vertex form?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="trans-q3" value="a"> <span data-i18n="learning.content.transformations.quiz.q3a">f(x) = 4(x + 2)² + 3</span></label>
+                                <label><input type="radio" name="trans-q3" value="b"> <span data-i18n="learning.content.transformations.quiz.q3b">f(x) = -4(x + 2)² + 3</span></label>
+                                <label><input type="radio" name="trans-q3" value="c"> <span data-i18n="learning.content.transformations.quiz.q3c">f(x) = 4(x - 2)² + 3</span></label>
+                                <label><input type="radio" name="trans-q3" value="d"> <span data-i18n="learning.content.transformations.quiz.q3d">f(x) = -4(x - 2)² + 3</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="b"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="check-trans-quiz" class="btn" data-i18n="learning.content.transformations.quiz.checkButton">Check Answers</button>
+                    <div id="trans-quiz-results"></div>
+                </div>
             </section>
             
             <section id="module-practical-applications" class="module-content">
