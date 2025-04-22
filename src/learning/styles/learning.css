@@ -574,7 +574,9 @@ body.dark-mode .equation-display {
     color: #f57c00;
 }
 
-#check-quiz {
+#check-quiz,
+#check-trans-quiz,
+#check-app-quiz {
     background-color: #6200ea;
     color: white;
     border: none;
@@ -585,7 +587,9 @@ body.dark-mode .equation-display {
     transition: background-color 0.2s;
 }
 
-#check-quiz:hover {
+#check-quiz:hover,
+#check-trans-quiz:hover,
+#check-app-quiz:hover {
     background-color: #3700b3;
 }
 
