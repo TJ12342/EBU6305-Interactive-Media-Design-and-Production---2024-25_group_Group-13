@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="500" height="300" fill="#f0f8ff"/>
+  
+  <!-- Water -->
+  <rect x="0" y="250" width="500" height="50" fill="#add8e6"/>
+  <path d="M 0,260 Q 25,255 50,260 Q 75,265 100,260 Q 125,255 150,260 Q 175,265 200,260 Q 225,255 250,260 Q 275,265 300,260 Q 325,255 350,260 Q 375,265 400,260 Q 425,255 450,260 Q 475,265 500,260 L 500,300 L 0,300 Z" fill="#87ceeb"/>
+  
+  <!-- Bridge towers -->
+  <rect x="100" y="100" width="20" height="150" fill="#555"/>
+  <rect x="380" y="100" width="20" height="150" fill="#555"/>
+  
+  <!-- Bridge deck -->
+  <rect x="50" y="190" width="400" height="10" fill="#777"/>
+  
+  <!-- Main cables (parabolic shape) -->
+  <path d="M 100,100 Q 250,50 400,100" stroke="#222" stroke-width="4" fill="none"/>
+  
+  <!-- Vertical suspender cables -->
+  <line x1="120" y1="106" x2="120" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="140" y1="113" x2="140" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="160" y1="120" x2="160" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="180" y1="127" x2="180" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="200" y1="133" x2="200" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="220" y1="138" x2="220" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="240" y1="141" x2="240" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="260" y1="142" x2="260" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="280" y1="141" x2="280" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="300" y1="138" x2="300" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="320" y1="133" x2="320" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="340" y1="127" x2="340" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="360" y1="120" x2="360" y2="190" stroke="#444" stroke-width="1"/>
+  <line x1="380" y1="113" x2="380" y2="190" stroke="#444" stroke-width="1"/>
+  
+  <!-- Bridge supports -->
+  <path d="M 100,250 L 120,200 L 100,200 Z" fill="#555"/>
+  <path d="M 380,250 L 400,200 L 380,200 Z" fill="#555"/>
+  
+  <!-- Formula -->
+  <text x="130" y="30" font-family="Arial" font-size="14" font-weight="bold">y = (w/2T₀)x²</text>
+  <text x="130" y="50" font-family="Arial" font-size="12">Parabolic shape of suspension bridge cables</text>
+  
+  <!-- Coordinate system -->
+  <line x1="250" y1="220" x2="250" y2="150" stroke="#000" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="200" y1="190" x2="300" y2="190" stroke="#000" stroke-width="1" stroke-dasharray="4"/>
+  <text x="260" y="185" font-family="Arial" font-size="10">x</text>
+  <text x="246" y="165" font-family="Arial" font-size="10">y</text>
+  <circle cx="250" cy="190" r="3" fill="#000"/>
+  
+  <!-- Labels -->
+  <text x="60" y="120" font-family="Arial" font-size="12" font-weight="bold">Tower</text>
+  <text x="250" y="210" font-family="Arial" font-size="12" font-weight="bold">Deck</text>
+  <text x="220" y="80" font-family="Arial" font-size="12" font-weight="bold">Main Cable (Parabola)</text>
+  <text x="375" y="170" font-family="Arial" font-size="12" font-weight="bold">Suspenders</text>
+</svg> 
