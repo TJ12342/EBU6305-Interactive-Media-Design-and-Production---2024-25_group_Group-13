@@ -674,4 +674,159 @@ body.dark-mode .equation-display {
     .key-points {
         grid-template-columns: 1fr;
     }
+}
+
+/* 按钮通用样式 */
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: #00acc1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    font-family: inherit;
+}
+
+.btn:hover {
+    background-color: #007c91;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* 实际应用交互式问题解决器 */
+.problem-selector {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.problem-selector label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.problem-selector select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    min-width: 200px;
+}
+
+#problem-container {
+    margin-top: 1.5rem;
+}
+
+#problem-description {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+}
+
+#problem-description h4 {
+    color: #00838f;
+    margin-bottom: 0.75rem;
+}
+
+#problem-visualization {
+    margin-bottom: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#problem-controls {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+#problem-solution {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #f0f8ff;
+    border-radius: 6px;
+    border-left: 4px solid #00acc1;
+}
+
+.solution-step {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.solution-step:last-child {
+    border-bottom: none;
+}
+
+.case-study-card {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.case-study-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.case-study-btn {
+    margin-top: 1rem;
+}
+
+/* 暗黑模式适配 */
+body.dark-mode .btn {
+    background-color: #0097a7;
+}
+
+body.dark-mode .btn:hover {
+    background-color: #00838f;
+}
+
+body.dark-mode #problem-description {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+body.dark-mode #problem-solution {
+    background-color: #2d3748;
+    border-left-color: #0097a7;
+}
+
+body.dark-mode .solution-step {
+    border-bottom-color: #4a5568;
+}
+
+body.dark-mode .case-study-card {
+    background-color: #2d3748;
+}
+
+/* Quiz button specific styles */
+#check-quiz,
+#check-trans-quiz,
+#check-app-quiz {
+    display: block;
+    width: 180px;
+    margin: 1.5rem auto;
+    padding: 0.7rem 1.2rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+#check-quiz:hover,
+#check-trans-quiz:hover,
+#check-app-quiz:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 } 

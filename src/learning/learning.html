@@ -535,10 +535,250 @@
             </section>
             
             <section id="module-practical-applications" class="module-content">
-                <!-- 实际应用模块内容 -->
+                <!-- Practical Applications Module Content -->
                 <h2 data-i18n="learning.modules.applications.title">Practical Applications</h2>
-                <p>This section explores case studies of quadratic equations in physics, engineering, economics, and other fields.</p>
-                <!-- 其他内容 -->
+                
+                <div class="intro-text">
+                    <p data-i18n="learning.content.applications.intro">Quadratic equations and parabolas aren't just mathematical abstractions—they appear frequently in the real world. This module explores how quadratic functions model and solve problems in various fields including physics, engineering, architecture, economics, and everyday life.</p>
+                </div>
+                
+                <!-- Physics Applications -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.applications.physics.title">Applications in Physics</h3>
+                    <p data-i18n="learning.content.applications.physics.description">Quadratic equations are fundamental in describing various physical phenomena:</p>
+                    
+                    <div class="application-examples">
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.physics.projectile.title">Projectile Motion</h4>
+                            <p data-i18n="learning.content.applications.physics.projectile.description">When an object is thrown or launched, its vertical position follows a quadratic function of time:</p>
+                            <div class="formula">h(t) = -½gt² + v₀t + h₀</div>
+                            <p>Where:</p>
+                            <ul>
+                                <li>h(t) is the height at time t</li>
+                                <li>g is the acceleration due to gravity (approximately 9.8 m/s²)</li>
+                                <li>v₀ is the initial vertical velocity</li>
+                                <li>h₀ is the initial height</li>
+                            </ul>
+                            <div class="case-study">
+                                <h5>Example: Basketball Shot</h5>
+                                <p>A basketball player shoots from an initial height of 2 meters with an initial velocity of 7.84 m/s. The height of the ball at time t seconds is given by:</p>
+                                <div class="formula">h(t) = -4.9t² + 7.84t + 2</div>
+                                <p>From this equation, we can determine:</p>
+                                <ul>
+                                    <li>The maximum height (at vertex)</li>
+                                    <li>The time the ball is in the air</li>
+                                    <li>When the ball reaches the height of the basket</li>
+                                </ul>
+                                <div class="coefficient-demo">
+                                    <div class="demo-illustration">
+                                        <img src="../assets/images/learning/basketball-trajectory.svg" alt="Basketball trajectory" class="demo-image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.physics.freefall.title">Free Fall Motion</h4>
+                            <p data-i18n="learning.content.applications.physics.freefall.description">When an object falls under the influence of gravity, its position follows a quadratic equation:</p>
+                            <div class="formula">s(t) = s₀ + v₀t + ½at²</div>
+                            <p>Where s₀ is the initial position, v₀ is the initial velocity, and a is acceleration.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Engineering and Architecture Applications -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.applications.engineering.title">Applications in Engineering and Architecture</h3>
+                    <p data-i18n="learning.content.applications.engineering.description">Parabolic shapes appear frequently in engineering structures and designs:</p>
+                    
+                    <div class="application-examples">
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.engineering.bridges.title">Suspension Bridges</h4>
+                            <p data-i18n="learning.content.applications.engineering.bridges.description">The cables of suspension bridges form parabolas when the weight of the roadway is uniformly distributed horizontally. This shape distributes forces efficiently.</p>
+                            <div class="coefficient-demo">
+                                <div class="demo-illustration">
+                                    <img src="../assets/images/learning/suspension-bridge.svg" alt="Suspension bridge with parabolic cables" class="demo-image">
+                                </div>
+                            </div>
+                            <p>The equation of the cable curve can be modeled as:</p>
+                            <div class="formula">y = (T₀/w)(cosh(wx/T₀) - 1) ≈ (w/2T₀)x² for small values</div>
+                            <p>Where T₀ is the tension at the lowest point and w is the weight per unit length.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.engineering.arches.title">Arches and Domes</h4>
+                            <p data-i18n="learning.content.applications.engineering.arches.description">Parabolic arches are structurally efficient and distribute weight evenly. They're used in architecture for bridges, entryways, and domes.</p>
+                            <p>The Gateway Arch in St. Louis follows a weighted catenary, which is closely related to a parabola, and can be approximated by a quadratic function for many engineering purposes.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.engineering.optics.title">Parabolic Reflectors</h4>
+                            <p data-i18n="learning.content.applications.engineering.optics.description">Parabolic shapes are crucial in optics and signal technology:</p>
+                            <ul>
+                                <li>Satellite dishes use parabolic reflectors to focus incoming signals to a single receiver point</li>
+                                <li>Telescope mirrors use parabolic shapes to focus light</li>
+                                <li>Flashlights and headlights use parabolic reflectors to create a directed beam</li>
+                            </ul>
+                            <div class="coefficient-demo">
+                                <div class="demo-illustration">
+                                    <img src="../assets/images/learning/parabolic-reflector.svg" alt="Parabolic reflector focusing rays" class="demo-image">
+                                </div>
+                            </div>
+                            <p>A key property: all rays parallel to the axis of a parabolic reflector will reflect to the focus.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Economics and Business Applications -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.applications.economics.title">Applications in Economics and Business</h3>
+                    <p data-i18n="learning.content.applications.economics.description">Quadratic functions model many economic relationships:</p>
+                    
+                    <div class="application-examples">
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.economics.revenue.title">Revenue Optimization</h4>
+                            <p data-i18n="learning.content.applications.economics.revenue.description">The relationship between price and demand often follows a linear function, which leads to a quadratic revenue function:</p>
+                            <div class="formula">
+                                If demand function: q = a - bp (where q is quantity and p is price)<br>
+                                Then revenue function: R = p·q = p(a - bp) = ap - bp²
+                            </div>
+                            <p>To maximize revenue, companies can find the vertex of this quadratic function.</p>
+                            <div class="case-study">
+                                <h5>Example: Ticket Pricing</h5>
+                                <p>A theater finds that when tickets are priced at $10, they sell 500 tickets. For each $1 increase in price, they sell 20 fewer tickets. The revenue R as a function of the price increase x is:</p>
+                                <div class="formula">R(x) = (10 + x)(500 - 20x) = 5000 + 300x - 20x²</div>
+                                <p>The optimal price increase can be found by determining the x-coordinate of the vertex.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.economics.profit.title">Profit Maximization</h4>
+                            <p data-i18n="learning.content.applications.economics.profit.description">Profit functions frequently take quadratic form when revenue and cost functions are considered:</p>
+                            <div class="formula">Profit = Revenue - Cost</div>
+                            <p>If revenue is quadratic and cost is linear (or has a quadratic component), the resulting profit function will be quadratic.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.economics.production.title">Production and Cost</h4>
+                            <p data-i18n="learning.content.applications.economics.production.description">In manufacturing, the marginal cost often increases with production volume, leading to quadratic cost functions:</p>
+                            <div class="formula">C(q) = aq² + bq + c</div>
+                            <p>Where C(q) is the total cost to produce q units, c is the fixed cost, and the quadratic term represents increasing marginal costs at higher production levels.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Environmental and Biological Applications -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.applications.environmental.title">Environmental and Biological Applications</h3>
+                    <p data-i18n="learning.content.applications.environmental.description">Quadratic relationships occur naturally in many biological and environmental systems:</p>
+                    
+                    <div class="application-examples">
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.environmental.population.title">Population Growth</h4>
+                            <p data-i18n="learning.content.applications.environmental.population.description">While exponential models are common for population growth, quadratic models can represent populations with resource constraints:</p>
+                            <div class="formula">P(t) = at² + bt + c</div>
+                            <p>This can model scenarios where growth initially accelerates but then decelerates as resources become limited.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.applications.environmental.reaction.title">Chemical Reactions</h4>
+                            <p data-i18n="learning.content.applications.environmental.reaction.description">Some chemical reactions follow second-order kinetics, which can be modeled using quadratic equations.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Problem-Solving -->
+                <div class="interactive-demo">
+                    <h3 data-i18n="learning.content.applications.interactive.title">Interactive Problem-Solver</h3>
+                    <p data-i18n="learning.content.applications.interactive.description">Explore how to apply quadratic equations to solve real-world problems:</p>
+                    
+                    <div class="problem-selector">
+                        <label for="problem-select">Select a problem type:</label>
+                        <select id="problem-select">
+                            <option value="projectile">Projectile Motion</option>
+                            <option value="revenue">Revenue Optimization</option>
+                            <option value="area">Area Maximization</option>
+                        </select>
+                        <button id="load-problem" class="btn">Load Problem</button>
+                    </div>
+                    
+                    <div id="problem-container">
+                        <div id="problem-description"></div>
+                        <div id="problem-visualization" style="min-height: 250px; min-width: 400px;"></div>
+                        <div id="problem-controls"></div>
+                        <div id="problem-solution"></div>
+                    </div>
+                </div>
+                
+                <!-- Mini Quiz -->
+                <div class="mini-quiz">
+                    <h3 data-i18n="learning.content.applications.quiz.title">Quick Check</h3>
+                    <p data-i18n="learning.content.applications.quiz.instruction">Test your understanding of practical applications:</p>
+                    
+                    <div class="quiz-questions">
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.applications.quiz.q1">A ball is thrown upward from a height of 1.5 meters with an initial velocity of 19.6 m/s. Which equation represents its height h (in meters) after t seconds?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="app-q1" value="a"> <span data-i18n="learning.content.applications.quiz.q1a">h(t) = -4.9t² + 19.6t + 1.5</span></label>
+                                <label><input type="radio" name="app-q1" value="b"> <span data-i18n="learning.content.applications.quiz.q1b">h(t) = -9.8t² + 19.6t + 1.5</span></label>
+                                <label><input type="radio" name="app-q1" value="c"> <span data-i18n="learning.content.applications.quiz.q1c">h(t) = 4.9t² + 19.6t + 1.5</span></label>
+                                <label><input type="radio" name="app-q1" value="d"> <span data-i18n="learning.content.applications.quiz.q1d">h(t) = -4.9t² + 1.5t + 19.6</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="a"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.applications.quiz.q2">A company finds that when they price their product at $p dollars, they sell q = 1000 - 25p units. Which price maximizes their revenue?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="app-q2" value="a"> <span data-i18n="learning.content.applications.quiz.q2a">$20</span></label>
+                                <label><input type="radio" name="app-q2" value="b"> <span data-i18n="learning.content.applications.quiz.q2b">$25</span></label>
+                                <label><input type="radio" name="app-q2" value="c"> <span data-i18n="learning.content.applications.quiz.q2c">$30</span></label>
+                                <label><input type="radio" name="app-q2" value="d"> <span data-i18n="learning.content.applications.quiz.q2d">$40</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="a"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.applications.quiz.q3">Which of the following real-world structures most clearly demonstrates parabolic shapes?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="app-q3" value="a"> <span data-i18n="learning.content.applications.quiz.q3a">Radio tower</span></label>
+                                <label><input type="radio" name="app-q3" value="b"> <span data-i18n="learning.content.applications.quiz.q3b">Satellite dish</span></label>
+                                <label><input type="radio" name="app-q3" value="c"> <span data-i18n="learning.content.applications.quiz.q3c">Spiral staircase</span></label>
+                                <label><input type="radio" name="app-q3" value="d"> <span data-i18n="learning.content.applications.quiz.q3d">Pyramid</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="b"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="check-app-quiz" class="btn" data-i18n="learning.content.applications.quiz.checkButton">Check Answers</button>
+                    <div id="app-quiz-results"></div>
+                </div>
+                
+                <!-- Additional Case Studies -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.applications.casestudies.title">Case Studies</h3>
+                    <p data-i18n="learning.content.applications.casestudies.description">Explore these in-depth examples of quadratic equations solving real-world problems:</p>
+                    
+                    <div class="case-studies-container">
+                        <div class="case-study-card">
+                            <h4 data-i18n="learning.content.applications.casestudies.case1.title">Golden Gate Bridge Design</h4>
+                            <p data-i18n="learning.content.applications.casestudies.case1.description">How engineers used quadratic equations to model the suspension cables of the Golden Gate Bridge, accounting for weight distribution, wind forces, and tension.</p>
+                            <a href="#" class="btn case-study-btn" data-i18n="learning.content.applications.casestudies.case1.button">Read Case Study</a>
+                        </div>
+                        
+                        <div class="case-study-card">
+                            <h4 data-i18n="learning.content.applications.casestudies.case2.title">Solar Farm Optimization</h4>
+                            <p data-i18n="learning.content.applications.casestudies.case2.description">How a renewable energy company used quadratic functions to determine optimal spacing of solar panels to maximize energy collection while minimizing land use.</p>
+                            <a href="#" class="btn case-study-btn" data-i18n="learning.content.applications.casestudies.case2.button">Read Case Study</a>
+                        </div>
+                        
+                        <div class="case-study-card">
+                            <h4 data-i18n="learning.content.applications.casestudies.case3.title">Smartphone App Pricing Strategy</h4>
+                            <p data-i18n="learning.content.applications.casestudies.case3.description">How a mobile app developer used quadratic revenue models to determine the optimal price point for their premium features, balancing volume and price.</p>
+                            <a href="#" class="btn case-study-btn" data-i18n="learning.content.applications.casestudies.case3.button">Read Case Study</a>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
 
@@ -583,5 +823,6 @@
     <script src="../common/scripts/main.js"></script>
     <script src="../common/scripts/dark-mode.js"></script>
     <script src="scripts/learning.js"></script>
+    <script src="scripts/practical-applications.js"></script>
 </body>
 </html> 
