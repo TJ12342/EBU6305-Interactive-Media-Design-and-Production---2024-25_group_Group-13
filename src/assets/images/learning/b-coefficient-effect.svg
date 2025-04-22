@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="500" height="300">
+  <!-- Coordinate Axes -->
+  <line x1="50" y1="150" x2="450" y2="150" stroke="#888" stroke-width="2"/>
+  <line x1="250" y1="30" x2="250" y2="270" stroke="#888" stroke-width="2"/>
+  
+  <!-- Labels -->
+  <text x="460" y="150" font-family="Arial" font-size="14" text-anchor="middle">x</text>
+  <text x="250" y="20" font-family="Arial" font-size="14" text-anchor="middle">y</text>
+  <text x="240" y="170" font-family="Arial" font-size="14" text-anchor="middle">O</text>
+  
+  <!-- Parabola with b=0 (symmetric) -->
+  <path d="M 150 150 Q 250 50 350 150" stroke="#1565C0" stroke-width="3" fill="none"/>
+  <text x="360" y="120" font-family="Arial" font-size="14" fill="#1565C0" text-anchor="start">b = 0</text>
+  
+  <!-- Parabola with b=2 (shifted left) -->
+  <path d="M 100 150 Q 200 50 300 150" stroke="#4CAF50" stroke-width="3" fill="none"/>
+  <text x="180" y="70" font-family="Arial" font-size="14" fill="#4CAF50" text-anchor="start">b = 2 (shifted left)</text>
+  
+  <!-- Parabola with b=-2 (shifted right) -->
+  <path d="M 200 150 Q 300 50 400 150" stroke="#FF9800" stroke-width="3" fill="none"/>
+  <text x="350" y="70" font-family="Arial" font-size="14" fill="#FF9800" text-anchor="start">b = -2 (shifted right)</text>
+  
+  <!-- Axis of Symmetry (b=0) -->
+  <line x1="250" y1="30" x2="250" y2="270" stroke="#1565C0" stroke-width="1" stroke-dasharray="5,3"/>
+  
+  <!-- Axis of Symmetry (b=2) -->
+  <line x1="200" y1="30" x2="200" y2="270" stroke="#4CAF50" stroke-width="1" stroke-dasharray="5,3"/>
+  
+  <!-- Axis of Symmetry (b=-2) -->
+  <line x1="300" y1="30" x2="300" y2="270" stroke="#FF9800" stroke-width="1" stroke-dasharray="5,3"/>
+  
+  <!-- Vertex Markers -->
+  <circle cx="250" cy="50" r="5" fill="#1565C0"/>
+  <circle cx="200" cy="50" r="5" fill="#4CAF50"/>
+  <circle cx="300" cy="50" r="5" fill="#FF9800"/>
+  
+  <!-- Title -->
+  <text x="250" y="290" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Effect of Coefficient 'b'</text>
+</svg> 

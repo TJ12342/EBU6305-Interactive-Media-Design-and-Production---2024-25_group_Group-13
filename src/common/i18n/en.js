@@ -143,6 +143,82 @@ window.i18n.en = {
                     title: "Factorized Form",
                     description: "When the equation has real roots, it can be represented as y = a(x - r₁)(x - r₂), where r₁ and r₂ are the roots of the equation."
                 }
+            },
+            coefficients: {
+                intro: "The coefficients a, b, and c in a quadratic function (f(x) = ax² + bx + c) each have unique effects on the shape and position of the parabola. Understanding these effects is crucial for analyzing and manipulating quadratic functions.",
+                a: {
+                    title: "The Effect of Coefficient 'a'",
+                    description: "The coefficient 'a' determines the width and direction of the parabola:",
+                    point1: "When |a| increases, the parabola becomes narrower",
+                    point2: "When |a| decreases, the parabola becomes wider",
+                    point3: "When a > 0, the parabola opens upward",
+                    point4: "When a < 0, the parabola opens downward"
+                },
+                b: {
+                    title: "The Effect of Coefficient 'b'",
+                    description: "The coefficient 'b' affects the horizontal position of the vertex and the axis of symmetry:",
+                    point1: "The x-coordinate of the vertex is given by x = -b/(2a)",
+                    point2: "When b increases, the parabola shifts to the left",
+                    point3: "When b decreases, the parabola shifts to the right",
+                    point4: "When b = 0, the axis of symmetry passes through the y-axis (x = 0)"
+                },
+                c: {
+                    title: "The Effect of Coefficient 'c'",
+                    description: "The coefficient 'c' represents the y-intercept and affects the vertical position of the entire parabola:",
+                    point1: "When c increases, the entire parabola shifts upward",
+                    point2: "When c decreases, the entire parabola shifts downward",
+                    point3: "The y-intercept is always at the point (0, c)"
+                },
+                interactive: {
+                    title: "Interactive Demonstration",
+                    description: "Adjust the sliders to see how each coefficient affects the parabola's shape and position.",
+                    a: "a:",
+                    b: "b:",
+                    c: "c:",
+                    aDesc: "Controls width and direction",
+                    bDesc: "Controls horizontal position",
+                    cDesc: "Controls vertical position",
+                    vertex: "Vertex:",
+                    axis: "Axis of Symmetry:",
+                    direction: "Direction:",
+                    yIntercept: "Y-Intercept:"
+                },
+                applications: {
+                    title: "Applications of Coefficient Analysis",
+                    description: "Understanding how coefficients affect parabolas is essential for various applications:",
+                    example1: {
+                        title: "Physics: Projectile Motion",
+                        description: "In projectile motion, the path of an object follows a parabolic trajectory described by y = -0.5g·t² + v₀·sin(θ)·t + h₀, where g is gravity, v₀ is initial velocity, θ is the angle, and h₀ is initial height."
+                    },
+                    example2: {
+                        title: "Engineering: Suspension Bridges",
+                        description: "The cables of suspension bridges form parabolas. Engineers adjust the \"a\" coefficient to control the height and tension of the cables."
+                    },
+                    example3: {
+                        title: "Economics: Supply and Demand",
+                        description: "In some economic models, quadratic functions model cost functions where the coefficient \"a\" represents how quickly marginal costs increase with production."
+                    }
+                },
+                quiz: {
+                    title: "Quick Check",
+                    instruction: "Test your understanding of coefficient effects:",
+                    q1: "If you want to make a parabola narrower, what should you do?",
+                    q1a: "Increase |a|",
+                    q1b: "Decrease |a|",
+                    q1c: "Increase |b|",
+                    q1d: "Increase |c|",
+                    q2: "What determines the direction (upward or downward) of a parabola?",
+                    q2a: "The sign of a",
+                    q2b: "The sign of b",
+                    q2c: "The sign of c",
+                    q2d: "The value of b²-4ac",
+                    q3: "If c = 3, where does the parabola intersect the y-axis?",
+                    q3a: "(3, 0)",
+                    q3b: "(0, 3)",
+                    q3c: "(0, -3)",
+                    q3d: "It depends on a and b",
+                    checkButton: "Check Answers"
+                }
             }
         }
     },

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="500" height="300">
+  <!-- Coordinate Axes -->
+  <line x1="50" y1="150" x2="450" y2="150" stroke="#888" stroke-width="2"/>
+  <line x1="250" y1="30" x2="250" y2="270" stroke="#888" stroke-width="2"/>
+  
+  <!-- Labels -->
+  <text x="460" y="150" font-family="Arial" font-size="14" text-anchor="middle">x</text>
+  <text x="250" y="20" font-family="Arial" font-size="14" text-anchor="middle">y</text>
+  <text x="240" y="170" font-family="Arial" font-size="14" text-anchor="middle">O</text>
+  
+  <!-- Parabola with a=1 -->
+  <path d="M 150 150 Q 250 50 350 150" stroke="#1565C0" stroke-width="3" fill="none"/>
+  <text x="360" y="120" font-family="Arial" font-size="14" fill="#1565C0" text-anchor="start">a = 1</text>
+  
+  <!-- Parabola with a=2 (narrower) -->
+  <path d="M 180 150 Q 250 0 320 150" stroke="#4CAF50" stroke-width="3" fill="none"/>
+  <text x="330" y="70" font-family="Arial" font-size="14" fill="#4CAF50" text-anchor="start">a = 2 (narrower)</text>
+  
+  <!-- Parabola with a=0.5 (wider) -->
+  <path d="M 120 150 Q 250 100 380 150" stroke="#FF9800" stroke-width="3" fill="none"/>
+  <text x="390" y="170" font-family="Arial" font-size="14" fill="#FF9800" text-anchor="start">a = 0.5 (wider)</text>
+  
+  <!-- Parabola with a=-1 (downward) -->
+  <path d="M 150 150 Q 250 250 350 150" stroke="#E91E63" stroke-width="3" fill="none"/>
+  <text x="360" y="230" font-family="Arial" font-size="14" fill="#E91E63" text-anchor="start">a = -1 (downward)</text>
+  
+  <!-- Title -->
+  <text x="250" y="290" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Effect of Coefficient 'a'</text>
+</svg> 

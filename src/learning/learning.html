@@ -153,8 +153,163 @@
             <section id="module-coefficients" class="module-content">
                 <!-- 系数影响模块内容 -->
                 <h2 data-i18n="learning.modules.coefficients.title">Coefficient Effects</h2>
-                <p>This section explores how coefficients a, b, and c affect the shape and position of the parabola.</p>
-                <!-- 其他内容 -->
+                
+                <div class="intro-text">
+                    <p data-i18n="learning.content.coefficients.intro">The coefficients a, b, and c in a quadratic function (f(x) = ax² + bx + c) each have unique effects on the shape and position of the parabola. Understanding these effects is crucial for analyzing and manipulating quadratic functions.</p>
+                </div>
+                
+                <!-- A系数的影响 -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.coefficients.a.title">The Effect of Coefficient 'a'</h3>
+                    <p data-i18n="learning.content.coefficients.a.description">The coefficient 'a' determines the width and direction of the parabola:</p>
+                    <ul>
+                        <li data-i18n="learning.content.coefficients.a.point1">When |a| increases, the parabola becomes narrower</li>
+                        <li data-i18n="learning.content.coefficients.a.point2">When |a| decreases, the parabola becomes wider</li>
+                        <li data-i18n="learning.content.coefficients.a.point3">When a > 0, the parabola opens upward</li>
+                        <li data-i18n="learning.content.coefficients.a.point4">When a < 0, the parabola opens downward</li>
+                    </ul>
+                    <div class="coefficient-demo">
+                        <div class="demo-illustration">
+                            <img src="../assets/images/learning/a-coefficient-effect.svg" alt="Effect of coefficient a" class="demo-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- B系数的影响 -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.coefficients.b.title">The Effect of Coefficient 'b'</h3>
+                    <p data-i18n="learning.content.coefficients.b.description">The coefficient 'b' affects the horizontal position of the vertex and the axis of symmetry:</p>
+                    <ul>
+                        <li data-i18n="learning.content.coefficients.b.point1">The x-coordinate of the vertex is given by x = -b/(2a)</li>
+                        <li data-i18n="learning.content.coefficients.b.point2">When b increases, the parabola shifts to the left</li>
+                        <li data-i18n="learning.content.coefficients.b.point3">When b decreases, the parabola shifts to the right</li>
+                        <li data-i18n="learning.content.coefficients.b.point4">When b = 0, the axis of symmetry passes through the y-axis (x = 0)</li>
+                    </ul>
+                    <div class="coefficient-demo">
+                        <div class="demo-illustration">
+                            <img src="../assets/images/learning/b-coefficient-effect.svg" alt="Effect of coefficient b" class="demo-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- C系数的影响 -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.coefficients.c.title">The Effect of Coefficient 'c'</h3>
+                    <p data-i18n="learning.content.coefficients.c.description">The coefficient 'c' represents the y-intercept and affects the vertical position of the entire parabola:</p>
+                    <ul>
+                        <li data-i18n="learning.content.coefficients.c.point1">When c increases, the entire parabola shifts upward</li>
+                        <li data-i18n="learning.content.coefficients.c.point2">When c decreases, the entire parabola shifts downward</li>
+                        <li data-i18n="learning.content.coefficients.c.point3">The y-intercept is always at the point (0, c)</li>
+                    </ul>
+                    <div class="coefficient-demo">
+                        <div class="demo-illustration">
+                            <img src="../assets/images/learning/c-coefficient-effect.svg" alt="Effect of coefficient c" class="demo-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 交互式演示 -->
+                <div class="interactive-demo">
+                    <h3 data-i18n="learning.content.coefficients.interactive.title">Interactive Demonstration</h3>
+                    <p data-i18n="learning.content.coefficients.interactive.description">Adjust the sliders to see how each coefficient affects the parabola's shape and position.</p>
+                    
+                    <div class="interactive-container">
+                        <div id="coefficients-graph" style="min-height: 300px; min-width: 400px;"></div>
+                        <div class="controls">
+                            <div class="control-group">
+                                <label data-i18n="learning.content.coefficients.interactive.a">a: <span id="coef-a-value">1</span></label>
+                                <input type="range" id="coef-a-slider" min="-3" max="3" step="0.1" value="1">
+                                <div class="control-description" data-i18n="learning.content.coefficients.interactive.aDesc">Controls width and direction</div>
+                            </div>
+                            <div class="control-group">
+                                <label data-i18n="learning.content.coefficients.interactive.b">b: <span id="coef-b-value">0</span></label>
+                                <input type="range" id="coef-b-slider" min="-5" max="5" step="0.1" value="0">
+                                <div class="control-description" data-i18n="learning.content.coefficients.interactive.bDesc">Controls horizontal position</div>
+                            </div>
+                            <div class="control-group">
+                                <label data-i18n="learning.content.coefficients.interactive.c">c: <span id="coef-c-value">0</span></label>
+                                <input type="range" id="coef-c-slider" min="-5" max="5" step="0.1" value="0">
+                                <div class="control-description" data-i18n="learning.content.coefficients.interactive.cDesc">Controls vertical position</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equation-display">
+                        Equation: <span id="coef-current-equation">f(x) = x²</span>
+                    </div>
+                    <div class="key-points">
+                        <div><strong data-i18n="learning.content.coefficients.interactive.vertex">Vertex:</strong> <span id="coef-vertex">(0, 0)</span></div>
+                        <div><strong data-i18n="learning.content.coefficients.interactive.axis">Axis of Symmetry:</strong> <span id="coef-axis">x = 0</span></div>
+                        <div><strong data-i18n="learning.content.coefficients.interactive.direction">Direction:</strong> <span id="coef-direction">Upward</span></div>
+                        <div><strong data-i18n="learning.content.coefficients.interactive.yIntercept">Y-Intercept:</strong> <span id="coef-y-intercept">(0, 0)</span></div>
+                    </div>
+                </div>
+                
+                <!-- 实际应用示例 -->
+                <div class="concept-section">
+                    <h3 data-i18n="learning.content.coefficients.applications.title">Applications of Coefficient Analysis</h3>
+                    <p data-i18n="learning.content.coefficients.applications.description">Understanding how coefficients affect parabolas is essential for various applications:</p>
+                    
+                    <div class="application-examples">
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.coefficients.applications.example1.title">Physics: Projectile Motion</h4>
+                            <p data-i18n="learning.content.coefficients.applications.example1.description">In projectile motion, the path of an object follows a parabolic trajectory described by y = -0.5g·t² + v₀·sin(θ)·t + h₀, where g is gravity, v₀ is initial velocity, θ is the angle, and h₀ is initial height.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.coefficients.applications.example2.title">Engineering: Suspension Bridges</h4>
+                            <p data-i18n="learning.content.coefficients.applications.example2.description">The cables of suspension bridges form parabolas. Engineers adjust the "a" coefficient to control the height and tension of the cables.</p>
+                        </div>
+                        
+                        <div class="application-example">
+                            <h4 data-i18n="learning.content.coefficients.applications.example3.title">Economics: Supply and Demand</h4>
+                            <p data-i18n="learning.content.coefficients.applications.example3.description">In some economic models, quadratic functions model cost functions where the coefficient "a" represents how quickly marginal costs increase with production.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 小测验 -->
+                <div class="mini-quiz">
+                    <h3 data-i18n="learning.content.coefficients.quiz.title">Quick Check</h3>
+                    <p data-i18n="learning.content.coefficients.quiz.instruction">Test your understanding of coefficient effects:</p>
+                    
+                    <div class="quiz-questions">
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.coefficients.quiz.q1">If you want to make a parabola narrower, what should you do?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="q1" value="a"> <span data-i18n="learning.content.coefficients.quiz.q1a">Increase |a|</span></label>
+                                <label><input type="radio" name="q1" value="b"> <span data-i18n="learning.content.coefficients.quiz.q1b">Decrease |a|</span></label>
+                                <label><input type="radio" name="q1" value="c"> <span data-i18n="learning.content.coefficients.quiz.q1c">Increase |b|</span></label>
+                                <label><input type="radio" name="q1" value="d"> <span data-i18n="learning.content.coefficients.quiz.q1d">Increase |c|</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="a"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.coefficients.quiz.q2">What determines the direction (upward or downward) of a parabola?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="q2" value="a"> <span data-i18n="learning.content.coefficients.quiz.q2a">The sign of a</span></label>
+                                <label><input type="radio" name="q2" value="b"> <span data-i18n="learning.content.coefficients.quiz.q2b">The sign of b</span></label>
+                                <label><input type="radio" name="q2" value="c"> <span data-i18n="learning.content.coefficients.quiz.q2c">The sign of c</span></label>
+                                <label><input type="radio" name="q2" value="d"> <span data-i18n="learning.content.coefficients.quiz.q2d">The value of b²-4ac</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="a"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p data-i18n="learning.content.coefficients.quiz.q3">If c = 3, where does the parabola intersect the y-axis?</p>
+                            <div class="quiz-options">
+                                <label><input type="radio" name="q3" value="a"> <span data-i18n="learning.content.coefficients.quiz.q3a">(3, 0)</span></label>
+                                <label><input type="radio" name="q3" value="b"> <span data-i18n="learning.content.coefficients.quiz.q3b">(0, 3)</span></label>
+                                <label><input type="radio" name="q3" value="c"> <span data-i18n="learning.content.coefficients.quiz.q3c">(0, -3)</span></label>
+                                <label><input type="radio" name="q3" value="d"> <span data-i18n="learning.content.coefficients.quiz.q3d">It depends on a and b</span></label>
+                            </div>
+                            <div class="quiz-feedback" data-correct="b"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="check-quiz" class="btn" data-i18n="learning.content.coefficients.quiz.checkButton">Check Answers</button>
+                    <div id="quiz-results"></div>
+                </div>
             </section>
             
             <section id="module-graph-transformations" class="module-content">

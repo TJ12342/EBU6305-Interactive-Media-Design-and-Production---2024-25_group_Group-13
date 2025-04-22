@@ -143,6 +143,82 @@ window.i18n.zh = {
                     title: "因式分解形式",
                     description: "当方程有实数解时，可以表示为 y = a(x - r₁)(x - r₂)，其中 r₁ 和 r₂ 是方程的根。"
                 }
+            },
+            coefficients: {
+                intro: "二次函数（f(x) = ax² + bx + c）中的系数a、b和c各自对抛物线的形状和位置有独特的影响。理解这些影响对于分析和操作二次函数至关重要。",
+                a: {
+                    title: "系数'a'的影响",
+                    description: "系数'a'决定了抛物线的宽度和方向：",
+                    point1: "当|a|增大时，抛物线变窄",
+                    point2: "当|a|减小时，抛物线变宽",
+                    point3: "当a > 0时，抛物线开口向上",
+                    point4: "当a < 0时，抛物线开口向下"
+                },
+                b: {
+                    title: "系数'b'的影响",
+                    description: "系数'b'影响顶点的水平位置和对称轴：",
+                    point1: "顶点的x坐标由公式 x = -b/(2a) 给出",
+                    point2: "当b增大时，抛物线向左移动",
+                    point3: "当b减小时，抛物线向右移动",
+                    point4: "当b = 0时，对称轴经过y轴（x = 0）"
+                },
+                c: {
+                    title: "系数'c'的影响",
+                    description: "系数'c'表示y轴截距，影响整个抛物线的垂直位置：",
+                    point1: "当c增大时，整个抛物线向上移动",
+                    point2: "当c减小时，整个抛物线向下移动",
+                    point3: "y轴截距始终位于点(0, c)"
+                },
+                interactive: {
+                    title: "交互式演示",
+                    description: "调整滑块，查看每个系数如何影响抛物线的形状和位置。",
+                    a: "a：",
+                    b: "b：",
+                    c: "c：",
+                    aDesc: "控制宽度和方向",
+                    bDesc: "控制水平位置",
+                    cDesc: "控制垂直位置",
+                    vertex: "顶点：",
+                    axis: "对称轴：",
+                    direction: "方向：",
+                    yIntercept: "Y轴截距："
+                },
+                applications: {
+                    title: "系数分析的应用",
+                    description: "理解系数如何影响抛物线对多种应用至关重要：",
+                    example1: {
+                        title: "物理学：抛体运动",
+                        description: "在抛体运动中，物体的路径遵循抛物线轨迹，可由方程 y = -0.5g·t² + v₀·sin(θ)·t + h₀ 描述，其中g是重力加速度，v₀是初速度，θ是角度，h₀是初始高度。"
+                    },
+                    example2: {
+                        title: "工程学：悬索桥",
+                        description: "悬索桥的缆索形成抛物线。工程师通过调整,系数来控制缆索的高度和张力。"
+                    },
+                    example3: {
+                        title: "经济学：供需关系",
+                        description: "在某些经济模型中，二次函数用于建模成本函数，其中系数,表示边际成本随产量增加的速度。"
+                    }
+                },
+                quiz: {
+                    title: "快速检查",
+                    instruction: "测试您对系数效应的理解：",
+                    q1: "如果要使抛物线变窄，应该怎么做？",
+                    q1a: "增大|a|",
+                    q1b: "减小|a|",
+                    q1c: "增大|b|",
+                    q1d: "增大|c|",
+                    q2: "什么决定了抛物线的方向（向上或向下）？",
+                    q2a: "a的符号",
+                    q2b: "b的符号",
+                    q2c: "c的符号",
+                    q2d: "b²-4ac的值",
+                    q3: "如果c = 3，抛物线在哪里与y轴相交？",
+                    q3a: "(3, 0)",
+                    q3b: "(0, 3)",
+                    q3c: "(0, -3)",
+                    q3d: "这取决于a和b",
+                    checkButton: "检查答案"
+                }
             }
         }
     },
@@ -312,25 +388,19 @@ window.i18n.zh = {
         // 帖子互动
         interactions: {
             reply: "回复",
-            share: "分享",
-            save: "保存",
-            report: "举报",
             like: "点赞",
-            liked: "已点赞",
-            posted: "发布于",
-            replies: "回复"
+            share: "分享",
+            report: "举报",
+            comments: "评论"
         },
         
-        // 发帖相关
-        posting: {
-            newPost: "发布新帖",
-            title: "标题",
-            category: "类别",
-            content: "内容",
-            attachFiles: "附加文件",
-            tags: "标签 (用逗号分隔)",
-            post: "发布",
-            cancel: "取消"
+        // 用户提示
+        tips: {
+            askQuestion: "如何提出好问题？",
+            tip1: "确保你的标题明确具体",
+            tip2: "包含你尝试过的解决方法",
+            tip3: "添加相关公式或图片",
+            tip4: "检查拼写和格式"
         }
     }
 }; 
