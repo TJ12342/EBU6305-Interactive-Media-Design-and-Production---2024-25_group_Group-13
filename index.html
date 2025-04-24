@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"> <!-- 推荐放在第一个 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Quadratic Equations & Parabolas Interactive Learning</title>
+    <meta name="description" content="通过互动可视化和游戏，探索二次函数和抛物线的奇妙世界。">
+    
+    <!-- 样式优化：预加载主样式 & 无需使用 onload -->
+    <link rel="preload" href="src/common/styles/main.css" as="style">
     <link rel="stylesheet" href="src/common/styles/main.css">
-    <!-- 添加暗黑模式切换样式 -->
-    <link rel="stylesheet" href="src/common/styles/dark-mode.css">
+    <link rel="stylesheet" href="src/common/styles/dark-mode.css" media="(prefers-color-scheme: dark)">
+    
+    <!-- 主题色配置 -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 </head>
+
 <body>
-    <!-- 顶部导航栏 -->
     <header>
         <div class="logo">
             <h1>Quadratic Equations & Parabolas</h1>
         </div>
-        <nav>
+
+        <nav aria-label="Main Navigation">
             <ul>
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="src/learning/learning.html">Learn</a></li>
@@ -23,63 +32,61 @@
                 <li><a href="src/community/community.html">Community</a></li>
             </ul>
         </nav>
-        <!-- 暗黑模式切换 -->
+
+        <!-- 暗黑模式按钮增加无障碍属性 -->
         <div class="dark-mode-toggle">
-            <button id="dark-mode-btn">Toggle Dark Mode</button>
+            <button id="dark-mode-btn" aria-label="Toggle dark mode">🌓</button>
         </div>
-        <!-- 语言切换 -->
+
+        <!-- 语言切换下拉框 -->
         <div class="language-selector">
-            <select id="language">
+            <label for="language" class="visually-hidden">Language</label>
+            <select id="language" name="language">
                 <option value="zh">中文</option>
                 <option value="en">English</option>
             </select>
         </div>
     </header>
 
-    <!-- 主要内容区域 -->
     <main>
-        <!-- 英雄区域 -->
         <section class="hero">
             <div class="hero-content">
                 <h2>Learn Quadratic Equations through Fun and Interactive Games</h2>
-                <p>Explore the fascinating world of quadratic equations and parabolas with interactive visualizations and games</p>
+                <p>Explore the fascinating world of quadratic equations and parabolas with interactive visualizations and games.</p>
                 <a href="src/learning/learning.html" class="cta-button">Start Exploring Now</a>
             </div>
-            <div class="hero-animation">
-                <!-- 这里将放置动态二次函数动画 -->
+            <div class="hero-animation" aria-label="Quadratic animation area">
                 <div id="animation-container"></div>
             </div>
         </section>
 
-        <!-- 功能特色区域 -->
         <section class="features">
             <h2>Website Features</h2>
             <div class="feature-cards">
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">📚</div>
                     <h3>Interactive Learning</h3>
-                    <p>Understand quadratic equations concepts visually and interactively</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
+                    <p>Understand quadratic equations concepts visually and interactively.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🎮</div>
                     <h3>Fun Games</h3>
-                    <p>Solidify your math knowledge through gamification</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">✅</div>
+                    <p>Solidify your math knowledge through gamification.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">✅</div>
                     <h3>Knowledge Test</h3>
-                    <p>Test your understanding of quadratic equations</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
+                    <p>Test your understanding of quadratic equations.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">👥</div>
                     <h3>Learning Community</h3>
-                    <p>Discuss and exchange with other learners</p>
-                </div>
+                    <p>Discuss and exchange with other learners.</p>
+                </article>
             </div>
         </section>
     </main>
 
-    <!-- 页脚 -->
     <footer>
         <div class="footer-content">
             <div class="footer-contact">
@@ -93,11 +100,10 @@
         </div>
     </footer>
 
-    <!-- JavaScript 文件 -->
-    <script src="src/index/scripts/main.js"></script>
-    <script src="src/common/scripts/dark-mode.js"></script>
-    <script src="src/common/scripts/animation.js"></script>
-    <!-- 国际化脚本 - 主页版本 -->
-    <script src="src/common/scripts/i18n-app.js"></script>
+    <!-- 建议使用 defer 避免阻塞渲染 -->
+    <script src="src/index/scripts/main.js" defer></script>
+    <script src="src/common/scripts/dark-mode.js" defer></script>
+    <script src="src/common/scripts/animation.js" defer></script>
+    <script src="src/common/scripts/i18n-app.js" defer></script>
 </body>
-</html> 
+</html>
