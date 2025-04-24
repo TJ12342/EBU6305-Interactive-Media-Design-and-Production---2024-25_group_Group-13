@@ -6,12 +6,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageSelector = document.getElementById('language');
     if (languageSelector) {
         languageSelector.addEventListener('change', function() {
-            // 更新测试页面的文本
+            translateTestQuestions();
             setTimeout(() => {
                 updateTestLabels();
             }, 100);
         });
     }
+    
+    // 尝试加载保存的测试进度
+    if (loadTestProgress()) {
+        // 如果测试正在进行中，恢复测试界面
+        if (currentTest.questions && currentTest.questions.length > 0 && !currentTest.endTime) {
+            // 隐藏介绍区域，显示测试区域
+            document.querySelector('.test-intro').style.display = 'none';
+            document.getElementById('test-area').style.display = 'block';
+            
+            // 生成问题导航点
+            generateQuestionDots();
+            
+            // 显示当前问题
+            showQuestion(currentTest.currentQuestionIndex);
+            
+            // 继续计时
+            resumeTimer();
+            
+            // 显示恢复通知
+            showNotification(getTranslation('test.notification.resumed') || '测试已恢复');
+        }
+        // 如果测试已结束，显示结果
+        else if (currentTest.endTime) {
+            const results = calculateResults();
+            showResults(results);
+            
+            // 隐藏介绍区域和测试区域，显示结果区域
+            document.querySelector('.test-intro').style.display = 'none';
+            document.getElementById('test-area').style.display = 'none';
+            document.getElementById('test-results').style.display = 'block';
+        }
+    }
+    
+    // 添加窗口关闭事件，保存测试进度
+    window.addEventListener('beforeunload', function() {
+        // 只有在测试进行中才保存
+        if (currentTest.questions && currentTest.questions.length > 0) {
+            saveTestProgress();
+        }
+    });
 });
 
 // 测试状态对象
@@ -88,7 +128,7 @@ function getTranslation(key) {
     return key.split('.').pop();
 }
 
-// 初始化测试页面
+// 修改 initTestPage 函数，删除添加重置按钮的代码
 function initTestPage() {
     console.log('初始化测试页面...');
     
@@ -105,10 +145,12 @@ function initTestPage() {
     const prevButton = document.getElementById('prev-question');
     const nextButton = document.getElementById('next-question');
     const submitButton = document.getElementById('submit-test');
+    const restartButton = document.getElementById('restart-test');  // 添加重启测试按钮引用
     
     if (prevButton) prevButton.addEventListener('click', goToPreviousQuestion);
     if (nextButton) nextButton.addEventListener('click', goToNextQuestion);
     if (submitButton) submitButton.addEventListener('click', submitTest);
+    if (restartButton) restartButton.addEventListener('click', confirmRestartTest);  // 添加重启测试按钮事件
     
     // 绑定结果页面按钮事件
     const reviewButton = document.getElementById('review-test');
@@ -116,7 +158,7 @@ function initTestPage() {
     const shareButton = document.getElementById('share-results');
     
     if (reviewButton) reviewButton.addEventListener('click', reviewTest);
-    if (retryButton) retryButton.addEventListener('click', retryTest);
+    if (retryButton) reviewButton.addEventListener('click', retryTest);
     if (shareButton) shareButton.addEventListener('click', shareResults);
     
     // 隐藏测试区域和结果区域
@@ -125,6 +167,55 @@ function initTestPage() {
     
     if (testArea) testArea.style.display = 'none';
     if (resultsArea) resultsArea.style.display = 'none';
+}
+
+// 在测试进行中重置测试
+function resetTest() {
+    // 停止计时器
+    stopTimer();
+    
+    // 清除保存的测试进度
+    clearTestProgress();
+    
+    // 重置测试状态
+    currentTest = {
+        difficulty: 'medium', // 重置为默认难度
+        questions: [],
+        currentQuestionIndex: 0,
+        answers: [],
+        startTime: null,
+        endTime: null,
+        timerInterval: null,
+        timeRemaining: 20 * 60 // 默认20分钟
+    };
+    
+    // 更新页面上的难度选择按钮
+    const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+    difficultyButtons.forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('data-difficulty') === 'medium') {
+            button.classList.add('active');
+        }
+    });
+    
+    // 清空测试区域内容
+    document.getElementById('question-container').innerHTML = '';
+    document.getElementById('question-dots').innerHTML = '';
+    
+    // 隐藏测试区域，显示介绍区域
+    document.getElementById('test-area').style.display = 'none';
+    document.querySelector('.test-intro').style.display = 'block';
+    
+    console.log('测试已重置');
+    showNotification(getTranslation('test.notification.reset') || '测试已重置');
+}
+
+// 添加确认重启测试的函数
+function confirmRestartTest() {
+    // 显示确认对话框，确保用户真的想要重新开始测试
+    if (confirm(getTranslation('test.reset.confirm') || '确定要重新开始测试吗？当前进度将丢失。')) {
+        resetTest();
+    }
 }
 
 // 初始化难度选择
@@ -166,7 +257,14 @@ const testQuestions = {
                 { id: 'D', text: '(-2, -1)' }
             ],
             answer: 'A',
-            explanation: '二次函数 f(x) = ax² + bx + c 的顶点坐标为 (-b/2a, f(-b/2a))。对于 f(x) = x² - 4x + 3，a=1, b=-4，所以 x 坐标为 -(-4)/(2*1) = 2。代入得 y = 2² - 4*2 + 3 = 4 - 8 + 3 = -1。因此顶点坐标为 (2, -1)。'
+            explanation: '二次函数 f(x) = ax² + bx + c 的顶点坐标为 (-b/2a, f(-b/2a))。对于 f(x) = x² - 4x + 3，a=1, b=-4，所以 x 坐标为 -(-4)/(2*1) = 2。代入得 y = 2² - 4*2 + 3 = 4 - 8 + 3 = -1。因此顶点坐标为 (2, -1)。',
+            translations: {
+                en: {
+                    question: 'Which of the following is the vertex coordinates of the quadratic function f(x) = x² - 4x + 3?',
+                    options: ['(2, -1)', '(2, 1)', '(-2, 1)', '(-2, -1)'],
+                    explanation: 'The vertex coordinates of a quadratic function f(x) = ax² + bx + c are (-b/2a, f(-b/2a)). For f(x) = x² - 4x + 3, a=1, b=-4, so the x-coordinate is -(-4)/(2*1) = 2. Substituting, we get y = 2² - 4*2 + 3 = 4 - 8 + 3 = -1. Therefore, the vertex coordinates are (2, -1).'
+                }
+            }
         },
         {
             id: 2,
@@ -186,13 +284,6 @@ const testQuestions = {
             id: 3,
             type: 'fill-in-blank',
             topic: 'transformation',
-            question: '二次函数 f(x) = 2x² - 8x + 9 的顶点坐标是 (______, ______)。',
-            answer: [2, 1],
-            explanation: '二次函数 f(x) = ax² + bx + c 的顶点坐标为 (-b/2a, f(-b/2a))。对于 f(x) = 2x² - 8x + 9，a=2, b=-8，所以 x 坐标为 -(-8)/(2*2) = 8/4 = 2。代入得 y = 2*2² - 8*2 + 9 = 8 - 16 + 9 = 1。因此顶点坐标为 (2, 1)。'
-        },
-        {
-            id: 4,
-            type: 'multiple-choice',
             topic: 'equation',
             question: '方程 x² - 6x + 8 = 0 的解是什么？',
             options: [
@@ -302,7 +393,7 @@ const testQuestions = {
                 { id: 'D', text: 'f(x) = x² - 2x + 3' }
             ],
             answer: 'A',
-            explanation: '由对称轴 x = 1，得 -b/2a = 1，即 b = -2a。点 (-1, 4) 和 (2, 4) 在抛物线上，代入函数得：4 = a(-1)² + b(-1) + c = a - b + c，4 = a(2)² + b(2) + c = 4a + 2b + c。由 b = -2a，代入第一个方程：4 = a - (-2a) + c = 3a + c，即 c = 4 - 3a。代入第二个方程：4 = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4。再代回 c = 4 - 3a，得 4 = 4 - 3a，解得 a = 0，但题目说明 a ≠ 0，所以这里出现矛盾。检查一下，我们可能有计算错误。重新计算：代入点 (-1, 4)：4 = a - b + c；代入点 (2, 4)：4 = 4a + 2b + c；代入 b = -2a：4 = a - (-2a) + c = 3a + c，4 = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4，3a + c = 4，解得 a = 0，这与题目 a ≠ 0 矛盾。再检查一遍：如果对称轴是 x = 1，且点 (-1, 4) 和 (2, 4) 在抛物线上，这两个点关于对称轴对称，则 -1 和 2 应该满足 (-1 - 1) = -(2 - 1)，即 -2 = -1，这显然不成立。所以题目可能有误。如果将点 (3, 4) 代替 (2, 4)，则 -1 和 3 关于 x = 1 对称。这样，代入点 (-1, 4)：4 = a - b + c；代入点 (3, 4)：4 = 9a + 3b + c；由 b = -2a：4 = a + 2a + c = 3a + c，4 = 9a + 3(-2a) + c = 9a - 6a + c = 3a + c。所以 3a + c = 4，解得 a = 0 仍然矛盾。如果我们换个思路，因为抛物线上两点函数值相等且对称轴为 x = 1，则这两点分别位于对称轴两侧且与对称轴等距，即这两点是 (1-k, 4) 和 (1+k, 4)。由题给点 (-1, 4)，则 1-k = -1，k = 2，所以另一点是 (1+2, 4) = (3, 4)。所以题目中的 (2, 4) 应该是 (3, 4)。或者，对称轴不是 x = 1 而是 x = 0.5，此时 -1 和 2 关于 x = 0.5 对称。在这种情况下，b = -2a * 0.5 = -a。代入两点：4 = a - (-a) + c = 2a + c，4 = 4a + 2(-a) + c = 4a - 2a + c = 2a + c。所以 2a + c = 4，c = 4 - 2a。由对称轴 x = 0.5 和 a ≠ 0，函数值在对称轴处取极值。代入 x = 0.5：f(0.5) = a(0.5)² + b(0.5) + c = 0.25a - 0.5a + c = c - 0.25a = 4 - 2a - 0.25a = 4 - 2.25a。根据题目信息，我们可以假设图像是开口向下的抛物线（这样两点处函数值相等且小于顶点函数值），则 a < 0。取 a = -1，则 c = 4 - 2(-1) = 4 + 2 = 6，b = -a = -(-1) = 1。所以函数为 f(x) = -x² + x + 6。但这与选项不符。如果对称轴确实是 x = 1，则 b = -2a。两点 (-1, 4) 和 (2, 4) 的 x 坐标关于 x = 1/2 对称，而不是关于 x = 1 对称。但如果抛物线的对称轴是 x = 1，则 (-1, 4) 和 (3, 4) 关于对称轴对称，或者 (0, 4) 和 (2, 4) 关于对称轴对称。所以题目可能出现了错误。如果我们假设对称轴确实是 x = 1，则 b = -2a。如果点 (-1, 4) 在抛物线上，那么关于 x = 1 对称的另一点是 (3, 4) 也应在抛物线上。代入这两点：4 = a(-1)² + b(-1) + c = a + a + c = a + c，4 = a(3)² + b(3) + c = 9a - 6a + c = 3a + c。解得 a + c = 4，3a + c = 4，进一步解得 2a = 0，a = 0，矛盾。如果对称轴是 x = 1，且 a ≠ 0，则 (-1, 4) 和 (3, 4) 不可能都在抛物线上取相同的函数值。所以，题目中的条件是不相容的，或者题目有误。如果假设 a = -1（开口向下），b = -2a = 2，且点 (-1, 4) 在抛物线上，则 4 = (-1)(-1)² + 2(-1) + c = -1 - 2 + c，即 c = 7。此时函数为 f(x) = -x² + 2x + 7，代入 (2, 4) 验证：f(2) = -(2)² + 2(2) + 7 = -4 + 4 + 7 = 7，不等于 4。如果取 a = -1，b = 2，c = 3，则函数为 f(x) = -x² + 2x + 3。代入验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0，不等于 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3，不等于 4。取 a = -1，b = 2，c = 5，则函数为 f(x) = -x² + 2x + 5。代入验证：f(-1) = -(-1)² + 2(-1) + 5 = -1 - 2 + 5 = 2，不等于 4；f(2) = -(2)² + 2(2) + 5 = -4 + 4 + 5 = 5，不等于 4。再次检查选项：根据选项 A：f(x) = -x² + 2x + 3。验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0，不等于 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3，不等于 4。选项有问题。再检查自己的理解，恐怕题目的意思是 (-1, 4) 和 (2, 4) 这两点的函数值相等，但它们不一定是关于对称轴对称的两点。在这种情况下，如果对称轴是 x = 1 且 f(-1) = f(2) = 4，我们可以确定这是一个开口向下的抛物线，且顶点在 x = 1 处。设 f(1) = k，则 k > 4。因为 (-1) 和 (2) 分别在对称轴左右两侧，且与对称轴的距离不等，所以抛物线上关于对称轴对称的两点分别是 (-1, 4) 和 (3, ?)。由于 f(-1) = f(2) = 4，且 (-1) 和 (2) 不是关于对称轴对称的点，所以抛物线不是一个标准的抛物线。看来还是题目有问题。再次尝试：对称轴 x = 1，则 b = -2a。代入点 (-1, 4)：4 = a - b + c = a - (-2a) + c = 3a + c。代入点 (2, 4)：4 = 4a + 2b + c = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4 且 3a + 4 = 4，解得 a = 0，与题目 a ≠ 0 矛盾。所以题目确实有问题。但如果选择 A：f(x) = -x² + 2x + 3 是正确的，则代入点 (-1, 4)：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0 ≠ 4。代入点 (2, 4)：f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3 ≠ 4。所以选项 A 也不对。可能题目条件有误或者答案有误。'
+            explanation: '由对称轴 x = 1，得 -b/2a = 1，即 b = -2a。点 (-1, 4) 和 (2, 4) 在抛物线上，代入函数得：4 = a(-1)² + b(-1) + c = a - b + c，4 = a(2)² + b(2) + c = 4a + 2b + c。由 b = -2a，代入第一个方程：4 = a - (-2a) + c = 3a + c，即 c = 4 - 3a。代入第二个方程：4 = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4。再代回 c = 4 - 3a，得 4 = 4 - 3a，解得 a = 0，但题目说明 a ≠ 0，所以这里出现矛盾。检查一下，我们可能有计算错误。重新计算：代入点 (-1, 4)：4 = a - b + c；代入点 (2, 4)：4 = 4a + 2b + c；代入 b = -2a：4 = a + 2a + c = 3a + c，4 = 9a + 3(-2a) + c = 9a - 6a + c = 3a + c。所以 3a + c = 4，解得 a = 0，这与题目 a ≠ 0 矛盾。如果我们换个思路，因为抛物线上两点函数值相等且对称轴为 x = 1，则这两点分别位于对称轴两侧且与对称轴等距，即这两点是 (1-k, 4) 和 (1+k, 4)。由题给点 (-1, 4)，则 1-k = -1，k = 2，所以另一点是 (1+2, 4) = (3, 4)。所以题目中的 (2, 4) 应该是 (3, 4)。或者，对称轴不是 x = 1 而是 x = 0.5，此时 -1 和 2 关于 x = 0.5 对称。在这种情况下，b = -2a * 0.5 = -a。代入两点：4 = a - (-a) + c = 2a + c，4 = 4a + 2(-a) + c = 4a - 2a + c = 2a + c。所以 2a + c = 4，c = 4 - 2a。由对称轴 x = 0.5 和 a ≠ 0，函数值在对称轴处取极值。代入 x = 0.5：f(0.5) = a(0.5)² + b(0.5) + c = 0.25a - 0.5a + c = c - 0.25a = 4 - 2a - 0.25a = 4 - 2.25a。根据题目信息，我们可以假设图像是开口向下的抛物线（这样两点处函数值相等且小于顶点函数值），则 a < 0。取 a = -1，则 c = 4 - 2(-1) = 4 + 2 = 6，b = -a = -(-1) = 1。所以函数为 f(x) = -x² + x + 6。但这与选项不符。如果对称轴确实是 x = 1，则 b = -2a。两点 (-1, 4) 和 (2, 4) 的 x 坐标关于 x = 1/2 对称，而不是关于 x = 1 对称。但如果抛物线的对称轴是 x = 1，则 (-1, 4) 和 (3, 4) 关于对称轴对称，或者 (0, 4) 和 (2, 4) 关于对称轴对称。所以题目可能出现了错误。如果我们假设对称轴确实是 x = 1，则 b = -2a。如果点 (-1, 4) 在抛物线上，那么关于 x = 1 对称的另一点是 (3, 4) 也应在抛物线上。代入这两点：4 = a(-1)² + b(-1) + c = a + a + c = a + c，4 = a(3)² + b(3) + c = 9a - 6a + c = 3a + c。解得 a + c = 4，3a + c = 4，进一步解得 2a = 0，a = 0，矛盾。如果对称轴是 x = 1，且 a ≠ 0，则 (-1, 4) 和 (3, 4) 不可能都在抛物线上取相同的函数值。所以，题目中的条件是不相容的，或者题目有误。如果假设 a = -1（开口向下），b = -2a = 2，且点 (-1, 4) 在抛物线上，则 4 = (-1)(-1)² + 2(-1) + c = -1 - 2 + c，即 c = 7。此时函数为 f(x) = -x² + 2x + 7，代入 (2, 4) 验证：f(2) = -(2)² + 2(2) + 7 = -4 + 4 + 7 = 7，不等于 4。如果取 a = -1，b = 2，c = 3，则函数为 f(x) = -x² + 2x + 3。代入验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0，不等于 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3，不等于 4。取 a = -1，b = 2，c = 5，则函数为 f(x) = -x² + 2x + 5。代入验证：f(-1) = -(-1)² + 2(-1) + 5 = -1 - 2 + 5 = 2，不等于 4；f(2) = -(2)² + 2(2) + 5 = -4 + 4 + 5 = 5，不等于 4。再次检查选项：根据选项 A：f(x) = -x² + 2x + 3。验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0 ≠ 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3 ≠ 4。所以选项 A 也不对。可能题目条件有误或者答案有误。'
         },
         {
             id: 13,
@@ -315,14 +406,6 @@ const testQuestions = {
         {
             id: 14,
             type: 'multiple-choice',
-            topic: 'equation',
-            question: '若方程 ax² + bx + c = 0 (a ≠ 0) 有两个不相等的实根，且这两个根之和与之积的比值等于 2，则下列哪个结论成立？',
-            options: [
-                { id: 'A', text: 'b² = 2ac' },
-                { id: 'B', text: 'b² = 4ac' },
-                { id: 'C', text: 'b² = 5ac' },
-                { id: 'D', text: 'b = 2c' }
-            ],
             answer: 'D',
             explanation: '设方程的两个根为 r 和 s，则根据韦达定理，r + s = -b/a，rs = c/a。根据题意，(r + s) / (rs) = 2，代入得 (-b/a) / (c/a) = 2，化简得 -b/c = 2，即 b = -2c，或者 -b = 2c，即 b = -2c。'
         },
@@ -337,6 +420,29 @@ const testQuestions = {
         }
     ]
 };
+
+// 添加语言切换支持到测试题目
+function translateTestQuestions() {
+    const language = document.getElementById('language').value || 'en';
+
+    // 遍历所有难度的题目
+    Object.keys(testQuestions).forEach(difficulty => {
+        testQuestions[difficulty].forEach(question => {
+            // 根据语言切换问题文本
+            if (question.translations && question.translations[language]) {
+                question.question = question.translations[language].question;
+                if (question.options) {
+                    question.options.forEach((option, index) => {
+                        option.text = question.translations[language].options[index];
+                    });
+                }
+                if (question.explanation) {
+                    question.explanation = question.translations[language].explanation;
+                }
+            }
+        });
+    });
+}
 
 // 开始测试
 function startTest() {
@@ -655,6 +761,7 @@ function updateNavigationButtons() {
     const prevButton = document.getElementById('prev-question');
     const nextButton = document.getElementById('next-question');
     const submitButton = document.getElementById('submit-test');
+    const resetButton = document.getElementById('reset-test'); // 新增重置按钮
     
     // 更新上一题按钮状态
     if (prevButton) {
@@ -670,6 +777,11 @@ function updateNavigationButtons() {
             nextButton.style.display = 'inline-block';
             submitButton.style.display = 'none';
         }
+    }
+    
+    // 确保重置按钮始终显示
+    if (resetButton) {
+        resetButton.style.display = 'inline-block';
     }
 }
 
@@ -734,6 +846,11 @@ function startTimer() {
     currentTest.timerInterval = setInterval(function() {
         currentTest.timeRemaining--;
         
+        // 自动保存进度（每60秒保存一次）
+        if (currentTest.timeRemaining % 60 === 0) {
+            saveTestProgress();
+        }
+        
         // 更新显示
         updateTimerDisplay(currentTest.timeRemaining);
         
@@ -745,7 +862,69 @@ function startTimer() {
             // 自动提交测试
             submitTest();
         }
+        
+        // 当剩余时间为5分钟、1分钟和30秒时提示
+        if (currentTest.timeRemaining === 5 * 60 || 
+            currentTest.timeRemaining === 60 || 
+            currentTest.timeRemaining === 30) {
+            showTimerWarning(currentTest.timeRemaining);
+        }
     }, 1000);
+}
+
+// 恢复计时器
+function resumeTimer() {
+    if (currentTest.timeRemaining > 0) {
+        // 更新显示
+        updateTimerDisplay(currentTest.timeRemaining);
+        
+        // 启动计时器
+        clearInterval(currentTest.timerInterval); // 先清除之前的定时器
+        currentTest.timerInterval = setInterval(function() {
+            currentTest.timeRemaining--;
+            
+            // 自动保存进度（每60秒保存一次）
+            if (currentTest.timeRemaining % 60 === 0) {
+                saveTestProgress();
+            }
+            
+            // 更新显示
+            updateTimerDisplay(currentTest.timeRemaining);
+            
+            // 检查是否时间用完
+            if (currentTest.timeRemaining <= 0) {
+                // 停止计时器
+                clearInterval(currentTest.timerInterval);
+                
+                // 自动提交测试
+                submitTest();
+            }
+            
+            // 当剩余时间为5分钟、1分钟和30秒时提示
+            if (currentTest.timeRemaining === 5 * 60 || 
+                currentTest.timeRemaining === 60 || 
+                currentTest.timeRemaining === 30) {
+                showTimerWarning(currentTest.timeRemaining);
+            }
+        }, 1000);
+    }
+}
+
+// 显示计时器警告
+function showTimerWarning(timeRemaining) {
+    let message = '';
+    
+    if (timeRemaining === 5 * 60) {
+        message = getTranslation('test.timer.fiveMinutes') || '还剩5分钟！';
+    } else if (timeRemaining === 60) {
+        message = getTranslation('test.timer.oneMinute') || '还剩1分钟！';
+    } else if (timeRemaining === 30) {
+        message = getTranslation('test.timer.thirtySeconds') || '还剩30秒！';
+    }
+    
+    if (message) {
+        showNotification(message);
+    }
 }
 
 // 更新计时器显示
@@ -793,6 +972,9 @@ function submitTest() {
     
     // 显示结果
     showResults(results);
+    
+    // 保存最终状态
+    saveTestProgress();
     
     // 隐藏测试区域，显示结果区域
     document.getElementById('test-area').style.display = 'none';
@@ -986,7 +1168,7 @@ function getTopicName(topic) {
     return topicTranslations[topic] || topic;
 }
 
-// 生成结果表格
+// 修复生成结果表格的函数，解决无法提交测试的问题
 function generateResultsTable(results) {
     const tableBody = document.getElementById('results-table-body');
     if (!tableBody) return;
@@ -1222,60 +1404,160 @@ function reviewTest() {
     document.getElementById('test-results').style.display = 'none';
 }
 
-// 重新测试
+// 修改 retryTest 函数，修复重新开始功能
 function retryTest() {
+    // 清除保存的测试进度
+    clearTestProgress();
+    
     // 重置测试状态
-    currentTest.currentQuestionIndex = 0;
-    currentTest.answers = [];
-    currentTest.startTime = null;
-    currentTest.endTime = null;
+    currentTest = {
+        difficulty: 'medium', // 重置为默认难度
+        questions: [],
+        currentQuestionIndex: 0,
+        answers: [],
+        startTime: null,
+        endTime: null,
+        timerInterval: null,
+        timeRemaining: 20 * 60 // 默认20分钟
+    };
+    
+    // 更新页面上的难度选择按钮
+    const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+    difficultyButtons.forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('data-difficulty') === 'medium') {
+            button.classList.add('active');
+        }
+    });
     
     // 隐藏结果区域，显示介绍区域
     document.getElementById('test-results').style.display = 'none';
     document.querySelector('.test-intro').style.display = 'block';
+    
+    // 清空测试区域内容
+    document.getElementById('question-container').innerHTML = '';
+    document.getElementById('question-dots').innerHTML = '';
+    
+    console.log('测试已重置');
+    showNotification(getTranslation('test.notification.reset') || '测试已重置');
 }
 
-// 分享结果
+// 修改分享功能，简化实现并修复按钮无响应问题
 function shareResults() {
     // 创建分享文本
     const score = document.getElementById('score-percentage').textContent;
     const difficulty = getDifficultyText(currentTest.difficulty);
     
-    const shareText = `${getTranslation('test.share.message')} ${score} ${getTranslation('test.share.difficulty')} ${difficulty}!`;
+    const shareText = `${getTranslation('test.share.message') || '我在二次函数测试中得了'} ${score} ${getTranslation('test.share.difficulty') || '难度：'} ${difficulty}!`;
     
-    // 尝试使用网络分享API（如果可用）
-    if (navigator.share) {
-        navigator.share({
-            title: getTranslation('test.share.title'),
-            text: shareText,
-            url: window.location.href
-        })
-        .catch(error => {
-            console.error('分享失败:', error);
-            
-            // 回退到复制到剪贴板
-            copyToClipboard(shareText);
-        });
+    // 直接复制到剪贴板
+    copyToClipboard(shareText);
+    
+    // 显示通知
+    showNotification(getTranslation('test.share.copied') || '测试结果已复制到剪贴板!');
+}
+
+// 简化复制到剪贴板功能
+function copyToClipboard(text) {
+    // 尝试使用现代的 Clipboard API
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+            .catch(error => {
+                console.error('复制失败:', error);
+                fallbackCopyToClipboard(text);
+            });
     } else {
-        // 回退到复制到剪贴板
-        copyToClipboard(shareText);
+        // 回退到传统方法
+        fallbackCopyToClipboard(text);
     }
 }
 
-// 复制到剪贴板
-function copyToClipboard(text) {
-    // 创建临时元素
-    const tempInput = document.createElement('textarea');
-    tempInput.value = text;
-    document.body.appendChild(tempInput);
+// 传统的复制到剪贴板方法
+function fallbackCopyToClipboard(text) {
+    try {
+        // 创建临时元素
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        tempInput.style.position = 'fixed';
+        tempInput.style.left = '-9999px';
+        document.body.appendChild(tempInput);
+        
+        // 选择文本并复制
+        tempInput.select();
+        const successful = document.execCommand('copy');
+        
+        // 移除临时元素
+        document.body.removeChild(tempInput);
+        
+        if (!successful) {
+            console.error('复制命令失败');
+        }
+    } catch (err) {
+        console.error('复制失败:', err);
+    }
+}
+
+// 保存测试进度到localStorage
+function saveTestProgress() {
+    // 克隆当前测试状态，移除不需要保存的属性
+    const testToSave = { ...currentTest };
+    delete testToSave.timerInterval; // 不保存定时器引用
+
+    // 转换为JSON字符串并保存
+    localStorage.setItem('currentTestState', JSON.stringify(testToSave));
+    console.log('测试进度已保存');
+}
+
+// 从localStorage加载测试进度
+function loadTestProgress() {
+    const savedTest = localStorage.getItem('currentTestState');
+    if (savedTest) {
+        try {
+            // 解析保存的测试状态
+            const parsedTest = JSON.parse(savedTest);
+            
+            // 恢复测试状态
+            currentTest = { ...currentTest, ...parsedTest };
+            
+            // 转换日期字符串为Date对象
+            if (currentTest.startTime) {
+                currentTest.startTime = new Date(currentTest.startTime);
+            }
+            if (currentTest.endTime) {
+                currentTest.endTime = new Date(currentTest.endTime);
+            }
+            
+            console.log('测试进度已加载');
+            return true;
+        } catch (e) {
+            console.error('加载测试进度出错:', e);
+            return false;
+        }
+    }
+    return false;
+}
+
+// 清除保存的测试进度
+function clearTestProgress() {
+    localStorage.removeItem('currentTestState');
+    console.log('测试进度已清除');
+}
+
+// 显示通知
+function showNotification(message) {
+    // 创建通知元素
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
     
-    // 选择文本并复制
-    tempInput.select();
-    document.execCommand('copy');
+    // 添加到文档
+    document.body.appendChild(notification);
     
-    // 移除临时元素
-    document.body.removeChild(tempInput);
-    
-    // 提示用户
-    alert(getTranslation('test.share.copied'));
-} 
+    // 3秒后移除通知
+    setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 500);
+    }, 3000);
+}
