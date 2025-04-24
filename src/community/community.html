@@ -77,7 +77,46 @@
                     <div class="user-info">
                         <h3 class="user-name" id="user-name">Guest</h3>
                         <p class="user-status" id="login-status"><span data-i18n="community.posting.loginPrompt">Please</span> <a href="#" id="login-link" onclick="document.getElementById('login-modal').classList.remove('hidden'); return false;" data-i18n="community.posting.login">login</a> <span data-i18n="community.posting.participatePrompt">to participate in discussions</span></p>
+                        <button id="edit-profile-btn" class="edit-profile-btn hidden" data-i18n="community.profile.edit">Edit Profile</button>
                     </div>
+                    
+                    <!-- User Achievements Section -->
+                    <div class="user-achievements" id="user-achievements">
+                        <div class="achievements-header">
+                            <h4 data-i18n="community.achievements.title">Achievements</h4>
+                        </div>
+                        <div class="achievement-items">
+                            <div class="achievement-item">
+                                <span class="achievement-icon">📚</span>
+                                <span class="achievement-label" data-i18n="community.achievements.learning">Learning Progress:</span>
+                                <span class="achievement-value" id="learning-progress">-</span>
+                            </div>
+                            <div class="achievement-item">
+                                <span class="achievement-icon">🎮</span>
+                                <span class="achievement-label" data-i18n="community.achievements.game">Game Score:</span>
+                                <span class="achievement-value" id="game-score">-</span>
+                            </div>
+                            <div class="achievement-item">
+                                <span class="achievement-icon">🏆</span>
+                                <span class="achievement-label" data-i18n="community.achievements.badges">Badges:</span>
+                                <span class="achievement-value" id="user-badges">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Bio Section -->
+                    <div class="user-bio" id="user-bio">
+                        <div class="bio-header">
+                            <h4 data-i18n="community.profile.aboutMe">About Me</h4>
+                        </div>
+                        <p class="bio-content" id="bio-content">-</p>
+                        
+                        <div class="bio-header">
+                            <h4 data-i18n="community.profile.interests">Interests</h4>
+                        </div>
+                        <p class="bio-interests" id="bio-interests">-</p>
+                    </div>
+                    
                     <button id="new-post-btn" disabled data-i18n="community.posting.newPost" onclick="if(currentUser) { document.getElementById('new-topic-modal').classList.remove('hidden'); } else { document.getElementById('login-modal').classList.remove('hidden'); }">Create New Topic</button>
                 </div>
 
@@ -103,6 +142,20 @@
                         <li data-i18n="community.rules.rule4">Provide detailed explanations when sharing solutions</li>
                     </ul>
                     <a href="#" class="rules-link" data-i18n="community.rules.viewAll">View Complete Rules</a>
+                </div>
+                
+                <!-- Star Learners Leaderboard -->
+                <div class="star-learners">
+                    <h3 data-i18n="community.leaderboard.title">Star Learners</h3>
+                    <div class="leaderboard-description" data-i18n="community.leaderboard.description">Top users with outstanding performance in learning and games</div>
+                    
+                    <!-- Leaderboard entries will be dynamically populated -->
+                    <div class="leaderboard-entries" id="leaderboard-entries">
+                        <!-- Loading placeholder -->
+                        <div class="leaderboard-loading">Loading top learners...</div>
+                    </div>
+                    
+                    <a href="#" class="view-all-link" data-i18n="community.leaderboard.viewAll">View Full Leaderboard</a>
                 </div>
             </aside>
 
@@ -316,6 +369,157 @@
         </div>
     </div>
 
+    <!-- 完整排行榜模态框 -->
+    <div id="leaderboard-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('leaderboard-modal').classList.add('hidden');">&times;</span>
+            <h2 data-i18n="community.leaderboard.fullTitle">Star Learners Leaderboard</h2>
+            <div class="full-leaderboard-container">
+                <div class="leaderboard-tabs">
+                    <button class="leaderboard-tab active" data-tab="score" data-i18n="community.leaderboard.tabScore">Game Score</button>
+                    <button class="leaderboard-tab" data-tab="progress" data-i18n="community.leaderboard.tabProgress">Learning Progress</button>
+                    <button class="leaderboard-tab" data-tab="contributions" data-i18n="community.leaderboard.tabContributions">Community Contributions</button>
+                </div>
+                <div class="leaderboard-table-container">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="community.leaderboard.columnRank">Rank</th>
+                                <th data-i18n="community.leaderboard.columnUser">User</th>
+                                <th data-i18n="community.leaderboard.columnScore">Score</th>
+                                <th data-i18n="community.leaderboard.columnBadges">Badges</th>
+                            </tr>
+                        </thead>
+                        <tbody id="full-leaderboard-body">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 帖子详情模态框 -->
+    <div id="post-detail-modal" class="modal hidden">
+        <div class="modal-content post-detail-content">
+            <span class="close-modal" onclick="document.getElementById('post-detail-modal').classList.add('hidden');">&times;</span>
+            <div class="post-detail-container">
+                <!-- 帖子内容区 -->
+                <div class="post-detail-header">
+                    <div class="post-category" id="detail-category">Category</div>
+                    <h2 class="post-title" id="detail-title">Post Title</h2>
+                    <div class="post-meta">
+                        <div class="post-author">
+                            <img src="../assets/images/community/avatar-default.jpg" class="author-avatar" id="detail-avatar">
+                            <span id="detail-author">Author Name</span>
+                        </div>
+                        <div class="post-date" id="detail-date">2025-03-15</div>
+                    </div>
+                </div>
+                
+                <div class="post-detail-body" id="detail-content">
+                    Post content will be displayed here...
+                </div>
+                
+                <div class="post-detail-actions">
+                    <button class="action-btn like-btn" id="detail-like-btn">
+                        <span class="action-icon">❤️</span>
+                        <span class="action-count" id="detail-likes">0</span>
+                        <span class="action-text" data-i18n="community.post.like">Like</span>
+                    </button>
+                    <button class="action-btn comment-btn">
+                        <span class="action-icon">💬</span>
+                        <span class="action-count" id="detail-comments">0</span>
+                        <span class="action-text" data-i18n="community.post.comment">Comment</span>
+                    </button>
+                    <button class="action-btn share-btn">
+                        <span class="action-icon">🔗</span>
+                        <span class="action-text" data-i18n="community.post.share">Share</span>
+                    </button>
+                </div>
+                
+                <!-- 评论区 -->
+                <div class="post-comments-section">
+                    <h3 class="comments-title" data-i18n="community.post.commentsTitle">Comments</h3>
+                    
+                    <!-- 评论表单 -->
+                    <div class="comment-form" id="comment-form">
+                        <div class="comment-form-placeholder" id="comment-placeholder" data-i18n="community.post.loginToComment">Please login to add a comment</div>
+                        <div class="comment-form-content hidden" id="comment-form-content">
+                            <div class="comment-user">
+                                <img src="../assets/images/community/avatar-default.jpg" class="comment-avatar" id="current-user-avatar">
+                                <span id="current-user-name">Username</span>
+                            </div>
+                            <textarea class="comment-input" id="comment-input" placeholder="Write your comment here..." data-i18n-placeholder="community.post.commentPlaceholder"></textarea>
+                            <div class="comment-actions">
+                                <button class="btn btn-primary" id="submit-comment" data-i18n="community.post.submitComment">Post Comment</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 评论列表 -->
+                    <div class="comments-list" id="comments-list">
+                        <!-- 评论将由JavaScript动态添加 -->
+                        <div class="comments-empty hidden" data-i18n="community.post.noComments">No comments yet. Be the first to comment!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 个人资料编辑模态框 -->
+    <div id="profile-edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('profile-edit-modal').classList.add('hidden');">&times;</span>
+            <h2 data-i18n="community.profile.editTitle">Edit Profile</h2>
+            <form id="profile-edit-form">
+                <div class="form-group">
+                    <label for="edit-username" data-i18n="community.profile.username">Username</label>
+                    <input type="text" id="edit-username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-avatar" data-i18n="community.profile.avatar">Profile Picture</label>
+                    <div class="avatar-selection">
+                        <div class="current-avatar">
+                            <img src="../assets/images/community/avatar-default.jpg" id="current-avatar-preview">
+                        </div>
+                        <div class="avatar-options">
+                            <div class="avatar-option selected" data-avatar="../assets/images/community/avatar-default.jpg">
+                                <img src="../assets/images/community/avatar-default.jpg">
+                            </div>
+                            <div class="avatar-option" data-avatar="../assets/images/community/avatar-default.jpg">
+                                <img src="../assets/images/community/avatar-default.jpg">
+                            </div>
+                            <div class="avatar-option" data-avatar="../assets/images/community/avatar-default.jpg">
+                                <img src="../assets/images/community/avatar-default.jpg">
+                            </div>
+                            <div class="avatar-option" data-avatar="../assets/images/community/avatar-default.jpg">
+                                <img src="../assets/images/community/avatar-default.jpg">
+                            </div>
+                        </div>
+                        <input type="hidden" id="edit-avatar" value="../assets/images/community/avatar-default.jpg">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-bio" data-i18n="community.profile.bio">About Me</label>
+                    <textarea id="edit-bio" rows="3" placeholder="Tell the community about yourself..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-interests" data-i18n="community.profile.interests">Interests</label>
+                    <input type="text" id="edit-interests" placeholder="e.g., Algebra, Geometry, Physics...">
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-cancel" onclick="document.getElementById('profile-edit-modal').classList.add('hidden');" data-i18n="community.profile.cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="community.profile.save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- JavaScript 文件 -->
     <script src="../common/scripts/main.js"></script>
     <script src="../common/scripts/dark-mode.js"></script>
@@ -329,6 +533,99 @@
         // 初始化变量
         let currentUser = null;
         let communityPosts = [];
+
+        // Mock learning and game data for demo purposes
+        const mockUserAchievements = {
+            "MathEnthusiast": {
+                learningProgress: "75% Complete",
+                gameScore: "850 Points",
+                badges: ["Problem Solver", "Fast Learner"]
+            },
+            "FunctionMaster": {
+                learningProgress: "92% Complete",
+                gameScore: "1240 Points",
+                badges: ["Quadratic Master", "Top Contributor", "Quiz Champion"]
+            },
+            "PhysicsLover": {
+                learningProgress: "68% Complete",
+                gameScore: "720 Points",
+                badges: ["Persistent Learner"]
+            },
+            "ToolExpert": {
+                learningProgress: "81% Complete",
+                gameScore: "960 Points",
+                badges: ["Resource Finder", "Helper"]
+            },
+            "HighSchooler": {
+                learningProgress: "45% Complete",
+                gameScore: "520 Points",
+                badges: ["Newcomer"]
+            }
+        };
+        
+        // 用户个人资料数据
+        const userProfiles = {
+            "MathEnthusiast": {
+                bio: "高中数学教师，对数学教育和二次方程有强烈兴趣。喜欢帮助学生理解数学概念。",
+                interests: "数学教育, 二次方程, 数学解题, 教学方法"
+            },
+            "FunctionMaster": {
+                bio: "数学专业研究生，专注于函数理论和图形分析。在数学竞赛中获得过多项奖励。",
+                interests: "函数变换, 图形分析, 数学竞赛, 高等数学"
+            },
+            "PhysicsLover": {
+                bio: "物理学专业学生，对数学和物理的交叉应用特别感兴趣。研究抛物线在物理中的应用。",
+                interests: "物理应用, 抛物线理论, 运动轨迹, 物理建模"
+            },
+            "ToolExpert": {
+                bio: "软件工程师，热衷于开发数学教育工具。相信技术能让数学学习更有趣。",
+                interests: "教育软件, 数学工具, 编程, 可视化"
+            },
+            "HighSchooler": {
+                bio: "高中生，正在学习二次方程。希望通过社区获得更多帮助和交流。",
+                interests: "基础数学, 学习技巧, 二次方程求解"
+            }
+        };
+        
+        // Mock data for leaderboard
+        const leaderboardData = [
+            {
+                username: "FunctionMaster",
+                totalScore: 1240,
+                progressPercent: 92,
+                badges: ["🥇", "⭐"],
+                avatar: "../assets/images/community/avatar-default.jpg"
+            },
+            {
+                username: "ToolExpert",
+                totalScore: 960,
+                progressPercent: 81,
+                badges: ["🎯"],
+                avatar: "../assets/images/community/avatar-default.jpg"
+            },
+            {
+                username: "MathEnthusiast",
+                totalScore: 850,
+                progressPercent: 75,
+                badges: ["🔍"],
+                avatar: "../assets/images/community/avatar-default.jpg"
+            },
+            {
+                username: "PhysicsLover",
+                totalScore: 720,
+                progressPercent: 68,
+                badges: [],
+                avatar: "../assets/images/community/avatar-default.jpg"
+            },
+            {
+                username: "HighSchooler",
+                totalScore: 520,
+                progressPercent: 45,
+                badges: [],
+                avatar: "../assets/images/community/avatar-default.jpg"
+            }
+        ];
+
         const defaultPosts = [
             {
                 id: 1000,
@@ -387,6 +684,67 @@
             }
         ];
 
+        // Sample comments data for demo purposes
+        const sampleComments = {
+            1000: [
+                {
+                    id: 1,
+                    postId: 1000,
+                    author: "FunctionMaster",
+                    content: "The discriminant is key to understanding the nature of solutions. When Δ > 0, the parabola crosses the x-axis at two points, meaning the equation has two real solutions. When Δ = 0, the parabola is tangent to the x-axis, giving one real solution. When Δ < 0, the parabola doesn't cross the x-axis, indicating no real solutions.",
+                    date: "2025-03-15",
+                    likes: 8
+                },
+                {
+                    id: 2,
+                    postId: 1000,
+                    author: "ToolExpert",
+                    content: "Another way to think about it: the discriminant tells you about the symmetry of the roots. The formula x = (-b ± √(b²-4ac))/2a shows that the roots are equidistant from -b/2a, which is the axis of symmetry of the parabola.",
+                    date: "2025-03-16",
+                    likes: 5
+                }
+            ],
+            1001: [
+                {
+                    id: 3,
+                    postId: 1001,
+                    author: "MathEnthusiast",
+                    content: "This is really helpful! Could you share more about how you approach vertical and horizontal stretches?",
+                    date: "2025-03-14",
+                    likes: 3
+                }
+            ],
+            1002: [
+                {
+                    id: 4,
+                    postId: 1002,
+                    author: "HighSchooler",
+                    content: "Headlight reflectors in cars also use parabolic shapes to focus light!",
+                    date: "2025-03-13",
+                    likes: 2
+                },
+                {
+                    id: 5,
+                    postId: 1002,
+                    author: "ToolExpert",
+                    content: "Solar cookers are another great example - they use parabolic reflectors to focus sunlight for cooking.",
+                    date: "2025-03-13",
+                    likes: 4
+                }
+            ],
+            1003: [],
+            1004: [
+                {
+                    id: 6,
+                    postId: 1004,
+                    author: "FunctionMaster",
+                    content: "For parameter problems, I recommend analyzing the discriminant as a function of the parameter. This helps identify critical values where the nature of solutions changes.",
+                    date: "2025-03-09",
+                    likes: 7
+                }
+            ]
+        };
+
         // DOM元素引用
         const loginModal = document.getElementById('login-modal');
         const newPostBtn = document.getElementById('new-post-btn');
@@ -416,10 +774,18 @@
                 const password = document.getElementById('password').value;
                 
                 if (username && password) {
+                    // Get achievements data if available for this user
+                    const achievements = mockUserAchievements[username] || {
+                        learningProgress: "10% Complete",
+                        gameScore: "50 Points",
+                        badges: ["Newcomer"]
+                    };
+                    
                     // 简单登录逻辑
                     currentUser = {
                         username: username,
-                        avatar: '../assets/images/community/avatar-default.jpg'
+                        avatar: '../assets/images/community/avatar-default.jpg',
+                        achievements: achievements
                     };
                     
                     // 保存用户信息
@@ -479,6 +845,9 @@
             renderPosts();
             updateStats();
             
+            // 渲染排行榜数据
+            renderLeaderboard();
+            
             // 绑定事件监听器
             bindEventListeners();
         }
@@ -504,6 +873,9 @@
             
             const userNameElement = document.getElementById('user-name');
             const loginStatusElement = document.getElementById('login-status');
+            const userAchievementsElement = document.getElementById('user-achievements');
+            const userBioElement = document.getElementById('user-bio');
+            const editProfileBtn = document.getElementById('edit-profile-btn');
             
             if (!userNameElement || !loginStatusElement) {
                 console.error("Required UI elements not found");
@@ -516,6 +888,44 @@
                 loginStatusElement.innerHTML = `<span>${user.username}</span> · <a href="#" id="logout-link">Logout</a>`;
                 newPostBtn.disabled = false;
                 
+                // 显示编辑资料按钮
+                if (editProfileBtn) {
+                    editProfileBtn.classList.remove('hidden');
+                    editProfileBtn.addEventListener('click', openProfileEditor);
+                }
+                
+                // 显示用户简介
+                if (userBioElement) {
+                    userBioElement.style.display = 'block';
+                    
+                    // 获取用户简介数据
+                    const profile = user.profile || userProfiles[user.username] || {
+                        bio: "这个用户还没有添加个人简介。",
+                        interests: "未指定兴趣"
+                    };
+                    
+                    // 更新简介UI
+                    document.getElementById('bio-content').textContent = profile.bio;
+                    document.getElementById('bio-interests').textContent = profile.interests;
+                }
+                
+                // Show user achievements if available
+                if (userAchievementsElement) {
+                    userAchievementsElement.style.display = 'block';
+                    
+                    // Try to get user achievements data
+                    const achievements = mockUserAchievements[user.username] || {
+                        learningProgress: "10% Complete",
+                        gameScore: "50 Points",
+                        badges: ["Newcomer"]
+                    };
+                    
+                    // Update achievements UI
+                    document.getElementById('learning-progress').textContent = achievements.learningProgress;
+                    document.getElementById('game-score').textContent = achievements.gameScore;
+                    document.getElementById('user-badges').textContent = achievements.badges.join(", ");
+                }
+                
                 // 添加登出事件监听
                 const logoutLink = document.getElementById('logout-link');
                 if (logoutLink) {
@@ -527,6 +937,21 @@
             } else {
                 // 用户未登录
                 userNameElement.textContent = 'Guest';
+                
+                // 隐藏编辑资料按钮
+                if (editProfileBtn) {
+                    editProfileBtn.classList.add('hidden');
+                }
+                
+                // 隐藏用户简介
+                if (userBioElement) {
+                    userBioElement.style.display = 'none';
+                }
+                
+                // Hide achievements section for guest users
+                if (userAchievementsElement) {
+                    userAchievementsElement.style.display = 'none';
+                }
                 
                 const loginPrompt = document.querySelector('[data-i18n="community.posting.loginPrompt"]') ? 
                     document.querySelector('[data-i18n="community.posting.loginPrompt"]').textContent : 'Please';
@@ -600,7 +1025,7 @@
                 });
             });
             
-            // 添加浏览事件
+            // 添加帖子查看事件
             document.querySelectorAll('.topic-item:not(.pinned) .topic-title a').forEach(titleElement => {
                 titleElement.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -612,9 +1037,289 @@
                     post.views++;
                     updatePostInStorage(post);
                     this.closest('.topic-item').querySelector('.views').innerHTML = `👁️ ${post.views}`;
-                    alert(`查看帖子: ${post.title}\n\n${post.content}`);
+                    
+                    // 打开帖子详情而不是显示警告框
+                    openPostDetail(post);
                 });
             });
+            
+            // 点击回复数也打开帖子详情
+            document.querySelectorAll('.topic-item:not(.pinned) .replies').forEach(repliesElement => {
+                repliesElement.style.cursor = 'pointer';
+                repliesElement.addEventListener('click', function(e) {
+                    const postId = this.closest('.topic-item').dataset.postId;
+                    const post = communityPosts.find(p => p.id == postId);
+                    
+                    if (post) {
+                        openPostDetail(post);
+                    }
+                });
+            });
+        }
+
+        // 打开帖子详情
+        function openPostDetail(post) {
+            console.log("Opening post detail for:", post.id);
+            
+            // 设置帖子详情
+            document.getElementById('detail-title').textContent = post.title;
+            document.getElementById('detail-author').textContent = post.author;
+            document.getElementById('detail-date').textContent = post.date;
+            document.getElementById('detail-content').textContent = post.content;
+            document.getElementById('detail-likes').textContent = post.likes;
+            
+            // 设置分类
+            const detailCategory = document.getElementById('detail-category');
+            detailCategory.textContent = getCategoryName(post.category);
+            detailCategory.className = 'post-category ' + post.category;
+            
+            // 加载评论
+            loadComments(post.id);
+            
+            // 更新评论数量
+            const commentCount = getPostComments(post.id).length;
+            document.getElementById('detail-comments').textContent = commentCount;
+            
+            // 显示空评论提示
+            if (commentCount === 0) {
+                document.querySelector('.comments-empty').classList.remove('hidden');
+            } else {
+                document.querySelector('.comments-empty').classList.add('hidden');
+            }
+            
+            // 显示评论框
+            updateCommentForm();
+            
+            // 添加点赞按钮事件
+            document.getElementById('detail-like-btn').onclick = function() {
+                if (currentUser) {
+                    post.likes++;
+                    updatePostInStorage(post);
+                    document.getElementById('detail-likes').textContent = post.likes;
+                    
+                    // 更新列表页中的点赞数
+                    const postElement = document.querySelector(`.topic-item[data-post-id="${post.id}"]`);
+                    if (postElement) {
+                        postElement.querySelector('.likes').innerHTML = `❤️ ${post.likes}`;
+                    }
+                } else {
+                    alert('请先登录后再点赞');
+                    document.getElementById('post-detail-modal').classList.add('hidden');
+                    loginModal.classList.remove('hidden');
+                }
+            };
+            
+            // 添加评论提交事件
+            document.getElementById('submit-comment').onclick = function() {
+                addComment(post.id);
+            };
+            
+            // 显示模态框
+            document.getElementById('post-detail-modal').classList.remove('hidden');
+        }
+        
+        // 获取帖子评论
+        function getPostComments(postId) {
+            // 先从localStorage获取评论
+            const savedComments = localStorage.getItem(`post_comments_${postId}`);
+            if (savedComments) {
+                try {
+                    return JSON.parse(savedComments);
+                } catch (e) {
+                    console.error("Error parsing comments:", e);
+                }
+            }
+            
+            // 如果没有保存的评论，使用示例评论或返回空数组
+            return sampleComments[postId] || [];
+        }
+        
+        // 更新评论到localStorage
+        function saveComments(postId, comments) {
+            localStorage.setItem(`post_comments_${postId}`, JSON.stringify(comments));
+        }
+        
+        // 加载评论
+        function loadComments(postId) {
+            const commentsList = document.getElementById('comments-list');
+            const commentsEmpty = commentsList.querySelector('.comments-empty');
+            
+            // 清空当前评论列表（保留空评论提示）
+            Array.from(commentsList.children).forEach(child => {
+                if (!child.classList.contains('comments-empty')) {
+                    child.remove();
+                }
+            });
+            
+            // 获取评论
+            const comments = getPostComments(postId);
+            
+            // 显示或隐藏空评论提示
+            if (comments.length === 0) {
+                commentsEmpty.classList.remove('hidden');
+            } else {
+                commentsEmpty.classList.add('hidden');
+                
+                // 渲染评论
+                comments.forEach(comment => {
+                    const commentElement = createCommentElement(comment);
+                    commentsList.insertBefore(commentElement, commentsEmpty);
+                });
+            }
+        }
+        
+        // 创建评论元素
+        function createCommentElement(comment) {
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment-item';
+            commentElement.dataset.commentId = comment.id;
+            
+            commentElement.innerHTML = `
+                <div class="comment-header">
+                    <div class="comment-author">
+                        <img src="../assets/images/community/avatar-default.jpg" class="comment-avatar">
+                        <span>${comment.author}</span>
+                    </div>
+                    <div class="comment-time">${comment.date}</div>
+                </div>
+                <div class="comment-content">${comment.content}</div>
+                <div class="comment-footer">
+                    <div class="comment-like" data-liked="false">
+                        <span class="comment-like-icon">❤️</span>
+                        <span class="comment-like-count">${comment.likes}</span>
+                    </div>
+                    <div class="comment-reply">Reply</div>
+                </div>
+            `;
+            
+            // 添加评论点赞事件
+            const likeButton = commentElement.querySelector('.comment-like');
+            likeButton.addEventListener('click', function() {
+                if (currentUser) {
+                    const liked = this.getAttribute('data-liked') === 'true';
+                    const postId = comment.postId;
+                    const comments = getPostComments(postId);
+                    const commentObj = comments.find(c => c.id === comment.id);
+                    
+                    if (commentObj) {
+                        if (!liked) {
+                            commentObj.likes++;
+                            this.setAttribute('data-liked', 'true');
+                            this.classList.add('liked');
+                        } else {
+                            commentObj.likes--;
+                            this.setAttribute('data-liked', 'false');
+                            this.classList.remove('liked');
+                        }
+                        
+                        this.querySelector('.comment-like-count').textContent = commentObj.likes;
+                        saveComments(postId, comments);
+                    }
+                } else {
+                    alert('请先登录后再点赞');
+                    document.getElementById('post-detail-modal').classList.add('hidden');
+                    loginModal.classList.remove('hidden');
+                }
+            });
+            
+            // 添加回复事件
+            const replyButton = commentElement.querySelector('.comment-reply');
+            replyButton.addEventListener('click', function() {
+                if (currentUser) {
+                    const commentInput = document.getElementById('comment-input');
+                    commentInput.focus();
+                    commentInput.value = `@${comment.author} `;
+                } else {
+                    alert('请先登录后再回复');
+                    document.getElementById('post-detail-modal').classList.add('hidden');
+                    loginModal.classList.remove('hidden');
+                }
+            });
+            
+            return commentElement;
+        }
+        
+        // 更新评论表单
+        function updateCommentForm() {
+            const commentPlaceholder = document.getElementById('comment-placeholder');
+            const commentFormContent = document.getElementById('comment-form-content');
+            
+            if (currentUser) {
+                commentPlaceholder.classList.add('hidden');
+                commentFormContent.classList.remove('hidden');
+                
+                // 更新用户信息
+                document.getElementById('current-user-name').textContent = currentUser.username;
+                document.getElementById('current-user-avatar').src = currentUser.avatar;
+            } else {
+                commentPlaceholder.classList.remove('hidden');
+                commentFormContent.classList.add('hidden');
+                
+                // 添加点击登录事件
+                commentPlaceholder.onclick = function() {
+                    document.getElementById('post-detail-modal').classList.add('hidden');
+                    loginModal.classList.remove('hidden');
+                };
+            }
+        }
+        
+        // 添加评论
+        function addComment(postId) {
+            if (!currentUser) return;
+            
+            const commentInput = document.getElementById('comment-input');
+            const commentContent = commentInput.value.trim();
+            
+            if (!commentContent) {
+                alert('评论内容不能为空');
+                return;
+            }
+            
+            // 获取当前评论
+            const comments = getPostComments(postId);
+            
+            // 创建新评论
+            const newComment = {
+                id: Date.now(),
+                postId: postId,
+                author: currentUser.username,
+                content: commentContent,
+                date: new Date().toISOString().split('T')[0],
+                likes: 0
+            };
+            
+            // 添加到评论列表
+            comments.push(newComment);
+            
+            // 保存评论
+            saveComments(postId, comments);
+            
+            // 更新UI
+            const commentsList = document.getElementById('comments-list');
+            const commentsEmpty = commentsList.querySelector('.comments-empty');
+            commentsEmpty.classList.add('hidden');
+            
+            const commentElement = createCommentElement(newComment);
+            commentsList.insertBefore(commentElement, commentsEmpty);
+            
+            // 更新评论数量
+            const commentCount = comments.length;
+            document.getElementById('detail-comments').textContent = commentCount;
+            
+            // 更新列表页中的回复数
+            const post = communityPosts.find(p => p.id == postId);
+            if (post) {
+                post.replies = comments;
+                updatePostInStorage(post);
+                
+                const postElement = document.querySelector(`.topic-item[data-post-id="${postId}"]`);
+                if (postElement) {
+                    postElement.querySelector('.replies').innerHTML = `💬 ${commentCount}`;
+                }
+            }
+            
+            // 清空输入框
+            commentInput.value = '';
         }
 
         // 更新帖子到本地存储
@@ -678,6 +1383,138 @@
             document.getElementById('topic-count').textContent = communityPosts.length;
         }
         
+        // 渲染排行榜数据
+        function renderLeaderboard() {
+            console.log("Rendering leaderboard");
+            
+            const leaderboardContainer = document.getElementById('leaderboard-entries');
+            if (!leaderboardContainer) {
+                console.error("Leaderboard container not found");
+                return;
+            }
+            
+            // Clear loading message
+            leaderboardContainer.innerHTML = '';
+            
+            // Sort leaderboard data by score (descending)
+            const sortedLeaderboard = [...leaderboardData].sort((a, b) => b.totalScore - a.totalScore);
+            
+            // Only show top 5
+            const topUsers = sortedLeaderboard.slice(0, 5);
+            
+            // Render each leaderboard entry
+            topUsers.forEach((user, index) => {
+                const rankClass = index < 3 ? `rank-${index + 1}` : '';
+                const userElement = document.createElement('div');
+                userElement.className = 'leaderboard-entry';
+                
+                // Display badges if any
+                const badgesHTML = user.badges.length > 0 ? 
+                    `<div class="leaderboard-badges">${user.badges.join('')}</div>` : '';
+                
+                userElement.innerHTML = `
+                    <div class="leaderboard-rank ${rankClass}">${index + 1}</div>
+                    <div class="leaderboard-user">
+                        <img src="${user.avatar}" alt="${user.username}" class="leaderboard-avatar">
+                        <span class="leaderboard-username">${user.username}</span>
+                        ${badgesHTML}
+                    </div>
+                    <div class="leaderboard-score">${user.totalScore}</div>
+                `;
+                
+                leaderboardContainer.appendChild(userElement);
+            });
+            
+            // Add event listener to "View Full Leaderboard" link
+            const viewAllLink = document.querySelector('.view-all-link');
+            if (viewAllLink) {
+                viewAllLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openFullLeaderboard();
+                });
+            }
+        }
+        
+        // Open full leaderboard modal and populate data
+        function openFullLeaderboard() {
+            console.log("Opening full leaderboard");
+            
+            // Populate full leaderboard
+            populateFullLeaderboard('score');
+            
+            // Show modal
+            document.getElementById('leaderboard-modal').classList.remove('hidden');
+            
+            // Add tab switching functionality if not already added
+            const tabs = document.querySelectorAll('.leaderboard-tab');
+            tabs.forEach(tab => {
+                // Remove existing listeners to avoid duplicates
+                const newTab = tab.cloneNode(true);
+                tab.parentNode.replaceChild(newTab, tab);
+                
+                newTab.addEventListener('click', function() {
+                    const tabType = this.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update leaderboard based on selected tab
+                    populateFullLeaderboard(tabType);
+                });
+            });
+        }
+        
+        // Populate the full leaderboard table based on the selected tab
+        function populateFullLeaderboard(tabType) {
+            const tableBody = document.getElementById('full-leaderboard-body');
+            if (!tableBody) return;
+            
+            tableBody.innerHTML = '';
+            
+            // Sort data based on the selected tab
+            let sortedData = [...leaderboardData];
+            
+            if (tabType === 'score') {
+                sortedData.sort((a, b) => b.totalScore - a.totalScore);
+            } else if (tabType === 'progress') {
+                sortedData.sort((a, b) => b.progressPercent - a.progressPercent);
+            } else if (tabType === 'contributions') {
+                // For demo purposes, sort by username
+                sortedData.sort((a, b) => a.username.localeCompare(b.username));
+            }
+            
+            // Populate table rows
+            sortedData.forEach((user, index) => {
+                const rankClass = index < 3 ? 'top-rank rank-' + (index + 1) : '';
+                const row = document.createElement('tr');
+                
+                // Get value to display based on tab
+                let valueToShow = user.totalScore;
+                if (tabType === 'progress') {
+                    valueToShow = user.progressPercent + '%';
+                } else if (tabType === 'contributions') {
+                    // Mock contribution count for demo
+                    const contributionCount = Math.floor(Math.random() * 50) + 5;
+                    valueToShow = contributionCount;
+                }
+                
+                row.innerHTML = `
+                    <td class="rank-cell ${rankClass}">${index + 1}</td>
+                    <td>
+                        <div class="user-cell">
+                            <img src="${user.avatar}" alt="${user.username}" class="user-avatar">
+                            <span>${user.username}</span>
+                        </div>
+                    </td>
+                    <td>${valueToShow}</td>
+                    <td class="badge-cell">${user.badges.join(' ')}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
         // 绑定所有事件监听器
         function bindEventListeners() {
             console.log("Binding event listeners");
@@ -714,10 +1551,25 @@
                 const password = document.getElementById('password').value;
                 
                 if (username && password) {
+                    // Get achievements data if available for this user
+                    const achievements = mockUserAchievements[username] || {
+                        learningProgress: "10% Complete",
+                        gameScore: "50 Points",
+                        badges: ["Newcomer"]
+                    };
+                    
+                    // Get profile data if available
+                    const profile = userProfiles[username] || {
+                        bio: "这个用户还没有添加个人简介。",
+                        interests: "未指定兴趣"
+                    };
+                    
                     // 简单登录逻辑
                     currentUser = {
                         username: username,
-                        avatar: '../assets/images/community/avatar-default.jpg'
+                        avatar: '../assets/images/community/avatar-default.jpg',
+                        achievements: achievements,
+                        profile: profile
                     };
                     
                     // 保存用户信息
@@ -854,6 +1706,123 @@
             });
         }
 
+        // 打开个人资料编辑器
+        function openProfileEditor() {
+            console.log("Opening profile editor");
+            
+            // 确保用户已登录
+            if (!currentUser) {
+                alert('请先登录后再编辑个人资料');
+                loginModal.classList.remove('hidden');
+                return;
+            }
+            
+            // 填充表单数据
+            const usernameField = document.getElementById('edit-username');
+            const bioField = document.getElementById('edit-bio');
+            const interestsField = document.getElementById('edit-interests');
+            const avatarPreview = document.getElementById('current-avatar-preview');
+            
+            usernameField.value = currentUser.username;
+            bioField.value = currentUser.profile?.bio || '';
+            interestsField.value = currentUser.profile?.interests || '';
+            avatarPreview.src = currentUser.avatar;
+            
+            // 设置表单提交事件
+            const profileForm = document.getElementById('profile-edit-form');
+            profileForm.onsubmit = function(e) {
+                e.preventDefault();
+                saveProfileChanges();
+            };
+            
+            // 设置头像选择事件
+            const avatarOptions = document.querySelectorAll('.avatar-option');
+            avatarOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除其他选项的选中状态
+                    avatarOptions.forEach(opt => opt.classList.remove('selected'));
+                    // 添加选中状态到当前选项
+                    this.classList.add('selected');
+                    // 更新头像预览
+                    const avatarSrc = this.getAttribute('data-avatar');
+                    avatarPreview.src = avatarSrc;
+                    document.getElementById('edit-avatar').value = avatarSrc;
+                });
+            });
+            
+            // 显示模态框
+            document.getElementById('profile-edit-modal').classList.remove('hidden');
+        }
+        
+        // 保存个人资料更改
+        function saveProfileChanges() {
+            const username = document.getElementById('edit-username').value.trim();
+            const bio = document.getElementById('edit-bio').value.trim();
+            const interests = document.getElementById('edit-interests').value.trim();
+            const avatar = document.getElementById('edit-avatar').value;
+            
+            if (!username) {
+                alert('用户名不能为空');
+                return;
+            }
+            
+            // 更新用户数据
+            const oldUsername = currentUser.username;
+            currentUser.username = username;
+            currentUser.avatar = avatar;
+            currentUser.profile = {
+                ...currentUser.profile,
+                bio: bio,
+                interests: interests
+            };
+            
+            // 保存到localStorage
+            localStorage.setItem('communityUser', JSON.stringify(currentUser));
+            
+            // 如果用户名已更改，更新帖子和评论中的作者名
+            if (oldUsername !== username) {
+                updateAuthorReferences(oldUsername, username);
+            }
+            
+            // 更新UI
+            updateUserUI(currentUser);
+            
+            // 关闭模态框
+            document.getElementById('profile-edit-modal').classList.add('hidden');
+            
+            console.log("Profile updated:", currentUser);
+        }
+        
+        // 更新帖子和评论中的作者引用
+        function updateAuthorReferences(oldUsername, newUsername) {
+            // 更新用户发布的帖子
+            communityPosts.forEach(post => {
+                if (post.author === oldUsername) {
+                    post.author = newUsername;
+                }
+            });
+            
+            // 更新localStorage中的帖子
+            localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+            
+            // 更新评论
+            for (const postId in sampleComments) {
+                const comments = sampleComments[postId];
+                let updated = false;
+                
+                comments.forEach(comment => {
+                    if (comment.author === oldUsername) {
+                        comment.author = newUsername;
+                        updated = true;
+                    }
+                });
+                
+                if (updated) {
+                    saveComments(postId, comments);
+                }
+            }
+        }
+
         // 初始化社区
         initCommunity();
     });
@@ -898,6 +1867,740 @@
         right: 15px;
         font-size: 24px;
         cursor: pointer;
+    }
+    
+    /* User Achievements Styles */
+    .user-achievements {
+        margin: 15px 0;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .user-achievements {
+        background-color: #2a2a2a;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .achievements-header {
+        margin-bottom: 8px;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 5px;
+    }
+    
+    .achievements-header h4 {
+        margin: 0;
+        font-size: 16px;
+        color: #444;
+    }
+    
+    .dark-mode .achievements-header h4 {
+        color: #ddd;
+    }
+    
+    .achievement-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .achievement-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+    
+    .achievement-icon {
+        margin-right: 8px;
+        font-size: 16px;
+    }
+    
+    .achievement-label {
+        color: #666;
+        flex: 1;
+    }
+    
+    .dark-mode .achievement-label {
+        color: #aaa;
+    }
+    
+    .achievement-value {
+        font-weight: 600;
+        color: #2c7be5;
+    }
+    
+    .dark-mode .achievement-value {
+        color: #4d9fff;
+    }
+    
+    /* Star Learners Styles */
+    .star-learners {
+        margin-top: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .star-learners {
+        background-color: #2a2a2a;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    
+    .star-learners h3 {
+        margin: 0 0 10px 0;
+        color: #333;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .dark-mode .star-learners h3 {
+        color: #eee;
+    }
+    
+    .star-learners h3:before {
+        content: '🏆';
+        margin-right: 8px;
+    }
+    
+    .leaderboard-description {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+    
+    .dark-mode .leaderboard-description {
+        color: #aaa;
+    }
+    
+    .leaderboard-entries {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    
+    .leaderboard-entry {
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .leaderboard-entry:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    
+    .dark-mode .leaderboard-entry {
+        background-color: #333;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    
+    .dark-mode .leaderboard-entry:hover {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+    
+    .leaderboard-rank {
+        font-weight: bold;
+        font-size: 16px;
+        width: 25px;
+        text-align: center;
+    }
+    
+    .rank-1 {
+        color: gold;
+    }
+    
+    .rank-2 {
+        color: silver;
+    }
+    
+    .rank-3 {
+        color: #cd7f32; /* bronze */
+    }
+    
+    .leaderboard-user {
+        display: flex;
+        align-items: center;
+        flex: 1;
+    }
+    
+    .leaderboard-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .leaderboard-username {
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    .leaderboard-score {
+        font-weight: 600;
+        color: #2c7be5;
+        font-size: 14px;
+    }
+    
+    .dark-mode .leaderboard-score {
+        color: #4d9fff;
+    }
+    
+    .leaderboard-badges {
+        margin-left: 8px;
+        display: flex;
+        gap: 2px;
+    }
+    
+    .leaderboard-badge {
+        font-size: 12px;
+    }
+    
+    .leaderboard-loading {
+        text-align: center;
+        padding: 15px 0;
+        color: #666;
+        font-style: italic;
+    }
+    
+    .dark-mode .leaderboard-loading {
+        color: #aaa;
+    }
+    
+    .view-all-link {
+        font-size: 13px;
+        color: #2c7be5;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+    }
+    
+    .view-all-link:hover {
+        text-decoration: underline;
+    }
+    
+    .dark-mode .view-all-link {
+        color: #4d9fff;
+    }
+    
+    /* Full Leaderboard Modal Styles */
+    .full-leaderboard-container {
+        margin-top: 20px;
+    }
+    
+    .leaderboard-tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 15px;
+    }
+    
+    .dark-mode .leaderboard-tabs {
+        border-bottom-color: #444;
+    }
+    
+    .leaderboard-tab {
+        padding: 10px 15px;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-size: 14px;
+        color: #666;
+        transition: all 0.2s ease;
+    }
+    
+    .leaderboard-tab.active {
+        border-bottom-color: #2c7be5;
+        color: #2c7be5;
+        font-weight: 600;
+    }
+    
+    .dark-mode .leaderboard-tab {
+        color: #aaa;
+    }
+    
+    .dark-mode .leaderboard-tab.active {
+        border-bottom-color: #4d9fff;
+        color: #4d9fff;
+    }
+    
+    .leaderboard-table-container {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .leaderboard-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .dark-mode .leaderboard-table th,
+    .dark-mode .leaderboard-table td {
+        border-bottom-color: #444;
+    }
+    
+    .leaderboard-table th {
+        background-color: #f5f7fa;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .dark-mode .leaderboard-table th {
+        background-color: #2a2a2a;
+        color: #eee;
+    }
+    
+    .leaderboard-table tr:hover {
+        background-color: #f5f7fa;
+    }
+    
+    .dark-mode .leaderboard-table tr:hover {
+        background-color: #2a2a2a;
+    }
+    
+    .leaderboard-table .user-cell {
+        display: flex;
+        align-items: center;
+    }
+    
+    .leaderboard-table .user-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    
+    .leaderboard-table .badge-cell {
+        display: flex;
+        gap: 5px;
+    }
+    
+    .leaderboard-table .rank-cell {
+        font-weight: bold;
+        width: 50px;
+    }
+    
+    .leaderboard-table .top-rank {
+        font-size: 16px;
+    }
+    
+    /* Post Detail Modal Styles */
+    .post-detail-content {
+        max-width: 800px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .post-detail-container {
+        padding: 10px 0;
+    }
+    
+    .post-detail-header {
+        margin-bottom: 20px;
+    }
+    
+    .post-category {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+        background-color: #e9ecef;
+        color: #495057;
+        margin-bottom: 10px;
+    }
+    
+    .dark-mode .post-category {
+        background-color: #2a2a2a;
+        color: #ddd;
+    }
+    
+    .post-title {
+        margin: 0 0 15px 0;
+        font-size: 24px;
+        line-height: 1.3;
+        color: #333;
+    }
+    
+    .dark-mode .post-title {
+        color: #eee;
+    }
+    
+    .post-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #6c757d;
+        margin-bottom: 15px;
+    }
+    
+    .post-author {
+        display: flex;
+        align-items: center;
+    }
+    
+    .author-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    
+    .post-detail-body {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .dark-mode .post-detail-body {
+        color: #ddd;
+        border-bottom-color: #444;
+    }
+    
+    .post-detail-actions {
+        display: flex;
+        margin-bottom: 25px;
+    }
+    
+    .action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        font-size: 14px;
+        color: #6c757d;
+        padding: 8px 12px;
+        border-radius: 20px;
+        transition: background-color 0.2s ease;
+    }
+    
+    .action-btn:hover {
+        background-color: #f0f2f5;
+    }
+    
+    .dark-mode .action-btn:hover {
+        background-color: #2a2a2a;
+    }
+    
+    .action-btn.liked {
+        color: #e74c3c;
+    }
+    
+    .action-icon {
+        margin-right: 5px;
+        font-size: 16px;
+    }
+    
+    .action-count {
+        margin-right: 5px;
+        font-weight: 600;
+    }
+    
+    /* Comments Section Styles */
+    .post-comments-section {
+        margin-top: 20px;
+    }
+    
+    .comments-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        color: #333;
+    }
+    
+    .dark-mode .comments-title {
+        color: #eee;
+        border-bottom-color: #444;
+    }
+    
+    .comment-form {
+        margin-bottom: 25px;
+    }
+    
+    .comment-form-placeholder {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        text-align: center;
+        color: #6c757d;
+        cursor: pointer;
+    }
+    
+    .dark-mode .comment-form-placeholder {
+        background-color: #2a2a2a;
+        color: #aaa;
+    }
+    
+    .comment-form-content {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+    }
+    
+    .dark-mode .comment-form-content {
+        background-color: #2a2a2a;
+    }
+    
+    .comment-user {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .comment-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    
+    .comment-input {
+        width: 100%;
+        min-height: 80px;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        resize: vertical;
+        margin-bottom: 10px;
+        font-family: inherit;
+        font-size: 14px;
+    }
+    
+    .dark-mode .comment-input {
+        background-color: #333;
+        border-color: #555;
+        color: #eee;
+    }
+    
+    .comment-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .comments-list {
+        margin-top: 20px;
+    }
+    
+    .comment-item {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .dark-mode .comment-item {
+        border-bottom-color: #444;
+    }
+    
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    
+    .comment-author {
+        display: flex;
+        align-items: center;
+    }
+    
+    .comment-time {
+        font-size: 12px;
+        color: #6c757d;
+    }
+    
+    .comment-content {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .dark-mode .comment-content {
+        color: #ddd;
+    }
+    
+    .comment-footer {
+        display: flex;
+        align-items: center;
+    }
+    
+    .comment-like {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: #6c757d;
+        cursor: pointer;
+        margin-right: 15px;
+    }
+    
+    .comment-like.liked {
+        color: #e74c3c;
+    }
+    
+    .comment-like-icon {
+        margin-right: 5px;
+    }
+    
+    .comment-reply {
+        font-size: 12px;
+        color: #6c757d;
+        cursor: pointer;
+    }
+    
+    .comments-empty {
+        text-align: center;
+        color: #6c757d;
+        padding: 20px 0;
+        font-style: italic;
+    }
+    
+    .hidden {
+        display: none !important;
+    }
+    
+    /* Profile Edit Styles */
+    .edit-profile-btn {
+        background: none;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 12px;
+        color: #6c757d;
+        cursor: pointer;
+        margin-top: 5px;
+        transition: all 0.2s ease;
+    }
+    
+    .edit-profile-btn:hover {
+        background-color: #f8f9fa;
+        color: #495057;
+    }
+    
+    .dark-mode .edit-profile-btn {
+        border-color: #555;
+        color: #aaa;
+    }
+    
+    .dark-mode .edit-profile-btn:hover {
+        background-color: #2a2a2a;
+        color: #eee;
+    }
+    
+    .user-bio {
+        margin-top: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        display: none;
+    }
+    
+    .dark-mode .user-bio {
+        background-color: #2a2a2a;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .bio-header {
+        margin-bottom: 8px;
+        padding-bottom: 5px;
+    }
+    
+    .bio-header h4 {
+        margin: 0;
+        font-size: 15px;
+        color: #444;
+    }
+    
+    .dark-mode .bio-header h4 {
+        color: #ddd;
+    }
+    
+    .bio-content, .bio-interests {
+        font-size: 13px;
+        color: #666;
+        margin: 0 0 15px 0;
+        line-height: 1.4;
+    }
+    
+    .dark-mode .bio-content, .dark-mode .bio-interests {
+        color: #aaa;
+    }
+    
+    /* Avatar Selection */
+    .avatar-selection {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .current-avatar {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .current-avatar img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    
+    .dark-mode .current-avatar img {
+        border-color: #333;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    
+    .avatar-options {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    
+    .avatar-option {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+        overflow: hidden;
+    }
+    
+    .avatar-option img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .avatar-option.selected {
+        border-color: #2c7be5;
+        transform: scale(1.1);
+    }
+    
+    .dark-mode .avatar-option.selected {
+        border-color: #4d9fff;
     }
     </style>
 </body>
