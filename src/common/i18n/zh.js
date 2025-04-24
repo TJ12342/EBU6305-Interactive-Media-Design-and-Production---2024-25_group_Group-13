@@ -233,7 +233,7 @@ window.i18n.zh = {
         parabolaShooter: {
             title: "抛物线射手",
             description: "使用抛物线轨迹瞄准目标，测试你对二次方程的理解。",
-            difficulty: "难度: 中等",
+            difficulty: "难度: 简单",
             button: "开始游戏",
             instructions: "调整二次方程的参数，创建正确的抛物线轨迹来击中目标。你有60秒的时间来获得尽可能多的分数。"
         },
@@ -241,7 +241,7 @@ window.i18n.zh = {
         equationMatching: {
             title: "方程匹配",
             description: "将方程与相应的图形匹配，提高你的视觉识别能力。",
-            difficulty: "难度: 简单",
+            difficulty: "难度: 中等",
             button: "开始游戏",
             instructions: "查看显示的抛物线图形，然后从选项中选择正确的方程。时间越快，得分越高。"
         },

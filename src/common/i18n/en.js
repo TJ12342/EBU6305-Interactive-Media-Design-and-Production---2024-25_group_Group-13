@@ -233,7 +233,7 @@ window.i18n.en = {
         parabolaShooter: {
             title: "Parabola Shooter",
             description: "Use parabolic trajectories to aim at targets, testing your understanding of quadratic equations.",
-            difficulty: "Difficulty: Medium",
+            difficulty: "Difficulty: Easy",
             button: "Play Now",
             instructions: "Adjust the parameters of the quadratic equation to create the correct parabolic trajectory to hit the target. You have 60 seconds to score as many points as possible."
         },
@@ -241,7 +241,7 @@ window.i18n.en = {
         equationMatching: {
             title: "Equation Matching",
             description: "Match equations with their corresponding graphs, improving your visual recognition skills.",
-            difficulty: "Difficulty: Easy",
+            difficulty: "Difficulty: Medium",
             button: "Play Now",
             instructions: "Look at the parabola graph displayed and select the correct equation from the options. The faster you match, the higher your score."
         },

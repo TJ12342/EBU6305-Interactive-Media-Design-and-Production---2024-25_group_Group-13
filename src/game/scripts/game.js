@@ -462,7 +462,7 @@ function initParabolaShooterGame() {
             ctx.fillStyle = 'white';
             ctx.fillRect(0, 0, width, height);
             
-            // 绘制坐标系
+            // 绘制坐标系统
             drawCoordinateSystem(ctx, width, height, centerX, centerY);
             
             // 绘制抛物线
@@ -477,10 +477,10 @@ function initParabolaShooterGame() {
         }
     }
     
-    // 绘制坐标系
+    // 绘制坐标系统
     function drawCoordinateSystem(ctx, width, height, centerX, centerY) {
-        // 绘制网格背景
-        ctx.fillStyle = '#f9f9f9';
+        // 绘制更现代化的背景
+        ctx.fillStyle = '#f8f9fa';
         ctx.fillRect(0, 0, width, height);
         
         // 绘制细网格线
@@ -489,13 +489,13 @@ function initParabolaShooterGame() {
         ctx.lineWidth = 0.5;
         
         // 水平网格线
-        for (let y = 0; y < height; y += 20) {
+        for (let y = centerY % 20; y < height; y += 20) {
             ctx.moveTo(0, y);
             ctx.lineTo(width, y);
         }
         
         // 垂直网格线
-        for (let x = 0; x < width; x += 20) {
+        for (let x = centerX % 20; x < width; x += 20) {
             ctx.moveTo(x, 0);
             ctx.lineTo(x, height);
         }
@@ -515,6 +515,21 @@ function initParabolaShooterGame() {
         ctx.moveTo(centerX, 0);
         ctx.lineTo(centerX, height);
         
+        ctx.stroke();
+        
+        // 绘制坐标轴箭头
+        // X轴箭头
+        ctx.beginPath();
+        ctx.moveTo(width - 10, centerY - 5);
+        ctx.lineTo(width, centerY);
+        ctx.lineTo(width - 10, centerY + 5);
+        ctx.stroke();
+        
+        // Y轴箭头
+        ctx.beginPath();
+        ctx.moveTo(centerX - 5, 10);
+        ctx.lineTo(centerX, 0);
+        ctx.lineTo(centerX + 5, 10);
         ctx.stroke();
         
         // 绘制刻度
@@ -555,7 +570,11 @@ function initParabolaShooterGame() {
             ctx.fillText(i.toString(), centerX - 15, y);
         }
         
-        // 坐标轴标签
+        // 原点标记
+        ctx.fillText('O', centerX - 10, centerY + 15);
+        
+        // 坐标轴标签 - 使用斜体来表示数学变量
+        ctx.font = 'italic 14px Arial';
         ctx.fillText('x', width - 10, centerY - 15);
         ctx.fillText('y', centerX + 15, 10);
     }
@@ -565,29 +584,33 @@ function initParabolaShooterGame() {
         const scaleX = width / 12;  // 每单位x对应的像素数
         const scaleY = height / 8;  // 每单位y对应的像素数
         
-        console.log('绘制抛物线，参数:', a, b, c);
-        
+        // 绘制抛物线
         ctx.beginPath();
         ctx.strokeStyle = '#00acc1';
         ctx.lineWidth = 3;
         
-        let isFirstPoint = true;
-        // 在x轴范围内绘制抛物线
-        for (let pixelX = 0; pixelX <= width; pixelX += 2) {
-            // 将像素坐标转换为数学坐标
-            const x = (pixelX - centerX) / scaleX;
+        // 使用更平滑的方式绘制抛物线
+        for (let i = -width / 2; i <= width / 2; i += 1) {
+            const x = i / scaleX;
             const y = a * x * x + b * x + c;
             
-            // 将数学坐标转换回像素坐标
+            // 转换为画布坐标
+            const canvasX = centerX + x * scaleX;
             const canvasY = centerY - y * scaleY;
             
-            if (isFirstPoint) {
-                ctx.moveTo(pixelX, canvasY);
-                isFirstPoint = false;
+            if (i === -width / 2) {
+                ctx.moveTo(canvasX, canvasY);
             } else {
-                ctx.lineTo(pixelX, canvasY);
+                ctx.lineTo(canvasX, canvasY);
             }
         }
+        
+        // 使用渐变颜色
+        const gradient = ctx.createLinearGradient(0, 0, width, 0);
+        gradient.addColorStop(0, '#2196f3');
+        gradient.addColorStop(0.5, '#00acc1');
+        gradient.addColorStop(1, '#26c6da');
+        ctx.strokeStyle = gradient;
         
         ctx.stroke();
         
@@ -602,8 +625,43 @@ function initParabolaShooterGame() {
         // 绘制顶点点
         ctx.beginPath();
         ctx.fillStyle = '#e91e63';
-        ctx.arc(vertexPixelX, vertexPixelY, 4, 0, Math.PI * 2);
+        ctx.arc(vertexPixelX, vertexPixelY, 5, 0, Math.PI * 2);
         ctx.fill();
+        
+        // 添加顶点的小标签
+        ctx.font = '12px Arial';
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'left';
+        ctx.fillText('Vertex', vertexPixelX + 8, vertexPixelY);
+        
+        // 计算并绘制零点（如果存在）
+        const delta = b * b - 4 * a * c;
+        
+        if (delta >= 0) {
+            // 至少有一个零点
+            const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+            const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+            
+            // 绘制第一个零点
+            const canvasX1 = centerX + x1 * scaleX;
+            const canvasY1 = centerY; // 零点在x轴上，y = 0
+            
+            ctx.beginPath();
+            ctx.fillStyle = '#4caf50';
+            ctx.arc(canvasX1, canvasY1, 5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 如果有两个不同的零点，绘制第二个
+            if (delta > 0) {
+                const canvasX2 = centerX + x2 * scaleX;
+                const canvasY2 = centerY;
+                
+                ctx.beginPath();
+                ctx.fillStyle = '#4caf50';
+                ctx.arc(canvasX2, canvasY2, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
     }
     
     // 绘制目标
@@ -687,8 +745,10 @@ function initParabolaShooterGame() {
         }, 500);
     }
     
-    // 命中动画
+    // 处理命中的动画效果
     function animateHit() {
+        const canvas = document.getElementById('parabola-shooter-canvas');
+        const ctx = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
         const centerX = width / 2;
@@ -696,24 +756,66 @@ function initParabolaShooterGame() {
         const scaleX = width / 12;
         const scaleY = height / 8;
         
-        const canvasX = centerX + target.x * scaleX;
-        const canvasY = centerY - target.y * scaleY;
+        const targetX = centerX + target.x * scaleX;
+        const targetY = centerY - target.y * scaleY;
         
-        // 闪烁效果
-        ctx.beginPath();
-        ctx.fillStyle = '#4caf50';
-        ctx.arc(canvasX, canvasY, 30, 0, Math.PI * 2);
-        ctx.fill();
+        // 保存当前绘图状态
+        ctx.save();
         
-        // 显示 +10 分
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 16px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('+10', canvasX, canvasY);
+        // 创建动画帧序列
+        const frameCount = 20;
+        let frame = 0;
+        
+        // 动画定时器
+        const animation = setInterval(() => {
+            // 重绘游戏场景
+            drawParabolaShooterGame();
+            
+            // 计算当前帧的动画参数
+            const progress = frame / frameCount;
+            const radius = 30 * (1 - progress);
+            const alpha = 1 - progress;
+            
+            // 绘制爆炸效果-外圈
+            ctx.beginPath();
+            ctx.arc(targetX, targetY, radius * 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 200, 83, ${alpha * 0.3})`;
+            ctx.fill();
+            
+            // 绘制爆炸效果-中圈
+            ctx.beginPath();
+            ctx.arc(targetX, targetY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 200, 83, ${alpha * 0.6})`;
+            ctx.fill();
+            
+            // 绘制爆炸效果-内圈
+            ctx.beginPath();
+            ctx.arc(targetX, targetY, radius * 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 200, 83, ${alpha})`;
+            ctx.fill();
+            
+            // 绘制+10分数动画
+            ctx.font = `bold ${16 + progress * 8}px Arial`;
+            ctx.fillStyle = `rgba(0, 128, 0, ${1 - progress})`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('+10', targetX, targetY - 30 - progress * 20);
+            
+            // 更新帧计数
+            frame++;
+            
+            // 动画结束后清除定时器
+            if (frame >= frameCount) {
+                clearInterval(animation);
+                ctx.restore();
+            }
+        }, 25);
     }
     
-    // 未命中动画
+    // 处理未命中的动画效果
     function animateMiss(calculatedY) {
+        const canvas = document.getElementById('parabola-shooter-canvas');
+        const ctx = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
         const centerX = width / 2;
@@ -721,29 +823,74 @@ function initParabolaShooterGame() {
         const scaleX = width / 12;
         const scaleY = height / 8;
         
-        const canvasX = centerX + target.x * scaleX;
-        const canvasY = centerY - calculatedY * scaleY;
+        // 计算抛物线上对应x值的实际点
+        const targetX = centerX + target.x * scaleX;
+        const calculatedCanvasY = centerY - calculatedY * scaleY;
+        const actualCanvasY = centerY - target.y * scaleY;
         
-        // 实际点
-        ctx.beginPath();
-        ctx.fillStyle = '#f44336';
-        ctx.arc(canvasX, canvasY, 5, 0, Math.PI * 2);
-        ctx.fill();
+        // 保存当前绘图状态
+        ctx.save();
         
-        // 连线
-        ctx.beginPath();
-        ctx.strokeStyle = '#f44336';
-        ctx.setLineDash([3, 3]);
-        ctx.moveTo(canvasX, canvasY);
-        ctx.lineTo(centerX + target.x * scaleX, centerY - target.y * scaleY);
-        ctx.stroke();
-        ctx.setLineDash([]);
+        // 创建动画帧序列
+        const frameCount = 15;
+        let frame = 0;
         
-        // 显示实际y值
-        ctx.fillStyle = '#f44336';
-        ctx.font = '12px Arial';
-        ctx.textAlign = 'left';
-        ctx.fillText(`计算值: ${calculatedY.toFixed(1)}`, canvasX + 10, canvasY);
+        // 显示失误距离
+        const distance = Math.abs(calculatedY - target.y).toFixed(1);
+        
+        // 动画定时器
+        const animation = setInterval(() => {
+            // 重绘游戏场景
+            drawParabolaShooterGame();
+            
+            // 计算当前帧的动画参数
+            const progress = frame / frameCount;
+            const alpha = 1 - progress;
+            
+            // 绘制抛物线实际点与目标点之间的连线
+            ctx.beginPath();
+            ctx.moveTo(targetX, calculatedCanvasY);
+            ctx.lineTo(targetX, actualCanvasY);
+            ctx.strokeStyle = `rgba(244, 67, 54, ${alpha})`;
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 3]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // 绘制距离文本
+            ctx.font = 'bold 14px Arial';
+            ctx.fillStyle = `rgba(244, 67, 54, ${alpha})`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`差距: ${distance}`, targetX + 15, (calculatedCanvasY + actualCanvasY) / 2);
+            
+            // 在实际点绘制目标点 - 以红色突出显示
+            ctx.beginPath();
+            ctx.arc(targetX, actualCanvasY, 10, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(244, 67, 54, ${alpha * 0.7})`;
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = `rgba(183, 28, 28, ${alpha})`;
+            ctx.stroke();
+            
+            // 在计算点绘制计算点 - 以黄色突出显示
+            ctx.beginPath();
+            ctx.arc(targetX, calculatedCanvasY, 8, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 193, 7, ${alpha * 0.7})`;
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = `rgba(255, 111, 0, ${alpha})`;
+            ctx.stroke();
+            
+            // 更新帧计数
+            frame++;
+            
+            // 动画结束后清除定时器
+            if (frame >= frameCount) {
+                clearInterval(animation);
+                ctx.restore();
+            }
+        }, 30);
     }
     
     // 重置游戏
@@ -849,7 +996,19 @@ function initEquationMatchingGame() {
         equations = [];
         
         // 根据难度决定方程数量
-        const numEquations = Math.min(3 + currentLevel, 6);
+        let numEquations;
+        
+        if (currentLevel === 1) {
+            numEquations = 4; // 第一关4个
+        } else if (currentLevel === 2) {
+            numEquations = 4; // 第二关4个
+        } else if (currentLevel === 3) {
+            numEquations = 4; // 第三关4个
+        } else if (currentLevel === 4) {
+            numEquations = 5; // 第四关5个
+        } else {
+            numEquations = 6; // 第五关6个
+        }
         
         for (let i = 0; i < numEquations; i++) {
             // 生成随机系数
@@ -889,6 +1048,16 @@ function initEquationMatchingGame() {
         // 随机排序方程
         const shuffledEquations = [...equations].sort(() => Math.random() - 0.5);
         
+        // 移除之前的特殊类
+        equationList.classList.remove('items-5', 'items-6');
+        
+        // 添加特殊的CSS类，根据元素数量
+        if (shuffledEquations.length === 5) {
+            equationList.classList.add('items-5');
+        } else if (shuffledEquations.length === 6) {
+            equationList.classList.add('items-6');
+        }
+        
         // 创建方程项
         shuffledEquations.forEach(equation => {
             const item = document.createElement('div');
@@ -898,7 +1067,7 @@ function initEquationMatchingGame() {
             
             if (equation.matched) {
                 item.classList.add('matched');
-                item.style.opacity = '0.5';
+                item.style.opacity = '0.8';
                 item.style.pointerEvents = 'none';
             } else {
                 // 添加点击事件
@@ -918,6 +1087,16 @@ function initEquationMatchingGame() {
         // 随机排序方程以创建图形
         const shuffledEquations = [...equations].sort(() => Math.random() - 0.5);
         
+        // 移除之前的特殊类
+        graphGrid.classList.remove('items-5', 'items-6');
+        
+        // 添加特殊的CSS类，根据元素数量
+        if (shuffledEquations.length === 5) {
+            graphGrid.classList.add('items-5');
+        } else if (shuffledEquations.length === 6) {
+            graphGrid.classList.add('items-6');
+        }
+        
         // 为每个方程创建图形
         shuffledEquations.forEach(equation => {
             // 创建图形项
@@ -927,7 +1106,7 @@ function initEquationMatchingGame() {
             
             if (equation.matched) {
                 graphItem.classList.add('matched');
-                graphItem.style.opacity = '0.5';
+                graphItem.style.opacity = '0.8';
                 graphItem.style.pointerEvents = 'none';
             } else {
                 // 添加点击事件
@@ -1078,18 +1257,26 @@ function initEquationMatchingGame() {
         const selectedEquationElement = document.querySelector(`.equation-item.selected`);
         const selectedGraphElement = document.querySelector(`.graph-item.selected`);
         
-        // 添加匹配样式并禁用点击
-        selectedEquationElement.classList.remove('selected');
-        selectedEquationElement.classList.add('matched');
-        selectedEquationElement.style.opacity = '0.5';
-        selectedEquationElement.style.backgroundColor = '#a5d6a7';
-        selectedEquationElement.style.pointerEvents = 'none';
+        // 添加匹配动画
+        selectedEquationElement.classList.add('correct-animation');
+        selectedGraphElement.classList.add('correct-animation');
         
-        selectedGraphElement.classList.remove('selected');
-        selectedGraphElement.classList.add('matched');
-        selectedGraphElement.style.opacity = '0.5';
-        selectedGraphElement.style.backgroundColor = '#a5d6a7';
-        selectedGraphElement.style.pointerEvents = 'none';
+        setTimeout(() => {
+            // 移除动画类
+            selectedEquationElement.classList.remove('correct-animation');
+            selectedGraphElement.classList.remove('correct-animation');
+            
+            // 添加匹配样式并禁用点击
+            selectedEquationElement.classList.remove('selected');
+            selectedEquationElement.classList.add('matched');
+            selectedEquationElement.style.opacity = '0.8';
+            selectedEquationElement.style.pointerEvents = 'none';
+            
+            selectedGraphElement.classList.remove('selected');
+            selectedGraphElement.classList.add('matched');
+            selectedGraphElement.style.opacity = '0.8';
+            selectedGraphElement.style.pointerEvents = 'none';
+        }, 600);
         
         // 增加分数
         score += 10;
@@ -1117,25 +1304,31 @@ function initEquationMatchingGame() {
         const selectedEquationElement = document.querySelector(`.equation-item.selected`);
         const selectedGraphElement = document.querySelector(`.graph-item.selected`);
         
-        // 添加错误样式
-        selectedEquationElement.classList.add('incorrect');
-        selectedGraphElement.classList.add('incorrect');
+        // 添加错误动画类
+        selectedEquationElement.classList.add('incorrect-animation');
+        selectedGraphElement.classList.add('incorrect-animation');
         
-        // 短暂震动效果
-        selectedEquationElement.style.animation = 'shake 0.5s';
-        selectedGraphElement.style.animation = 'shake 0.5s';
+        // 短暂闪烁错误颜色
+        selectedEquationElement.style.borderColor = '#f44336';
+        selectedEquationElement.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
+        selectedGraphElement.style.borderColor = '#f44336';
+        selectedGraphElement.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
         
         // 1秒后恢复
         setTimeout(() => {
-            selectedEquationElement.classList.remove('selected', 'incorrect');
-            selectedGraphElement.classList.remove('selected', 'incorrect');
-            selectedEquationElement.style.animation = '';
-            selectedGraphElement.style.animation = '';
+            // 移除错误样式
+            selectedEquationElement.classList.remove('selected', 'incorrect-animation');
+            selectedGraphElement.classList.remove('selected', 'incorrect-animation');
+            
+            selectedEquationElement.style.borderColor = '';
+            selectedEquationElement.style.backgroundColor = '';
+            selectedGraphElement.style.borderColor = '';
+            selectedGraphElement.style.backgroundColor = '';
             
             // 重置选中状态
             selectedEquation = null;
             selectedGraph = null;
-        }, 1000);
+        }, 800);
     }
     
     // 处理关卡完成
@@ -1163,21 +1356,11 @@ function initEquationMatchingGame() {
         startNewLevel();
     };
     
-    // 添加样式
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
-        
-        .equation-item.incorrect, .graph-item.incorrect {
-            background-color: #ffcdd2 !important;
-        }
-    `;
-    document.head.appendChild(style);
+    // 添加动画到全局变量，使其可以被访问
+    window.equationMatchingAnimations = {
+        correctMatch: 'correct-animation',
+        incorrectMatch: 'incorrect-animation'
+    };
 }
 
 // ===== 顶点猎人游戏 =====
