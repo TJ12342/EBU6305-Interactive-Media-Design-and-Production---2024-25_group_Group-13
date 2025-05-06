@@ -6,6 +6,10 @@
 ## Project Title
 `Parabola Playground: An Interactive Journey Through Quadratic Equations`
 
+## Online access
+
+Click to enter the real-time demonstration [![GitHub Pages](https://img.shields.io/badge/live%20demo-GitHub%20Pages-brightgreen)](https://tj12342.github.io/EBU6305-Interactive-Media-Design-and-Production---2024-25_group_Group-13/)
+
 ---
 
 ## Members
