@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         console.log('开始初始化游戏组件 - 延迟执行');
         
+        // 初始化音效系统
+        initSoundSystem();
+        
         // 初始化游戏选择
         initGameSelection();
         
@@ -45,6 +48,52 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 300); // 延迟300毫秒确保DOM完全渲染
 });
+
+// 音效系统
+function initSoundSystem() {
+    console.log('初始化音效系统');
+    
+    // 获取预加载的音频元素
+    window.gameSounds = {
+        correct: document.getElementById('sound-correct'),
+        wrong: document.getElementById('sound-wrong'),
+        countdown: document.getElementById('sound-countdown'),
+        gameover: document.getElementById('sound-gameover')
+    };
+    
+    // 设置适当音量
+    if (window.gameSounds.correct) window.gameSounds.correct.volume = 0.7; // 正确音效音量设为70%
+    if (window.gameSounds.wrong) window.gameSounds.wrong.volume = 0.6;     // 错误音效音量设为60%
+    if (window.gameSounds.countdown) window.gameSounds.countdown.volume = 0.5; // 倒计时音效音量设为50%
+    if (window.gameSounds.gameover) window.gameSounds.gameover.volume = 0.7; // 游戏结束音效音量设为70%
+    
+    // 音效播放函数
+    window.playSound = function(soundName) {
+        if (window.gameSounds && window.gameSounds[soundName]) {
+            try {
+                // 重置音频以确保可以再次播放
+                window.gameSounds[soundName].pause();
+                window.gameSounds[soundName].currentTime = 0;
+                
+                // 播放音效
+                const playPromise = window.gameSounds[soundName].play();
+                
+                // 处理播放承诺，避免可能的DOMException错误
+                if (playPromise !== undefined) {
+                    playPromise.catch(err => {
+                        console.error('音效播放失败:', err.message);
+                    });
+                }
+            } catch (err) {
+                console.error('音效播放错误:', err.message);
+            }
+        } else {
+            console.warn(`音效 ${soundName} 不存在或未加载`);
+        }
+    };
+    
+    console.log('音效系统初始化完成');
+}
 
 // 游戏选择功能
 function initGameSelection() {
@@ -89,7 +138,7 @@ function initGameSelection() {
             gameArea.style.display = 'none';
             gameSelectionSection.style.display = 'block';
             
-            // 停止所有游戏计时器
+            // 停止所有游戏计时器和音效
             stopAllGameTimers();
         });
     }
@@ -149,6 +198,12 @@ function stopAllGameTimers() {
         clearInterval(window.gameTimer);
         window.gameTimer = null;
     }
+    
+    // 停止所有正在播放的音效，特别是倒计时音效
+    if (window.gameSounds && window.gameSounds.countdown) {
+        window.gameSounds.countdown.pause();
+        window.gameSounds.countdown.currentTime = 0;
+    }
 }
 
 // 重置游戏计时器
@@ -168,6 +223,13 @@ function resetGameTimer() {
         timeLeft--;
         timerDisplay.textContent = timeLeft;
         
+        if (timeLeft <= 10) {
+            // 最后10秒播放倒计时音效提醒
+            if (timeLeft === 10) {
+                window.playSound('countdown');
+            }
+        }
+        
         if (timeLeft <= 0) {
             // 游戏时间结束
             clearInterval(window.gameTimer);
@@ -178,6 +240,12 @@ function resetGameTimer() {
 
 // 游戏结束处理
 function gameOver() {
+    // 停止所有游戏计时器和音效
+    stopAllGameTimers();
+    
+    // 播放游戏结束音效
+    window.playSound('gameover');
+    
     const finalScore = document.getElementById('current-score').textContent;
     const gameOverModal = document.getElementById('game-over-modal');
     const finalScoreDisplay = document.getElementById('final-score');
@@ -235,7 +303,7 @@ function initGameOverModal() {
             document.getElementById('game-area').style.display = 'none';
             document.querySelector('.game-selection').style.display = 'block';
             
-            // 停止所有游戏计时器
+            // 停止所有游戏计时器和音效
             stopAllGameTimers();
         });
     }
@@ -269,6 +337,15 @@ function initLeaderboard() {
             // 更新排行榜
             const gameId = this.getAttribute('data-game');
             updateLeaderboard(gameId);
+            
+            // 如果用户在游戏过程中切换了排行榜，也应该停止音效
+            if (window.gameTimer) {
+                stopAllGameTimers();
+                
+                // 返回游戏选择界面
+                document.getElementById('game-area').style.display = 'none';
+                document.querySelector('.game-selection').style.display = 'block';
+            }
         });
     });
     
@@ -744,6 +821,9 @@ function initParabolaShooterGame() {
         score += 10;
         document.getElementById('current-score').textContent = score;
         
+        // 播放正确音效
+        window.playSound('correct');
+        
         // 动画效果（简单闪烁）
         animateHit();
         
@@ -756,6 +836,9 @@ function initParabolaShooterGame() {
     
     // 处理未命中
     function handleMiss(calculatedY) {
+        // 播放错误音效
+        window.playSound('wrong');
+        
         // 显示实际函数经过的点
         animateMiss(calculatedY);
         
@@ -1269,6 +1352,9 @@ function initEquationMatchingGame() {
     function handleCorrectMatch() {
         console.log('正确匹配！');
         
+        // 播放正确音效
+        window.playSound('correct');
+        
         // 更新方程和图形的状态
         const equationIndex = equations.findIndex(eq => eq.id === selectedEquation.id);
         equations[equationIndex].matched = true;
@@ -1319,6 +1405,9 @@ function initEquationMatchingGame() {
     // 处理错误匹配
     function handleIncorrectMatch() {
         console.log('匹配错误！');
+        
+        // 播放错误音效
+        window.playSound('wrong');
         
         // 获取选中的元素
         const selectedEquationElement = document.querySelector(`.equation-item.selected`);
@@ -1647,6 +1736,7 @@ function initVertexHunterGame() {
         if (isNaN(userX) || isNaN(userY)) {
             feedbackDisplay.textContent = getTranslation('game.interface.feedback.incorrect') || '不正确，请再试一次';
             feedbackDisplay.className = 'feedback-message incorrect';
+            window.playSound('wrong');
             return false;
         }
         
@@ -1661,6 +1751,9 @@ function initVertexHunterGame() {
             // 答案正确
             feedbackDisplay.textContent = getTranslation('game.interface.feedback.correct') || '正确!';
             feedbackDisplay.className = 'feedback-message correct';
+            
+            // 播放正确音效
+            window.playSound('correct');
             
             // 增加分数
             score += 10;
@@ -1680,11 +1773,13 @@ function initVertexHunterGame() {
             // 接近正确
             feedbackDisplay.textContent = getTranslation('game.interface.feedback.almostCorrect') || '接近正确，再试一次';
             feedbackDisplay.className = 'feedback-message almost';
+            window.playSound('wrong');
             return false;
         } else {
             // 不正确
             feedbackDisplay.textContent = getTranslation('game.interface.feedback.incorrect') || '不正确，请再试一次';
             feedbackDisplay.className = 'feedback-message incorrect';
+            window.playSound('wrong');
             return false;
         }
     }
