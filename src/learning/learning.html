@@ -24,16 +24,20 @@
                 <li><a href="../community/community.html" data-i18n="nav.community">Community</a></li>
             </ul>
         </nav>
-        <!-- 暗黑模式切换 -->
-        <div class="dark-mode-toggle">
-            <button id="dark-mode-btn" data-i18n="common.darkMode">Toggle Dark Mode</button>
-        </div>
-        <!-- 语言切换 -->
-        <div class="language-selector">
-            <select id="language">
-                <option value="en" data-i18n="common.english">English</option>
-                <option value="zh" data-i18n="common.chinese">中文</option>
-            </select>
+        
+        <div class="utility-buttons">
+            <!-- 暗黑模式切换 -->
+            <div class="dark-mode-toggle">
+                <button id="dark-mode-btn" data-i18n="common.darkMode" aria-label="Toggle dark mode">🌓</button>
+            </div>
+            <!-- 语言切换 -->
+            <div class="language-selector">
+                <label for="language" class="visually-hidden" data-i18n="common.selectLanguage">Select Language</label>
+                <select id="language" aria-label="Select language">
+                    <option value="en" data-i18n="common.english">English</option>
+                    <option value="zh" data-i18n="common.chinese">中文</option>
+                </select>
+            </div>
         </div>
     </header>
 

@@ -3,37 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tests - Quadratic Equations & Parabolas</title>
+    <title data-i18n="test.pageTitle">Tests - Quadratic Equations & Parabolas</title>
     <link rel="stylesheet" href="../common/styles/main.css">
     <link rel="stylesheet" href="../common/styles/dark-mode.css">
     <link rel="stylesheet" href="styles/test.css">
     <script src="../common/scripts/i18n.js" defer></script>
+    <!-- 添加调试功能 -->
+    <script>
+        // 调试辅助函数
+        window.debugTest = {
+            // 显示当前测试状态
+            showTestState: function() {
+                if (typeof currentTest !== 'undefined') {
+                    console.log('当前测试状态:', JSON.parse(JSON.stringify(currentTest)));
+                } else {
+                    console.log('当前测试状态不可用');
+                }
+            },
+            // 显示所有题目数据
+            showAllQuestions: function() {
+                if (typeof testQuestions !== 'undefined') {
+                    console.log('所有题目数据:', JSON.parse(JSON.stringify(testQuestions)));
+                } else {
+                    console.log('题目数据不可用');
+                }
+            },
+            // 手动触发翻译
+            triggerTranslation: function() {
+                if (typeof translateTestQuestions === 'function') {
+                    console.log('手动触发题目翻译');
+                    translateTestQuestions();
+                    // 如果有当前问题，重新显示
+                    if (typeof currentTest !== 'undefined' && 
+                        currentTest.questions && 
+                        currentTest.questions.length > 0 &&
+                        typeof showQuestion === 'function') {
+                        showQuestion(currentTest.currentQuestionIndex);
+                    }
+                } else {
+                    console.log('翻译函数不可用');
+                }
+            },
+            // 获取当前语言
+            getCurrentLanguage: function() {
+                const langSelect = document.getElementById('language');
+                if (langSelect) {
+                    console.log('当前语言:', langSelect.value);
+                    return langSelect.value;
+                }
+                console.log('无法获取当前语言');
+                return null;
+            },
+            // 切换语言
+            switchLanguage: function(lang) {
+                const langSelect = document.getElementById('language');
+                if (langSelect && (lang === 'en' || lang === 'zh')) {
+                    langSelect.value = lang;
+                    // 触发change事件
+                    const event = new Event('change');
+                    langSelect.dispatchEvent(event);
+                    console.log('语言已切换到:', lang);
+                } else {
+                    console.log('无法切换语言，请指定 "en" 或 "zh"');
+                }
+            }
+        };
+    </script>
 </head>
 <body>
     <!-- 顶部导航栏 -->
     <header>
         <div class="logo">
-            <h1>Quadratic Equations & Parabolas</h1>
+            <h1 data-i18n="nav.home">Quadratic Equations & Parabolas</h1>
         </div>
         <nav>
             <ul>
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../learning/learning.html">Learning</a></li>
-                <li><a href="../game/game.html">Games</a></li>
-                <li><a href="test.html" class="active">Tests</a></li>
-                <li><a href="../community/community.html">Community</a></li>
+                <li><a href="../../index.html" data-i18n="nav.home">Home</a></li>
+                <li><a href="../learning/learning.html" data-i18n="nav.learning">Learning</a></li>
+                <li><a href="../game/game.html" data-i18n="nav.game">Games</a></li>
+                <li><a href="test.html" class="active" data-i18n="nav.test">Tests</a></li>
+                <li><a href="../community/community.html" data-i18n="nav.community">Community</a></li>
             </ul>
         </nav>
-        <!-- 暗黑模式切换 -->
-        <div class="dark-mode-toggle">
-            <button id="dark-mode-btn">Toggle Dark Mode</button>
-        </div>
-        <!-- 语言切换 -->
-        <div class="language-selector">
-            <select id="language">
-                <option value="en">English</option>
-                <option value="zh">中文</option>
-            </select>
+        
+        <div class="utility-buttons">
+            <!-- 暗黑模式切换 -->
+            <div class="dark-mode-toggle">
+                <button id="dark-mode-btn" data-i18n="common.darkMode" aria-label="Toggle dark mode">🌓</button>
+            </div>
+            <!-- 语言切换 -->
+            <div class="language-selector">
+                <label for="language" class="visually-hidden" data-i18n="common.selectLanguage">Select Language</label>
+                <select id="language" aria-label="Select language">
+                    <option value="en" data-i18n="common.english">English</option>
+                    <option value="zh" data-i18n="common.chinese">中文</option>
+                </select>
+            </div>
         </div>
     </header>
 
@@ -41,25 +106,31 @@
     <main class="test-container">
         <!-- 导航面包屑 -->
         <div class="breadcrumb">
-            <a href="../../index.html">Home</a> > <span>Tests</span>
+            <a href="../../index.html" data-i18n="nav.home">Home</a> > <span data-i18n="nav.test">Tests</span>
         </div>
         
         <!-- 测试介绍 -->
         <section class="test-intro">
-            <h2>Knowledge Assessment</h2>
-            <p>Test your understanding of quadratic equations and parabolas. This assessment includes various question types and will provide detailed analysis and recommendations upon completion.</p>
+            <h2 data-i18n="test.intro.title">Knowledge Assessment</h2>
+            <p data-i18n="test.intro.description">Test your understanding of quadratic equations and parabolas. This assessment includes various question types and will provide detailed analysis and recommendations upon completion.</p>
             
             <div class="difficulty-selection">
-                <h3>Select Difficulty</h3>
+                <h3 data-i18n="test.difficulty.title">Select Difficulty</h3>
                 <div class="difficulty-buttons">
-                    <button class="difficulty-btn" data-difficulty="easy">Easy</button>
-                    <button class="difficulty-btn" data-difficulty="medium">Medium</button>
-                    <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+                    <button class="difficulty-btn" data-difficulty="easy">
+                        <span data-i18n="test.difficulty.easy">Easy</span>
+                    </button>
+                    <button class="difficulty-btn" data-difficulty="medium">
+                        <span data-i18n="test.difficulty.medium">Medium</span>
+                    </button>
+                    <button class="difficulty-btn" data-difficulty="hard">
+                        <span data-i18n="test.difficulty.hard">Hard</span>
+                    </button>
                 </div>
             </div>
             
             <div class="start-test-container">
-                <button id="start-test-btn">Begin Test</button>
+                <button id="start-test-btn" data-i18n="test.start">Begin Test</button>
             </div>
         </section>
         
@@ -68,11 +139,11 @@
             <!-- 测试头部 -->
             <div class="test-header">
                 <div class="test-info">
-                    <span class="question-counter">Question <span id="current-question">1</span> / <span id="total-questions">10</span></span>
-                    <span class="difficulty-badge" id="test-difficulty">Medium</span>
+                    <span class="question-counter"><span data-i18n="test.interface.question">Question</span> <span id="current-question">1</span> <span data-i18n="test.interface.of">/</span> <span id="total-questions">10</span></span>
+                    <span class="difficulty-badge" id="test-difficulty"></span>
                 </div>
                 <div class="test-timer">
-                    Time remaining: <span id="timer">20:00</span>
+                    <span data-i18n="test.interface.timeRemaining">Time remaining</span>: <span id="timer">20:00</span>
                 </div>
             </div>
             
@@ -84,16 +155,16 @@
                 
                 <!-- 导航按钮 -->
                 <div class="test-navigation">
-                    <button id="prev-question" disabled>Previous</button>
-                    <button id="next-question">Next</button>
-                    <button id="submit-test" style="display: none;">Submit Test</button>
-                    <button id="restart-test">Restart Test</button>
+                    <button id="prev-question" disabled data-i18n="test.interface.previous">Previous</button>
+                    <button id="next-question" data-i18n="test.interface.next">Next</button>
+                    <button id="submit-test" style="display: none;" data-i18n="test.interface.submit">Submit Test</button>
+                    <button id="restart-test" data-i18n="test.interface.restart">Restart Test</button>
                 </div>
             </div>
             
             <!-- 问题导航 -->
             <div class="question-navigation">
-                <h3>Question Navigation</h3>
+                <h3 data-i18n="test.interface.questionNavigation">Question Navigation</h3>
                 <div class="question-dots" id="question-dots">
                     <!-- 问题导航点将通过JavaScript动态生成 -->
                 </div>
@@ -102,7 +173,7 @@
         
         <!-- 测试结果 -->
         <section class="test-results" id="test-results">
-            <h2>Test Results</h2>
+            <h2 data-i18n="test.results.title">Test Results</h2>
             
             <div class="results-summary">
                 <div class="score-display">
@@ -110,28 +181,28 @@
                         <span id="score-percentage">85%</span>
                     </div>
                     <div class="score-details">
-                        <p>Score: <span id="score-value">17</span> / <span id="total-score">20</span></p>
-                        <p>Time used: <span id="time-used">15:30</span></p>
+                        <p><span data-i18n="test.results.score">Score</span>: <span id="score-value">17</span> / <span id="total-score">20</span></p>
+                        <p><span data-i18n="test.results.timeUsed">Time used</span>: <span id="time-used">15:30</span></p>
                     </div>
                 </div>
                 
                 <div class="performance-summary">
-                    <h3>Performance Summary</h3>
+                    <h3 data-i18n="test.results.performanceSummary">Performance Summary</h3>
                     <p id="performance-text">You have a good understanding of quadratic equations and parabolas! You excelled in graph transformations, but there's room for improvement in equation solving.</p>
                 </div>
             </div>
             
             <div class="results-details">
-                <h3>Detailed Analysis</h3>
+                <h3 data-i18n="test.results.detailedAnalysis">Detailed Analysis</h3>
                 
                 <table class="results-table">
                     <thead>
                         <tr>
-                            <th>Q#</th>
-                            <th>Type</th>
-                            <th>Difficulty</th>
-                            <th>Result</th>
-                            <th>Explanation</th>
+                            <th data-i18n="test.results.questionNumber">Q#</th>
+                            <th data-i18n="test.results.type">Type</th>
+                            <th data-i18n="test.results.difficulty">Difficulty</th>
+                            <th data-i18n="test.results.result">Result</th>
+                            <th data-i18n="test.results.explanation">Explanation</th>
                         </tr>
                     </thead>
                     <tbody id="results-table-body">
@@ -140,28 +211,28 @@
                 </table>
                 
                 <div class="topic-breakdown">
-                    <h3>Knowledge Mastery</h3>
+                    <h3 data-i18n="test.results.knowledgeMastery">Knowledge Mastery</h3>
                     <div class="topic-bars">
                         <div class="topic-bar">
-                            <div class="topic-name">Basic Concepts</div>
+                            <div class="topic-name" data-i18n="test.results.topics.basicConcepts">Basic Concepts</div>
                             <div class="progress-container">
                                 <div class="progress-bar" style="width: 90%;">90%</div>
                             </div>
                         </div>
                         <div class="topic-bar">
-                            <div class="topic-name">Graph Transformations</div>
+                            <div class="topic-name" data-i18n="test.results.topics.graphTransformations">Graph Transformations</div>
                             <div class="progress-container">
                                 <div class="progress-bar" style="width: 85%;">85%</div>
                             </div>
                         </div>
                         <div class="topic-bar">
-                            <div class="topic-name">Equation Solving</div>
+                            <div class="topic-name" data-i18n="test.results.topics.equationSolving">Equation Solving</div>
                             <div class="progress-container">
                                 <div class="progress-bar" style="width: 70%;">70%</div>
                             </div>
                         </div>
                         <div class="topic-bar">
-                            <div class="topic-name">Applied Problems</div>
+                            <div class="topic-name" data-i18n="test.results.topics.appliedProblems">Applied Problems</div>
                             <div class="progress-container">
                                 <div class="progress-bar" style="width: 75%;">75%</div>
                             </div>
@@ -171,7 +242,7 @@
             </div>
             
             <div class="recommendations">
-                <h3>Learning Recommendations</h3>
+                <h3 data-i18n="test.results.recommendations">Learning Recommendations</h3>
                 <ul id="recommendations-list">
                     <li>Review methods for solving quadratic equations, especially using the discriminant.</li>
                     <li>Practice more applied problems to improve problem-solving skills.</li>
@@ -180,9 +251,9 @@
             </div>
             
             <div class="action-buttons">
-                <button id="review-test">Review Questions & Answers</button>
-                <button id="retry-test">Retake Test</button>
-                <button id="share-results">Share Results</button>
+                <button id="review-test" data-i18n="test.results.reviewTest">Review Questions & Answers</button>
+                <button id="retry-test" data-i18n="test.results.retryTest">Retake Test</button>
+                <button id="share-results" data-i18n="test.results.shareResults">Share Results</button>
             </div>
         </section>
         
@@ -240,13 +311,13 @@
     <footer>
         <div class="footer-content">
             <div class="footer-contact">
-                <h3>Contact Us</h3>
-                <p>Email: contact@quadraticlearning.com</p>
+                <h3 data-i18n="common.contact">Contact Us</h3>
+                <p data-i18n="common.email">Email: contact@quadraticlearning.com</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.</p>
-            <p><a href="../common/privacy.html">Privacy Policy</a> | <a href="../common/terms.html">Terms of Use</a></p>
+            <p data-i18n="common.copyright">© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.</p>
+            <p><a href="../common/privacy.html" data-i18n="common.privacy">Privacy Policy</a> | <a href="../common/terms.html" data-i18n="common.terms">Terms of Use</a></p>
         </div>
     </footer>
 
