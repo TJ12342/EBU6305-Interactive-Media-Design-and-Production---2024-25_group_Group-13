@@ -10,6 +10,23 @@
     <script src="../common/scripts/i18n.js" defer></script>
 </head>
 <body>
+    <!-- 预加载音效（隐藏） -->
+    <div class="audio-preload" style="display: none;">
+        <audio id="sound-correct" preload="auto">
+            <source src="../assets/sounds/game/right.wav" type="audio/wav">
+        </audio>
+        <audio id="sound-wrong" preload="auto">
+            <source src="../assets/sounds/game/wrong.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="sound-countdown" preload="auto">
+            <source src="../assets/sounds/game/countingdown.wav" type="audio/wav">
+        </audio>
+        <!-- 使用正确音效作为游戏结束音效 -->
+        <audio id="sound-gameover" preload="auto">
+            <source src="../assets/sounds/game/success.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
     <!-- 顶部导航栏 -->
     <header>
         <div class="logo">
@@ -55,7 +72,9 @@
             
             <div class="game-cards">
                 <div class="game-card" id="parabola-shooter">
-                    <div class="game-icon">🎯</div>
+                    <div class="game-icon">
+                        <img src="../assets/images/game/ParabolaShooter.png" alt="Parabola Shooter Game" class="game-image">
+                    </div>
                     <h3 data-i18n="game.parabolaShooter.title">Parabola Shooter</h3>
                     <p data-i18n="game.parabolaShooter.description">Adjust parabola parameters to hit targets</p>
                     <div class="game-difficulty">
@@ -66,7 +85,9 @@
                 </div>
                 
                 <div class="game-card" id="equation-matching">
-                    <div class="game-icon">🧩</div>
+                    <div class="game-icon">
+                        <img src="../assets/images/game/EquationMatching.png" alt="Equation Matching Game" class="game-image">
+                    </div>
                     <h3 data-i18n="game.equationMatching.title">Equation Matching</h3>
                     <p data-i18n="game.equationMatching.description">Match quadratic equations with their corresponding parabola graphs</p>
                     <div class="game-difficulty">
@@ -77,7 +98,9 @@
                 </div>
                 
                 <div class="game-card" id="vertex-hunter">
-                    <div class="game-icon">🔍</div>
+                    <div class="game-icon">
+                        <img src="../assets/images/game/VertexHunter.png" alt="Vertex Hunter Game" class="game-image">
+                    </div>
                     <h3 data-i18n="game.vertexHunter.title">Vertex Hunter</h3>
                     <p data-i18n="game.vertexHunter.description">Quickly identify the vertex coordinates of given quadratic functions</p>
                     <div class="game-difficulty">
