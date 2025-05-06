@@ -23,6 +23,26 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 初始化排行榜
         initLeaderboard();
+        
+        // 监听语言变更
+        const languageSelector = document.getElementById('language');
+        if (languageSelector) {
+            languageSelector.addEventListener('change', function() {
+                // 使用i18n.js提供的方法更改语言
+                if (window.i18n && typeof window.i18n.setLanguage === 'function') {
+                    window.i18n.setLanguage(this.value);
+                }
+                
+                // 可以根据需要更新游戏特定的UI元素
+                updateGameUI();
+            });
+        }
+        
+        // 监听语言变更事件
+        document.addEventListener('languageChanged', function(e) {
+            // 更新游戏页面特定的UI元素
+            updateGameUI();
+        });
     }, 300); // 延迟300毫秒确保DOM完全渲染
 });
 
@@ -169,13 +189,13 @@ function gameOver() {
     // 根据分数显示不同的成就文本
     const score = parseInt(finalScore);
     if (score >= 500) {
-        achievementText.textContent = '数学天才!';
+        achievementText.textContent = getTranslation('game.interface.achievements.mathGenius') || '数学天才!';
     } else if (score >= 300) {
-        achievementText.textContent = '二次方程大师!';
+        achievementText.textContent = getTranslation('game.interface.achievements.quadraticMaster') || '二次方程大师!';
     } else if (score >= 100) {
-        achievementText.textContent = '抛物线高手!';
+        achievementText.textContent = getTranslation('game.interface.achievements.parabolaExpert') || '抛物线高手!';
     } else {
-        achievementText.textContent = '继续加油!';
+        achievementText.textContent = getTranslation('game.interface.achievements.keepPracticing') || '继续加油!';
     }
     
     // 显示弹窗
@@ -1625,9 +1645,9 @@ function initVertexHunterGame() {
         const userY = parseFloat(vertexYInput.value);
         
         if (isNaN(userX) || isNaN(userY)) {
-            feedbackDisplay.textContent = '请输入有效的坐标值';
-            feedbackDisplay.className = 'feedback-message error';
-            return;
+            feedbackDisplay.textContent = getTranslation('game.interface.feedback.incorrect') || '不正确，请再试一次';
+            feedbackDisplay.className = 'feedback-message incorrect';
+            return false;
         }
         
         // 计算误差
@@ -1639,22 +1659,33 @@ function initVertexHunterGame() {
         
         if (xError <= allowedError && yError <= allowedError) {
             // 答案正确
-            feedbackDisplay.textContent = '答案正确！顶点坐标: (' + correctVertexX.toFixed(1) + ', ' + correctVertexY.toFixed(1) + ')';
+            feedbackDisplay.textContent = getTranslation('game.interface.feedback.correct') || '正确!';
             feedbackDisplay.className = 'feedback-message correct';
             
             // 增加分数
             score += 10;
             document.getElementById('current-score').textContent = score;
             
-            // 生成新的函数
+            // 生成新函数
             setTimeout(function() {
                 generateNewFunction();
-                drawVertexHunterFunction();
-            }, 1500);
+                feedbackDisplay.textContent = '';
+                feedbackDisplay.className = 'feedback-message';
+                document.getElementById('vertex-x').value = '';
+                document.getElementById('vertex-y').value = '';
+            }, 1000);
+            
+            return true;
+        } else if (xError <= 0.3 && yError <= 0.3) {
+            // 接近正确
+            feedbackDisplay.textContent = getTranslation('game.interface.feedback.almostCorrect') || '接近正确，再试一次';
+            feedbackDisplay.className = 'feedback-message almost';
+            return false;
         } else {
-            // 答案错误
-            feedbackDisplay.textContent = '答案不正确，请再试一次';
-            feedbackDisplay.className = 'feedback-message error';
+            // 不正确
+            feedbackDisplay.textContent = getTranslation('game.interface.feedback.incorrect') || '不正确，请再试一次';
+            feedbackDisplay.className = 'feedback-message incorrect';
+            return false;
         }
     }
     
@@ -1664,4 +1695,76 @@ function initVertexHunterGame() {
         generateNewFunction();
         drawVertexHunterFunction();
     };
+}
+
+// 辅助函数：获取翻译文本
+function getTranslation(key) {
+    // 检查是否有window.i18n公共函数可用
+    if (window.i18n && typeof window.i18n.getTranslation === 'function') {
+        return window.i18n.getTranslation(key);
+    }
+    
+    const language = document.getElementById('language').value || 'en';
+    
+    if (window.i18n && window.i18n[language] && key.split('.').reduce((obj, prop) => obj && obj[prop], window.i18n[language])) {
+        return key.split('.').reduce((obj, prop) => obj[prop], window.i18n[language]);
+    }
+    
+    // 如果没有找到翻译，返回键的最后一部分作为默认值
+    return key.split('.').pop();
+}
+
+// 更新游戏UI元素 - 响应语言变更
+function updateGameUI() {
+    // 更新游戏卡片标题和描述
+    const games = [
+        { id: 'parabola-shooter', key: 'parabolaShooter' }, 
+        { id: 'equation-matching', key: 'equationMatching' }, 
+        { id: 'vertex-hunter', key: 'vertexHunter' }
+    ];
+    
+    games.forEach(game => {
+        const card = document.getElementById(game.id);
+        if (card) {
+            const title = card.querySelector('h3');
+            const desc = card.querySelector('p');
+            const btn = card.querySelector('.play-btn');
+            const diff = card.querySelector('.difficulty');
+            
+            if (title) title.textContent = getTranslation(`game.${game.key}.title`) || title.textContent;
+            if (desc) desc.textContent = getTranslation(`game.${game.key}.description`) || desc.textContent;
+            if (btn) btn.textContent = getTranslation(`game.${game.key}.button`) || btn.textContent;
+            if (diff) diff.textContent = getTranslation(`game.${game.key}.difficulty`) || diff.textContent;
+        }
+    });
+    
+    // 更新游戏控制区域
+    const controlElems = {
+        score: document.querySelector('.score-display span:first-child'),
+        time: document.querySelector('.timer span:first-child'),
+        seconds: document.querySelector('.timer span:last-child'),
+        restart: document.getElementById('restart-game'),
+        back: document.getElementById('back-to-selection')
+    };
+    
+    if (controlElems.score) controlElems.score.textContent = getTranslation('game.controls.score') || controlElems.score.textContent;
+    if (controlElems.time) controlElems.time.textContent = getTranslation('game.controls.time') || controlElems.time.textContent;
+    if (controlElems.seconds) controlElems.seconds.textContent = getTranslation('game.controls.seconds') || controlElems.seconds.textContent;
+    if (controlElems.restart) controlElems.restart.textContent = getTranslation('game.controls.restart') || controlElems.restart.textContent;
+    if (controlElems.back) controlElems.back.textContent = getTranslation('game.controls.back') || controlElems.back.textContent;
+    
+    // 更新排行榜
+    const leaderboardElems = {
+        title: document.querySelector('.leaderboard h2'),
+        rankHeader: document.querySelector('.leaderboard-table th:nth-child(1)'),
+        playerHeader: document.querySelector('.leaderboard-table th:nth-child(2)'),
+        scoreHeader: document.querySelector('.leaderboard-table th:nth-child(3)'),
+        dateHeader: document.querySelector('.leaderboard-table th:nth-child(4)')
+    };
+    
+    if (leaderboardElems.title) leaderboardElems.title.textContent = getTranslation('game.leaderboard.title') || leaderboardElems.title.textContent;
+    if (leaderboardElems.rankHeader) leaderboardElems.rankHeader.textContent = getTranslation('game.leaderboard.rank') || leaderboardElems.rankHeader.textContent;
+    if (leaderboardElems.playerHeader) leaderboardElems.playerHeader.textContent = getTranslation('game.leaderboard.player') || leaderboardElems.playerHeader.textContent;
+    if (leaderboardElems.scoreHeader) leaderboardElems.scoreHeader.textContent = getTranslation('game.leaderboard.score') || leaderboardElems.scoreHeader.textContent;
+    if (leaderboardElems.dateHeader) leaderboardElems.dateHeader.textContent = getTranslation('game.leaderboard.date') || leaderboardElems.dateHeader.textContent;
 } 

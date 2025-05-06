@@ -17,6 +17,7 @@ window.i18n.en = {
         language: "Language",
         english: "English",
         chinese: "Chinese",
+        selectLanguage: "Select Language",
         backToTop: "Back to Top",
         contact: "Contact Us",
         email: "parabola@math-learning.com",
@@ -219,6 +220,168 @@ window.i18n.en = {
                     q3d: "It depends on a and b",
                     checkButton: "Check Answers"
                 }
+            },
+            transformations: {
+                intro: "A quadratic function can be transformed in various ways to shift, stretch, compress, or reflect its graph. Understanding these transformations helps in analyzing and manipulating parabolas.",
+                forms: {
+                    title: "Standard Form vs. Vertex Form",
+                    description: "To better understand transformations, we need to compare the standard form and vertex form of quadratic functions:"
+                },
+                horizontal: {
+                    title: "Horizontal Translations",
+                    description: "The graph of f(x) = a(x - h)² + k is shifted h units horizontally from the basic parabola f(x) = ax²:"
+                },
+                vertical: {
+                    title: "Vertical Translations",
+                    description: "The graph of f(x) = a(x - h)² + k is shifted k units vertically from the basic parabola f(x) = ax²:"
+                },
+                stretching: {
+                    title: "Vertical Stretching and Compression",
+                    description: "The coefficient 'a' in f(x) = a(x - h)² + k affects the vertical stretching or compression of the parabola:"
+                },
+                reflections: {
+                    title: "Reflections",
+                    description: "Parabolas can be reflected across the x-axis or y-axis:"
+                },
+                sequence: {
+                    title: "Sequence of Transformations",
+                    description: "When applying multiple transformations, the order matters. The conventional order is:"
+                },
+                interactive: {
+                    title: "Interactive Transformation Explorer",
+                    description: "Adjust the sliders to see how different transformations affect the parabola.",
+                    a: "a:",
+                    aDesc: "Stretching/compression & reflection",
+                    h: "h:",
+                    hDesc: "Horizontal shift",
+                    k: "k:",
+                    kDesc: "Vertical shift",
+                    vertex: "Vertex:",
+                    direction: "Direction:",
+                    transformations: "Applied Transformations:"
+                },
+                applications: {
+                    title: "Applications of Transformations",
+                    description: "Understanding parabola transformations has practical applications:",
+                    example1: {
+                        title: "Architecture",
+                        description: "Arches and domes often follow parabolic shapes. Engineers can transform basic parabolas to achieve specific heights, widths, and structural properties."
+                    },
+                    example2: {
+                        title: "Optics",
+                        description: "Parabolic mirrors and lenses use transformed parabolas to focus light. The precise shape determines the focal point's position."
+                    },
+                    example3: {
+                        title: "Physics",
+                        description: "Projectile motion equations can be rewritten in vertex form to easily determine maximum height, distance traveled, and time in air."
+                    }
+                },
+                quiz: {
+                    title: "Quick Check",
+                    instruction: "Test your understanding of parabola transformations:",
+                    q1: "What is the vertex of the parabola f(x) = 2(x - 3)² + 4?",
+                    q1a: "(3, 4)",
+                    q1b: "(-3, 4)",
+                    q1c: "(3, -4)",
+                    q1d: "(4, 3)",
+                    q2: "How would you transform the basic parabola f(x) = x² to get g(x) = -3(x + 2)² - 5?",
+                    q2a: "Stretch by 3, reflect, shift 2 right, shift 5 up",
+                    q2b: "Stretch by 3, reflect, shift 2 left, shift 5 down",
+                    q2c: "Compress by 3, shift 2 left, shift 5 down",
+                    q2d: "Reflect, stretch by 3, shift 2 right, shift 5 down",
+                    q3: "If a parabola has vertex at (-2, 3) and opens downward with a vertical stretch of 4, what is its equation in vertex form?",
+                    q3a: "f(x) = 4(x + 2)² + 3",
+                    q3b: "f(x) = -4(x + 2)² + 3",
+                    q3c: "f(x) = 4(x - 2)² + 3",
+                    q3d: "f(x) = -4(x - 2)² + 3",
+                    checkButton: "Check Answers"
+                }
+            },
+            applications: {
+                intro: "Quadratic equations and parabolas aren't just mathematical abstractions—they appear frequently in the real world. This module explores how quadratic functions model and solve problems in various fields including physics, engineering, architecture, economics, and everyday life.",
+                physics: {
+                    title: "Applications in Physics",
+                    description: "Quadratic equations are fundamental in describing various physical phenomena:",
+                    projectile: {
+                        title: "Projectile Motion",
+                        description: "When an object is thrown or launched, its vertical position follows a quadratic function of time:"
+                    },
+                    freefall: {
+                        title: "Free Fall Motion",
+                        description: "When an object falls under the influence of gravity, its position follows a quadratic equation:"
+                    }
+                },
+                engineering: {
+                    title: "Applications in Engineering and Architecture",
+                    description: "Parabolic shapes appear frequently in engineering structures and designs:",
+                    bridges: {
+                        title: "Suspension Bridges",
+                        description: "The cables of suspension bridges form parabolas when the weight of the roadway is uniformly distributed horizontally. This shape distributes forces efficiently."
+                    },
+                    arches: {
+                        title: "Arches and Domes",
+                        description: "Parabolic arches are structurally efficient and distribute weight evenly. They're used in architecture for bridges, entryways, and domes."
+                    },
+                    optics: {
+                        title: "Parabolic Reflectors",
+                        description: "Parabolic shapes are crucial in optics and signal technology:"
+                    }
+                },
+                economics: {
+                    title: "Applications in Economics and Business",
+                    description: "Quadratic functions model many economic relationships:",
+                    revenue: {
+                        title: "Revenue Optimization",
+                        description: "The relationship between price and demand often follows a linear function, which leads to a quadratic revenue function:"
+                    },
+                    profit: {
+                        title: "Profit Maximization",
+                        description: "Profit functions frequently take quadratic form when revenue and cost functions are considered:"
+                    },
+                    production: {
+                        title: "Production and Cost",
+                        description: "In manufacturing, the marginal cost often increases with production volume, leading to quadratic cost functions:"
+                    }
+                },
+                environmental: {
+                    title: "Environmental and Biological Applications",
+                    description: "Quadratic relationships occur naturally in many biological and environmental systems:",
+                    population: {
+                        title: "Population Growth",
+                        description: "While exponential models are common for population growth, quadratic models can represent populations with resource constraints:"
+                    },
+                    reaction: {
+                        title: "Chemical Reactions",
+                        description: "Some chemical reactions follow second-order kinetics, which can be modeled using quadratic equations."
+                    }
+                },
+                interactive: {
+                    title: "Interactive Problem-Solver",
+                    description: "Explore how to apply quadratic equations to solve real-world problems:"
+                },
+                quiz: {
+                    title: "Quick Check",
+                    instruction: "Test your understanding of practical applications:",
+                    q1: "A ball is thrown upward from a height of 1.5 meters with an initial velocity of 19.6 m/s. Which equation represents its height h (in meters) after t seconds?",
+                    q1a: "h(t) = -4.9t² + 19.6t + 1.5",
+                    q1b: "h(t) = -9.8t² + 19.6t + 1.5",
+                    q1c: "h(t) = 4.9t² + 19.6t + 1.5",
+                    q1d: "h(t) = -4.9t² + 1.5t + 19.6",
+                    q2: "A company finds that when they price their product at $p dollars, they sell q = 1000 - 25p units. Which price maximizes their revenue?",
+                    q2a: "$20",
+                    q2b: "$25",
+                    q2c: "$30",
+                    q2d: "$40",
+                    q3: "Which of the following real-world structures most clearly demonstrates parabolic shapes?",
+                    q3a: "Radio tower",
+                    q3b: "Satellite dish",
+                    q3c: "Spiral staircase",
+                    q3d: "Pyramid",
+                    checkButton: "Check Answers"
+                },
+                casestudies: {
+                    title: "Case Studies"
+                }
             }
         }
     },
@@ -286,6 +449,10 @@ window.i18n.en = {
     // Test page
     test: {
         pageTitle: "Quadratic Equation Tests | ParabolaMaster",
+        intro: {
+            title: "Knowledge Assessment",
+            description: "Test your understanding of quadratic equations and parabolas. This assessment includes various question types and will provide detailed analysis and recommendations upon completion."
+        },
         title: "Test Your Knowledge",
         description: "Assess your understanding of quadratic equations and parabolas through our tests. Choose a difficulty level to begin.",
         

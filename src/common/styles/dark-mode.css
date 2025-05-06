@@ -24,19 +24,31 @@ body.dark-mode nav ul li a.active {
     border-bottom: 2px solid #4db6ac;
 }
 
+/* 暗黑模式按钮样式 */
 body.dark-mode .dark-mode-toggle button {
-    background: #4db6ac;
-    color: #121212;
+    background-color: #333;
+    color: #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .dark-mode-toggle button:hover {
-    background: #80cbc4;
+    background-color: #444;
+    transform: scale(1.05);
 }
 
+/* 暗黑模式下的语言选择器 */
 body.dark-mode .language-selector select {
     background-color: #333;
     color: #e0e0e0;
     border: 1px solid #555;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+body.dark-mode .language-selector select:hover,
+body.dark-mode .language-selector select:focus {
+    border-color: #4db6ac;
+    box-shadow: 0 0 0 2px rgba(77, 182, 172, 0.2);
+    background-color: #444;
 }
 
 /* 暗黑模式下的英雄区域 */
