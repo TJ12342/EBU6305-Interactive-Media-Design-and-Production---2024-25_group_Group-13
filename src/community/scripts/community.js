@@ -22,6 +22,12 @@ function initCommunity() {
     
     // 初始化分页功能
     initPagination();
+    
+    // 初始化删除确认功能
+    initDeleteConfirmation();
+    
+    // 初始化个人资料编辑功能
+    initProfileEdit();
 }
 
 // 初始化登录模态框
@@ -265,4 +271,192 @@ function initPagination() {
             });
         });
     }
+}
+
+// 初始化删除确认功能
+function initDeleteConfirmation() {
+    // 获取删除按钮 (这里使用后添加的删除按钮)
+    const deleteButtons = document.querySelectorAll('.delete-topic-btn, .delete-comment-btn');
+    const deleteConfirmModal = document.getElementById('delete-confirm-modal');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    
+    let itemToDelete = null; // 存储要删除的元素
+    
+    // 为所有删除按钮添加事件监听
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 记录要删除的元素
+            itemToDelete = this.closest('.topic-item') || this.closest('.comment-item');
+            
+            // 显示确认对话框
+            deleteConfirmModal.classList.remove('hidden');
+        });
+    });
+    
+    // 取消删除
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', function() {
+            deleteConfirmModal.classList.add('hidden');
+            itemToDelete = null;
+        });
+    }
+    
+    // 确认删除
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (itemToDelete) {
+                // 执行删除操作
+                itemToDelete.remove();
+                
+                // 关闭对话框
+                deleteConfirmModal.classList.add('hidden');
+                itemToDelete = null;
+                
+                // 显示删除成功消息
+                alert('Content has been deleted successfully.');
+            }
+        });
+    }
+    
+    // 点击模态框外部关闭
+    window.addEventListener('click', function(e) {
+        if (e.target === deleteConfirmModal) {
+            deleteConfirmModal.classList.add('hidden');
+            itemToDelete = null;
+        }
+    });
+}
+
+// 初始化个人资料编辑功能
+function initProfileEdit() {
+    const profileEditForm = document.getElementById('profile-edit-form');
+    const genderSelect = document.getElementById('edit-gender');
+    const genderOther = document.getElementById('edit-gender-other');
+    const pronounsSelect = document.getElementById('edit-pronouns');
+    const pronounsOther = document.getElementById('edit-pronouns-other');
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    
+    // 打开个人资料编辑模态框
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', function() {
+            document.getElementById('profile-edit-modal').classList.remove('hidden');
+        });
+    }
+    
+    // 如果个人资料编辑表单存在
+    if (profileEditForm) {
+        // 处理性别选择变化
+        if (genderSelect && genderOther) {
+            genderSelect.addEventListener('change', function() {
+                if (this.value === 'other') {
+                    genderOther.classList.remove('hidden');
+                } else {
+                    genderOther.classList.add('hidden');
+                }
+            });
+        }
+        
+        // 处理代词选择变化
+        if (pronounsSelect && pronounsOther) {
+            pronounsSelect.addEventListener('change', function() {
+                if (this.value === 'other') {
+                    pronounsOther.classList.remove('hidden');
+                } else {
+                    pronounsOther.classList.add('hidden');
+                }
+            });
+        }
+        
+        // 编辑个人资料表单提交
+        profileEditForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const username = document.getElementById('edit-username').value;
+            const bio = document.getElementById('edit-bio').value;
+            const interests = document.getElementById('edit-interests').value;
+            const avatar = document.getElementById('edit-avatar').value;
+            
+            // 获取性别数据（包括自定义选项）
+            let gender = genderSelect.value;
+            if (gender === 'other' && !genderOther.classList.contains('hidden')) {
+                gender = genderOther.value;
+            }
+            
+            // 获取代词数据（包括自定义选项）
+            let pronouns = pronounsSelect.value;
+            if (pronouns === 'other' && !pronounsOther.classList.contains('hidden')) {
+                pronouns = pronounsOther.value;
+            }
+            
+            // 获取隐私设置
+            const showGender = document.getElementById('edit-show-gender').checked;
+            const showPronouns = document.getElementById('edit-show-pronouns').checked;
+            
+            // 在这里可以保存数据（示例中只是打印）
+            console.log('Profile data:', {
+                username,
+                bio,
+                interests,
+                avatar,
+                gender,
+                pronouns,
+                privacy: {
+                    showGender,
+                    showPronouns
+                }
+            });
+            
+            // 关闭模态框
+            document.getElementById('profile-edit-modal').classList.add('hidden');
+            
+            // 显示成功消息
+            alert('Profile updated successfully!');
+        });
+    }
+}
+
+function createPostElement(post) {
+    const postDiv = document.createElement('div');
+    postDiv.className = 'topic-item';
+    postDiv.dataset.postId = post.id;
+    
+    // 根据分类设置图标
+    let icon = '💬';
+    if (post.category === 'question') icon = '❓';
+    else if (post.category === 'share') icon = '📝';
+    else if (post.category === 'resource') icon = '📚';
+    
+    // 判断当前用户是否可以删除该帖子
+    const currentUsername = currentUser ? currentUser.username : null;
+    const canDelete = currentUsername && (currentUsername === post.author || currentUsername === 'Admin');
+    const deleteButton = canDelete ? 
+        `<button class="delete-topic-btn" data-i18n="community.actions.delete">Delete</button>` : '';
+    
+    postDiv.innerHTML = `
+        <div class="topic-icon">${icon}</div>
+        <div class="topic-content">
+            <h3 class="topic-title"><a href="#">${post.title}</a></h3>
+            <div class="topic-meta">
+                <span class="topic-category ${post.category}">${getCategoryName(post.category)}</span>
+                <span class="topic-author">Author: ${post.author}</span>
+                <span class="topic-time">${post.date}</span>
+                <span class="topic-actions">
+                    <button class="reply-btn" data-i18n="community.actions.reply">Reply</button>
+                    ${deleteButton}
+                </span>
+            </div>
+            <p class="topic-preview">${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}</p>
+            <div class="topic-stats">
+                <span class="views">👁️ ${post.views}</span>
+                <span class="replies">💬 ${post.replies ? post.replies.length : 0}</span>
+                <span class="likes" style="cursor:pointer;">❤️ ${post.likes}</span>
+            </div>
+        </div>
+    `;
+    
+    return postDiv;
 } 

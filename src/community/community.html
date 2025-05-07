@@ -291,6 +291,33 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- 示例话题 -->
+                    <div class="topic-item">
+                        <div class="topic-vote">
+                            <button class="vote-btn up-vote"><i class="fas fa-arrow-up"></i></button>
+                            <span class="vote-count">42</span>
+                            <button class="vote-btn down-vote"><i class="fas fa-arrow-down"></i></button>
+                        </div>
+                        <div class="topic-content">
+                            <h3 class="topic-title">Understanding the relationship between a, b, and c in quadratic equations</h3>
+                            <div class="topic-meta">
+                                <span class="topic-author">Posted by <a href="#">MathEnthusiast</a></span>
+                                <span class="topic-time">2 days ago</span>
+                                <span class="topic-category question">Question</span>
+                                <span class="topic-actions">
+                                    <button class="reply-btn" data-i18n="community.actions.reply">Reply</button>
+                                    <button class="delete-topic-btn" data-i18n="community.actions.delete">Delete</button>
+                                </span>
+                            </div>
+                            <p class="topic-preview">I'm trying to understand how the coefficients a, b, and c affect the shape and position of the parabola. Can someone provide some visual examples or explanations?</p>
+                            <div class="topic-footer">
+                                <span class="comment-count"><i class="fas fa-comment"></i> 8 comments</span>
+                                <span class="share-btn"><i class="fas fa-share-alt"></i> Share</span>
+                                <span class="save-btn"><i class="far fa-bookmark"></i> Save</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 分页 -->
@@ -511,9 +538,50 @@
                     <textarea id="edit-bio" rows="3" placeholder="Tell the community about yourself..."></textarea>
                 </div>
                 
+                <!-- 添加性别选项 -->
+                <div class="form-group">
+                    <label for="edit-gender" data-i18n="community.profile.gender">Gender</label>
+                    <select id="edit-gender">
+                        <option value="" data-i18n="community.profile.genderSelect">Please select</option>
+                        <option value="male" data-i18n="community.profile.genderMale">Male</option>
+                        <option value="female" data-i18n="community.profile.genderFemale">Female</option>
+                        <option value="nonbinary" data-i18n="community.profile.genderNonBinary">Non-Binary</option>
+                        <option value="notsay" data-i18n="community.profile.genderNotSay">Prefer not to say</option>
+                        <option value="other" data-i18n="community.profile.genderOther">Other</option>
+                    </select>
+                    <input type="text" id="edit-gender-other" class="hidden" placeholder="Please specify" data-i18n-placeholder="community.profile.genderSpecify">
+                </div>
+                
+                <!-- 添加代词选项 -->
+                <div class="form-group">
+                    <label for="edit-pronouns" data-i18n="community.profile.pronouns">Pronouns</label>
+                    <select id="edit-pronouns">
+                        <option value="" data-i18n="community.profile.pronounsSelect">Please select</option>
+                        <option value="he/him" data-i18n="community.profile.pronounsHe">He/Him</option>
+                        <option value="she/her" data-i18n="community.profile.pronounsShe">She/Her</option>
+                        <option value="they/them" data-i18n="community.profile.pronounsThey">They/Them</option>
+                        <option value="notsay" data-i18n="community.profile.pronounsNotSay">Prefer not to say</option>
+                        <option value="other" data-i18n="community.profile.pronounsOther">Other</option>
+                    </select>
+                    <input type="text" id="edit-pronouns-other" class="hidden" placeholder="Please specify" data-i18n-placeholder="community.profile.pronounsSpecify">
+                </div>
+                
                 <div class="form-group">
                     <label for="edit-interests" data-i18n="community.profile.interests">Interests</label>
                     <input type="text" id="edit-interests" placeholder="e.g., Algebra, Geometry, Physics...">
+                </div>
+                
+                <!-- 添加个人隐私选项 -->
+                <div class="form-group">
+                    <label data-i18n="community.profile.privacyOptions">Privacy Options</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="edit-show-gender" checked>
+                        <label for="edit-show-gender" data-i18n="community.profile.showGender">Show gender on profile</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="edit-show-pronouns" checked>
+                        <label for="edit-show-pronouns" data-i18n="community.profile.showPronouns">Show pronouns on profile</label>
+                    </div>
                 </div>
                 
                 <div class="form-buttons">
@@ -521,6 +589,19 @@
                     <button type="submit" class="btn btn-primary" data-i18n="community.profile.save">Save Changes</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- 删除确认模态框 -->
+    <div id="delete-confirm-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close-modal" onclick="document.getElementById('delete-confirm-modal').classList.add('hidden');">&times;</span>
+            <h2 data-i18n="community.actions.confirmDelete">Confirm Deletion</h2>
+            <p data-i18n="community.actions.deleteWarning">This action cannot be undone. Are you sure you want to proceed?</p>
+            <div class="modal-actions">
+                <button id="cancel-delete-btn" class="secondary-btn" data-i18n="community.actions.cancel">Cancel</button>
+                <button id="confirm-delete-btn" class="danger-btn" data-i18n="community.actions.confirm">Delete</button>
+            </div>
         </div>
     </div>
 

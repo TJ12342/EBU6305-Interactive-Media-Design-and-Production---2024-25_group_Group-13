@@ -711,4 +711,56 @@
     .topic-title {
         font-size: 16px;
     }
+}
+
+/* 危险操作按钮样式 */
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
+
+.secondary-btn {
+    background-color: #95a5a6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.secondary-btn:hover {
+    background-color: #7f8c8d;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 复选框组样式 */
+.checkbox-group {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* 隐藏元素 */
+.hidden {
+    display: none !important;
 } 
