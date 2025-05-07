@@ -503,19 +503,25 @@ const testQuestions = {
         },
         {
             id: 5,
-            type: 'graph-question',
-            topic: 'application',
-            question: '根据下图的抛物线，写出其对应的二次函数表达式。',
-            imageUrl: '../../assets/images/test/test-parabola-easy.jpg',
-            answer: [1, 0, -4],
-            explanation: '图中的抛物线开口向上，通过点 (0, -4)，对称轴是 x = 0，所以函数表达式为 f(x) = x² - 4。',
+            type: 'multiple-choice',
+            topic: 'basic',
+            question: '已知二次函数 y = x² - 4x + 3 的图像，其对称轴为？',
+            options: [
+                { id: 'A', text: 'x = -2' },
+                { id: 'B', text: 'x = 2' },
+                { id: 'C', text: 'x = 1' },
+                { id: 'D', text: 'x = -1' }
+            ],
+            answer: 'B',
+            explanation: '二次函数 y = ax² + bx + c 的对称轴公式为 x = -b/2a。对于 y = x² - 4x + 3，a = 1, b = -4，代入公式得 x = -(-4)/(2*1) = 2。',
             translations: {
                 en: {
-                    question: 'Based on the parabola shown below, write the corresponding quadratic function expression.',
-                    explanation: 'The parabola in the image opens upward, passes through the point (0, -4), and has an axis of symmetry at x = 0, so the function expression is f(x) = x² - 4.'
+                    question: 'The axis of symmetry of the quadratic function y = x² - 4x + 3 is?',
+                    options: ['x = -2', 'x = 2', 'x = 1', 'x = -1'],
+                    explanation: 'The axis of symmetry of a quadratic function y = ax² + bx + c is given by x = -b/2a. For y = x² - 4x + 3, a = 1, b = -4, substituting into the formula gives x = -(-4)/(2*1) = 2.'
                 }
             }
-        }
+        },
     ],
     medium: [
         {
@@ -597,19 +603,18 @@ const testQuestions = {
         },
         {
             id: 10,
-            type: 'graph-question',
-            topic: 'transformation',
-            question: '根据下图的抛物线，写出其对应的二次函数表达式。',
-            imageUrl: '../../assets/images/test/test-parabola-medium.jpg',
-            answer: [1, -4, 3],
-            explanation: '图中的抛物线开口向上，顶点位于 (2, -1)，所以函数表达式形式为 f(x) = a(x - 2)² - 1。抛物线通过点 (0, 3)，代入得 3 = a(0 - 2)² - 1，解得 a = 1。因此函数表达式为 f(x) = (x - 2)² - 1 = x² - 4x + 4 - 1 = x² - 4x + 3。',
+            type: 'fill-in-blank',
+            topic: 'equation',
+            question: '已知抛物线 y = ax² + bx + c 过点 (0, 2), (1, 4), (2, 8)，则参数 a, b, c 的值分别为 (______, ______, ______)。',
+            answer: [2, 0, 2],
+            explanation: '将三个点代入方程：(0, 2): 2 = c; (1, 4): 4 = a + b + c; (2, 8): 8 = 4a + 2b + c。由这三个方程可解得：a = 2, b = 0, c = 2。',
             translations: {
                 en: {
-                    question: 'Based on the parabola shown in the image below, write the corresponding quadratic function expression.',
-                    explanation: 'The parabola in the image opens upward with vertex at (2, -1), so the function has the form f(x) = a(x - 2)² - 1. The parabola passes through the point (0, 3). Substituting: 3 = a(0 - 2)² - 1, solving for a: 3 = 4a - 1, 4a = 4, a = 1. Therefore, the function is f(x) = (x - 2)² - 1 = x² - 4x + 4 - 1 = x² - 4x + 3.'
+                    question: 'Given that the parabola y = ax² + bx + c passes through the points (0, 2), (1, 4), (2, 8), the values of parameters a, b, c are (______, ______, ______).',
+                    explanation: 'Substituting the three points into the equation: (0, 2): 2 = c; (1, 4): 4 = a + b + c; (2, 8): 8 = 4a + 2b + c. From these three equations, we can solve: a = 2, b = 0, c = 2.'
                 }
             }
-        }
+        },
     ],
     hard: [
         {
@@ -689,20 +694,19 @@ const testQuestions = {
             }
         },
         {
-            id: 15,
-            type: 'graph-question',
-            topic: 'transformation',
-            question: '根据下图的抛物线，写出其对应的二次函数表达式。',
-            imageUrl: '../../assets/images/test/test-parabola-hard.jpg',
-            answer: [-0.5, 2, -1],
-            explanation: '图中的抛物线开口向下，顶点位于 (2, 1)，且通过点 (0, -1) 和 (4, -1)。因为开口向下，所以 a < 0。标准形式 f(x) = a(x - 2)² + 1，代入点 (0, -1)：-1 = a(0 - 2)² + 1 = 4a + 1，解得 a = -0.5。所以函数表达式为 f(x) = -0.5(x - 2)² + 1 = -0.5(x² - 4x + 4) + 1 = -0.5x² + 2x - 2 + 1 = -0.5x² + 2x - 1。',
+            id: 10,
+            type: 'fill-in-blank',
+            topic: 'equation',
+            question: '已知抛物线 y = ax² + bx + c 过点 (0, 3), (1, 6), (2, 11)，则参数 a, b, c 的值分别为 (______, ______, ______)。',
+            answer: [2, 1, 3],
+            explanation: '将三个点代入方程：(0, 3): 3 = c; (1, 6): 6 = a + b + c; (2, 11): 11 = 4a + 2b + c。由这三个方程可解得：a = 2, b = 1, c = 3。',
             translations: {
                 en: {
-                    question: 'Based on the parabola shown in the image below, write the corresponding quadratic function expression.',
-                    explanation: 'The parabola in the image opens downward with vertex at (2, 1) and passes through the points (0, -1) and (4, -1). Since it opens downward, a < 0. Using the standard form f(x) = a(x - 2)² + 1, substituting the point (0, -1): -1 = a(0 - 2)² + 1 = 4a + 1, solving for a: 4a = -2, a = -0.5. Therefore, the function is f(x) = -0.5(x - 2)² + 1 = -0.5(x² - 4x + 4) + 1 = -0.5x² + 2x - 2 + 1 = -0.5x² + 2x - 1.'
+                    question: 'Given that the parabola y = ax² + bx + c passes through the points (0, 3), (1, 6), (2, 11), the values of parameters a, b, c are (______, ______, ______).',
+                    explanation: 'Substituting the three points into the equation: (0, 3): 3 = c; (1, 6): 6 = a + b + c; (2, 11): 11 = 4a + 2b + c. From these three equations, we can solve: a = 2, b = 1, c = 3.'
                 }
             }
-        }
+        },
     ]
 };
 
