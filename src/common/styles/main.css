@@ -373,4 +373,114 @@ footer {
     .feature-cards {
         gap: 1rem;
     }
+}
+
+/* Cookie Consent Popup */
+.cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cookie-consent.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cookie-consent.hide {
+    display: none;
+}
+
+.cookie-consent-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cookie-consent-header h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+    margin-left: 10px;
+}
+
+.cookie-consent-icon {
+    font-size: 1.5rem;
+}
+
+.cookie-consent-body {
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+}
+
+.cookie-consent-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cookie-consent-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.cookie-consent-btn.accept {
+    background-color: #0066cc;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.cookie-consent-btn.accept:hover {
+    background-color: #0055aa;
+}
+
+.cookie-consent-btn.customize {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.cookie-consent-btn.customize:hover {
+    background-color: #e0e0e0;
+}
+
+/* Dark mode styles for cookie consent */
+body.dark-mode .cookie-consent {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .cookie-consent-header h3 {
+    color: #f0f0f0;
+}
+
+body.dark-mode .cookie-consent-body {
+    color: #cccccc;
+}
+
+body.dark-mode .cookie-consent-btn.customize {
+    background-color: #444;
+    color: #eee;
+}
+
+body.dark-mode .cookie-consent-btn.customize:hover {
+    background-color: #555;
 } 
