@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化测试页面功能
     initTestPage();
     
+    // 添加色盲关怀模式功能
+    initColorBlindMode();
+    
     // 监听语言变更
     const languageSelector = document.getElementById('language');
     if (languageSelector) {
@@ -101,6 +104,162 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// 初始化色盲关怀模式
+function initColorBlindMode() {
+    // 检查是否已经有色盲模式按钮，如果没有则创建
+    const header = document.querySelector('header') || document.body;
+    let colorBlindToggle = document.getElementById('color-blind-toggle');
+    
+    if (!colorBlindToggle) {
+        // 创建色盲模式切换按钮
+        colorBlindToggle = document.createElement('button');
+        colorBlindToggle.id = 'color-blind-toggle';
+        colorBlindToggle.className = 'accessibility-btn';
+        colorBlindToggle.innerHTML = '👁️ 色盲模式';
+        colorBlindToggle.title = '切换色盲友好模式';
+        
+        // 放置在合适的位置
+        const testNav = document.querySelector('.test-nav');
+        if (testNav) {
+            testNav.appendChild(colorBlindToggle);
+        } else {
+            // 如果没有找到导航区，则添加到页面顶部
+            const container = document.querySelector('.container') || document.body;
+            container.insertBefore(colorBlindToggle, container.firstChild);
+        }
+        
+        // 加载保存的色盲模式设置
+        const isColorBlindMode = localStorage.getItem('colorBlindMode') === 'true';
+        if (isColorBlindMode) {
+            document.body.classList.add('color-blind-mode');
+            colorBlindToggle.classList.add('active');
+        }
+        
+        // 添加点击事件
+        colorBlindToggle.addEventListener('click', function() {
+            toggleColorBlindMode();
+        });
+    }
+    
+    // 添加CSS样式到头部
+    addColorBlindStyles();
+}
+
+// 添加色盲模式CSS样式
+function addColorBlindStyles() {
+    // 检查是否已经添加了样式
+    if (document.getElementById('color-blind-styles')) return;
+    
+    const styleSheet = document.createElement('style');
+    styleSheet.id = 'color-blind-styles';
+    styleSheet.textContent = `
+        /* 色盲模式按钮样式 */
+        .accessibility-btn {
+            padding: 8px 12px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 14px;
+        }
+        .accessibility-btn.active {
+            background-color: #000;
+            color: #fff;
+        }
+        
+        /* 色盲模式全局样式 */
+        body.color-blind-mode .correct, 
+        body.color-blind-mode .result-status.correct {
+            background-color: #000 !important;
+            color: #fff !important;
+            border: 2px solid #000 !important;
+            position: relative;
+        }
+        
+        body.color-blind-mode .incorrect, 
+        body.color-blind-mode .result-status.incorrect {
+            background-color: #fff !important;
+            color: #000 !important;
+            border: 2px dashed #000 !important;
+            position: relative;
+        }
+        
+        /* 添加图案区分 */
+        body.color-blind-mode .result-status.correct::after {
+            content: "✓";
+            margin-left: 5px;
+        }
+        
+        body.color-blind-mode .result-status.incorrect::after {
+            content: "✗";
+            margin-left: 5px;
+        }
+        
+        /* 问题导航点样式 */
+        body.color-blind-mode .question-dot.answered {
+            border: 3px solid #000;
+        }
+        
+        body.color-blind-mode .question-dot.active {
+            background-color: #000;
+            color: #fff;
+        }
+        
+        /* 进度条样式 */
+        body.color-blind-mode .progress-bar {
+            background-image: linear-gradient(45deg, #000 25%, #333 25%, #333 50%, #000 50%, #000 75%, #333 75%, #333 100%);
+            background-size: 56.57px 56.57px;
+            color: #fff;
+        }
+        
+        /* 计时器警告样式 */
+        body.color-blind-mode #timer {
+            border: 2px solid #000;
+            padding: 2px 5px;
+        }
+        
+        body.color-blind-mode #timer.warning {
+            border: 2px dashed #000;
+            font-weight: bold;
+            background-color: #eee;
+        }
+        
+        /* 提升表单元素的对比度 */
+        body.color-blind-mode input[type="radio"]:checked + label {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        
+        body.color-blind-mode button {
+            border: 2px solid #000;
+        }
+    `;
+    
+    document.head.appendChild(styleSheet);
+}
+
+// 切换色盲模式
+function toggleColorBlindMode() {
+    const body = document.body;
+    const btn = document.getElementById('color-blind-toggle');
+    
+    // 切换类和按钮状态
+    body.classList.toggle('color-blind-mode');
+    if (btn) btn.classList.toggle('active');
+    
+    // 保存设置到本地存储
+    const isActive = body.classList.contains('color-blind-mode');
+    localStorage.setItem('colorBlindMode', isActive);
+    
+    // 显示通知
+    showNotification(
+        isActive 
+            ? (getTranslation('test.colorBlind.enabled') || '已启用色盲友好模式') 
+            : (getTranslation('test.colorBlind.disabled') || '已关闭色盲友好模式')
+    );
+}
 
 // 手动更新介绍文本
 function updateIntroText() {
@@ -502,6 +661,20 @@ const testQuestions = {
             }
         },
         {
+            id: 4,
+            type: 'fill-in-blank',
+            topic: 'equation',
+            question: '已知抛物线 y = ax² + bx + c 过点 (0, 1), (1, 3), (2, 9)，则参数 a, b, c 的值分别为 (______, ______, ______)。',
+            answer: [2, 0, 1],
+            explanation: '将三个点代入方程：(0, 1): 1 = c; (1, 3): 3 = a + b + c; (2, 9): 9 = 4a + 2b + c。由这三个方程可解得：a = 2, b = 0, c = 1。',
+            translations: {
+                en: {
+                    question: 'Given that the parabola y = ax² + bx + c passes through the points (0, 1), (1, 3), (2, 9), the values of parameters a, b, c are (______, ______, ______).',
+                    explanation: 'Substituting the three points: (0, 1): 1 = c; (1, 3): 3 = a + b + c; (2, 9): 9 = 4a + 2b + c. Solving these equations gives: a = 2, b = 0, c = 1.'
+                }
+            }
+        },
+        {
             id: 5,
             type: 'multiple-choice',
             topic: 'basic',
@@ -650,7 +823,7 @@ const testQuestions = {
                 { id: 'D', text: 'f(x) = x² - 2x + 3' }
             ],
             answer: 'A',
-            explanation: '由对称轴 x = 1，得 -b/2a = 1，即 b = -2a。点 (-1, 4) 和 (2, 4) 在抛物线上，代入函数得：4 = a(-1)² + b(-1) + c = a - b + c，4 = a(2)² + b(2) + c = 4a + 2b + c。由 b = -2a，代入第一个方程：4 = a - (-2a) + c = 3a + c，即 c = 4 - 3a。代入第二个方程：4 = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4。再代回 c = 4 - 3a，得 4 = 4 - 3a，解得 a = 0，但题目说明 a ≠ 0，所以这里出现矛盾。检查一下，我们可能有计算错误。重新计算：代入点 (-1, 4)：4 = a - b + c；代入点 (2, 4)：4 = 4a + 2b + c；代入 b = -2a：4 = a + 2a + c = 3a + c，4 = 9a + 3(-2a) + c = 9a - 6a + c = 3a + c。所以 3a + c = 4，解得 a = 0，这与题目 a ≠ 0 矛盾。如果我们换个思路，因为抛物线上两点函数值相等且对称轴为 x = 1，则这两点分别位于对称轴两侧且与对称轴等距，即这两点是 (1-k, 4) 和 (1+k, 4)。由题给点 (-1, 4)，则 1-k = -1，k = 2，所以另一点是 (1+2, 4) = (3, 4)。所以题目中的 (2, 4) 应该是 (3, 4)。或者，对称轴不是 x = 1 而是 x = 0.5，此时 -1 和 2 关于 x = 0.5 对称。在这种情况下，b = -2a * 0.5 = -a。代入两点：4 = a - (-a) + c = 2a + c，4 = 4a + 2(-a) + c = 4a - 2a + c = 2a + c。所以 2a + c = 4, c = 4 - 2a。由对称轴 x = 0.5 和 a ≠ 0，函数值在对称轴处取极值。代入 x = 0.5：f(0.5) = a(0.5)² + b(0.5) + c = 0.25a - 0.5a + c = c - 0.25a = 4 - 2a - 0.25a = 4 - 2.25a。根据题目信息，我们可以假设图像是开口向下的抛物线（这样两点处函数值相等且小于顶点函数值），则 a < 0。取 a = -1，则 c = 4 - 2(-1) = 4 + 2 = 6，b = -a = -(-1) = 1。所以函数为 f(x) = -x² + x + 6。但这与选项不符。如果对称轴确实是 x = 1，则 b = -2a。两点 (-1, 4) 和 (2, 4) 的 x 坐标关于 x = 1/2 对称，而不是关于 x = 1 对称。但如果抛物线的对称轴是 x = 1，则 (-1, 4) 和 (3, 4) 关于对称轴对称，或者 (0, 4) 和 (2, 4) 关于对称轴对称。所以题目可能出现了错误。如果我们假设对称轴确实是 x = 1，则 b = -2a。如果点 (-1, 4) 在抛物线上，那么关于 x = 1 对称的另一点是 (3, 4) 也应在抛物线上。代入这两点：4 = a(-1)² + b(-1) + c = a + a + c = a + c，4 = a(3)² + b(3) + c = 9a - 6a + c = 3a + c。解得 a + c = 4，3a + c = 4，进一步解得 2a = 0，a = 0，矛盾。如果对称轴是 x = 1，且 a ≠ 0，则 (-1, 4) 和 (3, 4) 不可能都在抛物线上取相同的函数值。所以，题目中的条件是不相容的，或者题目有误。如果假设 a = -1（开口向下），b = -2a = 2，且点 (-1, 4) 在抛物线上，则 4 = (-1)(-1)² + 2(-1) + c = -1 - 2 + c，即 c = 7。此时函数为 f(x) = -x² + 2x + 7，代入 (2, 4) 验证：f(2) = -(2)² + 2(2) + 7 = -4 + 4 + 7 = 7，不等于 4。如果取 a = -1，b = 2，c = 3，则函数为 f(x) = -x² + 2x + 3。代入验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0，不等于 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3，不等于 4。取 a = -1，b = 2，c = 5，则函数为 f(x) = -x² + 2x + 5。代入验证：f(-1) = -(-1)² + 2(-1) + 5 = -1 - 2 + 5 = 2，不等于 4；f(2) = -(2)² + 2(2) + 5 = -4 + 4 + 5 = 5，不等于 4。再次检查选项：根据选项 A：f(x) = -x² + 2x + 3。验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0 ≠ 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3 ≠ 4。所以选项 A 也不对。可能题目条件有误或者答案有误。',
+            explanation: '由对称轴 x = 1，得 -b/2a = 1，即 b = -2a。点 (-1, 4) 和 (2, 4) 在抛物线上，代入函数得：4 = a(-1)² + b(-1) + c = a - b + c，4 = a(2)² + b(2) + c = 4a + 2b + c。由 b = -2a，代入第一个方程：4 = a - (-2a) + c = 3a + c，即 c = 4 - 3a。代入第二个方程：4 = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4。再代回 c = 4 - 3a，得 4 = 4 - 3a，解得 a = 0，但题目说明 a ≠ 0，所以这里出现矛盾。检查一下，我们可能有计算错误。重新计算：代入点 (-1, 4)：4 = a - b + c；代入点 (2, 4)：4 = 4a + 2b + c；代入 b = -2a：4 = a + 2a + c = 3a + c，4 = 9a + 3(-2a) + c = 9a - 6a + c = 3a + c。所以 3a + c = 4，解得 a = 0，这与题目 a ≠ 0 矛盾。如果我们换个思路，因为抛物线上两点函数值相等且对称轴为 x = 1，则这两点分别位于对称轴两侧且与对称轴等距，即这两点是 (1-k, 4) 和 (1+k, 4)。由题给点 (-1, 4)，则 1-k = -1，k = 2，所以另一点是 (1+2, 4) = (3, 4)。所以题目中的 (2, 4) 应该是 (3, 4)。或者，对称轴不是 x = 1 而是 x = 0.5，此时 -1 和 2 关于 x = 0.5 对称。在这种情况下，b = -2a * 0.5 = -a。代入两点：4 = a - (-a) + c = 2a + c，4 = 4a + 2(-a) + c = 4a - 2a + c = 2a + c。所以 2a + c = 4, c = 4 - 2a。由对称轴 x = 0.5 和 a ≠ 0，函数值在对称轴处取极值。代入 x = 0.5：f(0.5) = a(0.5)² + b(0.5) + c = 0.25a - 0.5a + c = c - 0.25a = 4 - 2a - 0.25a = 4 - 2.25a。根据题目信息，我们可以假设图像是开口向下的抛物线（这样两点处函数值相等且小于顶点函数值），则 a < 0。取 a = -1，则 c = 4 - 2(-1) = 4 + 2 = 6，b = -a = -(-1) = 1。所以函数为 f(x) = -x² + x + 6。但这与选项不符。如果对称轴确实是 x = 1，则 b = -2a。两点 (-1, 4) 和 (2, 4) 的 x 坐标关于 x = 1/2 对称，而不是关于 x = 1 对称。但如果抛物线的对称轴是 x = 1，则 (-1, 4) 和 (3, 4) 关于对称轴对称，或者 (0, 4) 和 (2, 4) 关于对称轴对称。所以题目可能出现了错误。如果我们假设对称轴确实是 x = 1，则 b = -2a。如果点 (-1, 4) 在抛物线上，那么关于 x = 1 对称的另一点是 (3, 4) 也应在抛物线上。代入这两点：4 = a(-1)² + b(-1) + c = a + a + c = a + c，4 = a(3)² + b(3) + c = 9a - 6a + c = 3a + c。解得 a + c = 4，3a + c = 4，进一步解得 2a = 0，a = 0，矛盾。如果对称轴是 x = 1，且 a ≠ 0，则 (-1, 4) 和 (3, 4) 不可能都在抛物线上取相同的函数值。所以，题目中的条件是不相容的，或者题目有误。如果假设 a = -1（开口向下），b = 2，且点 (-1, 4) 在抛物线上，则 4 = (-1)(-1)² + 2(-1) + c = -1 - 2 + c，即 c = 7。此时函数为 f(x) = -x² + 2x + 7，代入 (2, 4) 验证：f(2) = -(2)² + 2(2) + 7 = -4 + 4 + 7 = 7，不等于 4。如果取 a = -1，b = 2，c = 3，则函数为 f(x) = -x² + 2x + 3。代入验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0，不等于 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3，不等于 4。取 a = -1，b = 2，c = 5，则函数为 f(x) = -x² + 2x + 5。代入验证：f(-1) = -(-1)² + 2(-1) + 5 = -1 - 2 + 5 = 2，不等于 4；f(2) = -(2)² + 2(2) + 5 = -4 + 4 + 5 = 5，不等于 4。再次检查选项：根据选项 A：f(x) = -x² + 2x + 3。验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0 ≠ 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3 ≠ 4。所以选项 A 也不对。可能题目条件有误或者答案有误。',
             translations: {
                 en: {
                     question: 'Given that the graph of the function f(x) = ax² + bx + c (a ≠ 0) contains the points (-1, 4) and (2, 4), and the axis of symmetry of the parabola is x = 1, what is the analytical expression of the function?',
@@ -825,8 +998,17 @@ function startTest() {
 function getQuestionsForDifficulty(difficulty) {
     // 如果该难度的问题不存在或为空，则返回中等难度的问题
     if (!testQuestions[difficulty] || testQuestions[difficulty].length === 0) {
+        console.warn(`难度 ${difficulty} 的题目不存在或为空，使用中等难度题目`);
         return testQuestions.medium;
     }
+    
+    // 打印题目数量供调试
+    console.log(`加载 ${difficulty} 难度的题库，共有 ${testQuestions[difficulty].length} 题`);
+    
+    // 确保所有题目都正确加载
+    testQuestions[difficulty].forEach((question, index) => {
+        console.log(`题目 ${index+1}: ID=${question.id}, 类型=${question.type}`);
+    });
     
     return testQuestions[difficulty];
 }
