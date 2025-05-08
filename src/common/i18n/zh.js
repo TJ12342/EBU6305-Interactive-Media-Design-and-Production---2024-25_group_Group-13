@@ -363,11 +363,28 @@ window.i18n.zh = {
                     description: "二次方程在描述各种物理现象中至关重要：",
                     projectile: {
                         title: "抛射运动",
-                        description: "当物体被投掷或发射时，其垂直位置遵循时间的二次函数："
+                        description: "当物体被投掷或发射时，其垂直位置遵循时间的二次函数：",
+                        formula: "h(t) = -½gt² + v₀t + h₀",
+                        variables: "其中：",
+                        variable1: "h(t)是t时刻的高度",
+                        variable2: "g是重力加速度（约为9.8 m/s²）",
+                        variable3: "v₀是初始垂直速度",
+                        variable4: "h₀是初始高度",
+                        example: {
+                            title: "示例：篮球投射",
+                            description: "一名篮球运动员从2米高处以7.84米/秒的初速度投球。球在t秒后的高度h由以下方程给出：",
+                            formula: "h(t) = -4.9t² + 7.84t + 2",
+                            determine: "通过这个方程，我们可以确定：",
+                            point1: "最大高度（在顶点处）",
+                            point2: "球在空中的时间",
+                            point3: "球达到篮筐高度的时刻"
+                        }
                     },
                     freefall: {
                         title: "自由落体运动",
-                        description: "当物体在重力影响下下落时，其位置遵循二次方程："
+                        description: "当物体在重力影响下下落时，其位置遵循二次方程：",
+                        formula: "s(t) = s₀ + v₀t + ½at²",
+                        variables: "其中s₀是初始位置，v₀是初始速度，a是加速度。"
                     }
                 },
                 engineering: {
@@ -375,15 +392,23 @@ window.i18n.zh = {
                     description: "抛物线形状在工程结构和设计中频繁出现：",
                     bridges: {
                         title: "悬索桥",
-                        description: "当路面重量水平均匀分布时，悬索桥的缆索形成抛物线。这种形状有效分配力量。"
+                        description: "当路面重量水平均匀分布时，悬索桥的缆索形成抛物线。这种形状有效分配力量。",
+                        equationIntro: "缆索曲线的方程可以建模为：",
+                        formula: "y = (T₀/w)(cosh(wx/T₀) - 1) ≈ (w/2T₀)x²（对于小值）",
+                        variables: "其中T₀是最低点的张力，w是单位长度的重量。"
                     },
                     arches: {
                         title: "拱门和穹顶",
-                        description: "抛物线拱具有结构效率，能均匀分配重量。它们被用于桥梁、入口和穹顶的建筑中。"
+                        description: "抛物线拱具有结构效率，能均匀分配重量。它们被用于桥梁、入口和穹顶的建筑中。",
+                        example: "圣路易斯的门户拱门遵循加权悬链线，与抛物线密切相关，对于许多工程目的可以用二次函数近似。"
                     },
                     optics: {
                         title: "抛物面反射器",
-                        description: "抛物线形状在光学和信号技术中至关重要："
+                        description: "抛物线形状在光学和信号技术中至关重要：",
+                        use1: "卫星天线使用抛物面反射器将传入信号聚焦到单个接收点",
+                        use2: "望远镜镜面使用抛物线形状聚焦光线",
+                        use3: "手电筒和车头灯使用抛物面反射器创建定向光束",
+                        property: "一个关键特性：平行于抛物面反射器轴的所有光线都会反射到焦点。"
                     }
                 },
                 economics: {
@@ -391,15 +416,27 @@ window.i18n.zh = {
                     description: "二次函数建模许多经济关系：",
                     revenue: {
                         title: "收入优化",
-                        description: "价格和需求之间的关系通常遵循线性函数，这导致二次收入函数："
+                        description: "价格和需求之间的关系通常遵循线性函数，这导致二次收入函数：",
+                        formula: "如果需求函数：q = a - bp（其中q是数量，p是价格）\n那么收入函数：R = p·q = p(a - bp) = ap - bp²",
+                        optimization: "为了最大化收入，公司可以找到这个二次函数的顶点。",
+                        example: {
+                            title: "示例：票价定价",
+                            description: "一家剧院发现当票价为10美元时，他们能卖出500张票。每增加1美元，销售量减少20张。收入R作为价格增加x的函数是：",
+                            formula: "R(x) = (10 + x)(500 - 20x) = 5000 + 300x - 20x²",
+                            solution: "通过确定顶点的x坐标可以找到最佳价格增加值。"
+                        }
                     },
                     profit: {
                         title: "利润最大化",
-                        description: "当考虑收入和成本函数时，利润函数经常采取二次形式："
+                        description: "当考虑收入和成本函数时，利润函数经常采取二次形式：",
+                        formula: "利润 = 收入 - 成本",
+                        explanation: "如果收入是二次的，成本是线性的（或有二次分量），则产生的利润函数将是二次的。"
                     },
                     production: {
                         title: "生产和成本",
-                        description: "在制造业中，边际成本通常随生产量增加而增加，导致二次成本函数："
+                        description: "在制造业中，边际成本通常随生产量增加而增加，导致二次成本函数：",
+                        formula: "C(q) = aq² + bq + c",
+                        variables: "其中C(q)是生产q个单位的总成本，c是固定成本，二次项表示在更高生产水平下增加的边际成本。"
                     }
                 },
                 environmental: {
@@ -407,7 +444,9 @@ window.i18n.zh = {
                     description: "二次关系自然出现在许多生物和环境系统中：",
                     population: {
                         title: "种群增长",
-                        description: "虽然指数模型常用于种群增长，但二次模型可以表示具有资源限制的种群："
+                        description: "虽然指数模型常用于种群增长，但二次模型可以表示具有资源限制的种群：",
+                        formula: "P(t) = at² + bt + c",
+                        explanation: "这可以建模初始增长加速但随后由于资源受限而减速的情景。"
                     },
                     reaction: {
                         title: "化学反应",
@@ -416,7 +455,12 @@ window.i18n.zh = {
                 },
                 interactive: {
                     title: "交互式问题求解器",
-                    description: "探索如何应用二次方程解决现实问题："
+                    description: "探索如何应用二次方程解决现实问题：",
+                    select: "选择问题类型：",
+                    option1: "抛射运动",
+                    option2: "收入优化",
+                    option3: "面积最大化",
+                    loadButton: "加载问题"
                 },
                 quiz: {
                     title: "快速检查",

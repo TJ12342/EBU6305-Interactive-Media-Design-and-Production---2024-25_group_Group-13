@@ -362,11 +362,28 @@ window.i18n.en = {
                     description: "Quadratic equations are fundamental in describing various physical phenomena:",
                     projectile: {
                         title: "Projectile Motion",
-                        description: "When an object is thrown or launched, its vertical position follows a quadratic function of time:"
+                        description: "When an object is thrown or launched, its vertical position follows a quadratic function of time:",
+                        formula: "h(t) = -½gt² + v₀t + h₀",
+                        variables: "Where:",
+                        variable1: "h(t) is the height at time t",
+                        variable2: "g is the acceleration due to gravity (approximately 9.8 m/s²)",
+                        variable3: "v₀ is the initial vertical velocity",
+                        variable4: "h₀ is the initial height",
+                        example: {
+                            title: "Example: Basketball Shot",
+                            description: "A basketball player shoots from an initial height of 2 meters with an initial velocity of 7.84 m/s. The height of the ball at time t seconds is given by:",
+                            formula: "h(t) = -4.9t² + 7.84t + 2",
+                            determine: "From this equation, we can determine:",
+                            point1: "The maximum height (at vertex)",
+                            point2: "The time the ball is in the air",
+                            point3: "When the ball reaches the height of the basket"
+                        }
                     },
                     freefall: {
                         title: "Free Fall Motion",
-                        description: "When an object falls under the influence of gravity, its position follows a quadratic equation:"
+                        description: "When an object falls under the influence of gravity, its position follows a quadratic equation:",
+                        formula: "s(t) = s₀ + v₀t + ½at²",
+                        variables: "Where s₀ is the initial position, v₀ is the initial velocity, and a is acceleration."
                     }
                 },
                 engineering: {
@@ -374,15 +391,23 @@ window.i18n.en = {
                     description: "Parabolic shapes appear frequently in engineering structures and designs:",
                     bridges: {
                         title: "Suspension Bridges",
-                        description: "The cables of suspension bridges form parabolas when the weight of the roadway is uniformly distributed horizontally. This shape distributes forces efficiently."
+                        description: "The cables of suspension bridges form parabolas when the weight of the roadway is uniformly distributed horizontally. This shape distributes forces efficiently.",
+                        equationIntro: "The equation of the cable curve can be modeled as:",
+                        formula: "y = (T₀/w)(cosh(wx/T₀) - 1) ≈ (w/2T₀)x² for small values",
+                        variables: "Where T₀ is the tension at the lowest point and w is the weight per unit length."
                     },
                     arches: {
                         title: "Arches and Domes",
-                        description: "Parabolic arches are structurally efficient and distribute weight evenly. They're used in architecture for bridges, entryways, and domes."
+                        description: "Parabolic arches are structurally efficient and distribute weight evenly. They're used in architecture for bridges, entryways, and domes.",
+                        example: "The Gateway Arch in St. Louis follows a weighted catenary, which is closely related to a parabola, and can be approximated by a quadratic function for many engineering purposes."
                     },
                     optics: {
                         title: "Parabolic Reflectors",
-                        description: "Parabolic shapes are crucial in optics and signal technology:"
+                        description: "Parabolic shapes are crucial in optics and signal technology:",
+                        use1: "Satellite dishes use parabolic reflectors to focus incoming signals to a single receiver point",
+                        use2: "Telescope mirrors use parabolic shapes to focus light",
+                        use3: "Flashlights and headlights use parabolic reflectors to create a directed beam",
+                        property: "A key property: all rays parallel to the axis of a parabolic reflector will reflect to the focus."
                     }
                 },
                 economics: {
@@ -390,15 +415,27 @@ window.i18n.en = {
                     description: "Quadratic functions model many economic relationships:",
                     revenue: {
                         title: "Revenue Optimization",
-                        description: "The relationship between price and demand often follows a linear function, which leads to a quadratic revenue function:"
+                        description: "The relationship between price and demand often follows a linear function, which leads to a quadratic revenue function:",
+                        formula: "If demand function: q = a - bp (where q is quantity and p is price)\nThen revenue function: R = p·q = p(a - bp) = ap - bp²",
+                        optimization: "To maximize revenue, companies can find the vertex of this quadratic function.",
+                        example: {
+                            title: "Example: Ticket Pricing",
+                            description: "A theater finds that when tickets are priced at $10, they sell 500 tickets. For each $1 increase in price, they sell 20 fewer tickets. The revenue R as a function of the price increase x is:",
+                            formula: "R(x) = (10 + x)(500 - 20x) = 5000 + 300x - 20x²",
+                            solution: "The optimal price increase can be found by determining the x-coordinate of the vertex."
+                        }
                     },
                     profit: {
                         title: "Profit Maximization",
-                        description: "Profit functions frequently take quadratic form when revenue and cost functions are considered:"
+                        description: "Profit functions frequently take quadratic form when revenue and cost functions are considered:",
+                        formula: "Profit = Revenue - Cost",
+                        explanation: "If revenue is quadratic and cost is linear (or has a quadratic component), the resulting profit function will be quadratic."
                     },
                     production: {
                         title: "Production and Cost",
-                        description: "In manufacturing, the marginal cost often increases with production volume, leading to quadratic cost functions:"
+                        description: "In manufacturing, the marginal cost often increases with production volume, leading to quadratic cost functions:",
+                        formula: "C(q) = aq² + bq + c",
+                        variables: "Where C(q) is the total cost to produce q units, c is the fixed cost, and the quadratic term represents increasing marginal costs at higher production levels."
                     }
                 },
                 environmental: {
@@ -406,7 +443,9 @@ window.i18n.en = {
                     description: "Quadratic relationships occur naturally in many biological and environmental systems:",
                     population: {
                         title: "Population Growth",
-                        description: "While exponential models are common for population growth, quadratic models can represent populations with resource constraints:"
+                        description: "While exponential models are common for population growth, quadratic models can represent populations with resource constraints:",
+                        formula: "P(t) = at² + bt + c",
+                        explanation: "This can model scenarios where growth initially accelerates but then decelerates as resources become limited."
                     },
                     reaction: {
                         title: "Chemical Reactions",
@@ -415,7 +454,12 @@ window.i18n.en = {
                 },
                 interactive: {
                     title: "Interactive Problem-Solver",
-                    description: "Explore how to apply quadratic equations to solve real-world problems:"
+                    description: "Explore how to apply quadratic equations to solve real-world problems:",
+                    select: "Select a problem type:",
+                    option1: "Projectile Motion",
+                    option2: "Revenue Optimization",
+                    option3: "Area Maximization",
+                    loadButton: "Load Problem"
                 },
                 quiz: {
                     title: "Quick Check",
