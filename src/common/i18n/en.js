@@ -23,7 +23,13 @@ window.i18n.en = {
         email: "parabola@math-learning.com",
         copyright: "© 2024 ParabolaMaster All Rights Reserved",
         privacy: "Privacy Policy",
-        terms: "Terms of Service"
+        terms: "Terms of Service",
+        cookies: {
+            title: "Cookie Notice",
+            message: "We use cookies to enhance your experience on our website. By continuing to use this site, you consent to our use of cookies in accordance with our Privacy Policy.",
+            acceptAll: "Accept All",
+            customize: "Customize"
+        }
     },
     
     // Home page
@@ -643,5 +649,103 @@ window.i18n.en = {
             post: "Post",
             cancel: "Cancel"
         }
+    },
+    
+    // Privacy Policy page
+    privacy: {
+        pageTitle: "Privacy Policy | Quadratic Equations & Parabolas Interactive Learning",
+        title: "Privacy Policy",
+        lastUpdated: "Last Updated: May, 2024",
+        introduction: "Thank you for visiting Quadratic Equations & Parabolas Interactive Learning. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.",
+        
+        information: {
+            title: "Information We Collect",
+            personal: {
+                title: "Personal Information",
+                text: "We may collect personal information that you voluntarily provide to us when you:",
+                item1: "Register for an account",
+                item2: "Sign up for our newsletter",
+                item3: "Participate in community discussions",
+                item4: "Contact us with inquiries or feedback",
+                examples: "The personal information we may collect includes your name, email address, and profile information."
+            },
+            nonpersonal: {
+                title: "Non-Personal Information",
+                text: "When you visit our website, we may automatically collect certain information about your device, including:",
+                item1: "IP address",
+                item2: "Browser type",
+                item3: "Operating system",
+                item4: "Pages visited",
+                item5: "Time spent on pages",
+                item6: "Referring website"
+            }
+        },
+        
+        cookies: {
+            title: "Use of Cookies",
+            text1: "Our website uses cookies to enhance your browsing experience. Cookies are small text files that are placed on your computer or mobile device when you visit our website. They help us recognize your device and remember certain information about your visit.",
+            text2: "We use the following types of cookies:",
+            type1: "Essential Cookies: These cookies are necessary for the website to function properly and cannot be switched off. They are usually only set in response to actions made by you, such as setting your privacy preferences, logging in, or filling in forms.",
+            type2: "Analytical/Performance Cookies: These cookies allow us to recognize and count the number of visitors and see how visitors move around our website. This helps us improve the way our website works, for example, by ensuring that users find what they are looking for easily.",
+            type3: "Functional Cookies: These cookies enable the website to provide enhanced functionality and personalization. They may be set by us or by third-party providers whose services we have added to our pages.",
+            type4: "Targeting Cookies: These cookies record your visit to our website, the pages you have visited, and the links you have followed. We may use this information to make our website and the advertising displayed on it more relevant to your interests.",
+            manage: "You can set your browser to refuse all or some browser cookies, or to alert you when websites set or access cookies. If you disable or refuse cookies, please note that some parts of this website may become inaccessible or not function properly."
+        },
+        
+        use: {
+            title: "How We Use Your Information",
+            text: "We may use the information we collect for various purposes, including to:",
+            item1: "Provide, maintain, and improve our website",
+            item2: "Create and manage your account",
+            item3: "Track and analyze usage patterns",
+            item4: "Personalize your experience",
+            item5: "Communicate with you about updates, features, or educational content",
+            item6: "Respond to your inquiries and provide support",
+            item7: "Protect against unauthorized access and activities"
+        },
+        
+        sharing: {
+            title: "Information Sharing",
+            text: "We may share your information in the following situations:",
+            item1: "With Service Providers: We may share your information with third-party vendors who provide services on our behalf, such as hosting, analytics, and customer service.",
+            item2: "For Legal Reasons: We may disclose your information if required to do so by law or in response to valid requests by public authorities.",
+            item3: "With Your Consent: We may share your information with third parties when you have given us your consent to do so.",
+            notsell: "We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties."
+        },
+        
+        security: {
+            title: "Data Security",
+            text: "We have implemented appropriate technical and organizational security measures designed to protect the security of any personal information we process. However, please note that no electronic transmission or storage of information can be guaranteed to be 100% secure. Although we do our best to protect your personal information, we cannot guarantee the security of your personal information transmitted to our website."
+        },
+        
+        children: {
+            title: "Children's Privacy",
+            text: "Our website is not directed to individuals under the age of 13. We do not knowingly collect personal information from children under 13. If you become aware that a child has provided us with personal information, please contact us. If we become aware that we have collected personal information from a child under the age of 13 without verification of parental consent, we will take steps to remove that information from our servers."
+        },
+        
+        rights: {
+            title: "Your Rights",
+            text: "Depending on your location, you may have certain rights regarding your personal information, including:",
+            item1: "The right to access personal information we hold about you",
+            item2: "The right to request correction of inaccurate information",
+            item3: "The right to request deletion of your personal information",
+            item4: "The right to object to processing of your personal information",
+            item5: "The right to data portability",
+            item6: "The right to withdraw consent",
+            exercise: "To exercise these rights, please contact us using the information provided in the \"Contact Us\" section below."
+        },
+        
+        changes: {
+            title: "Changes to this Privacy Policy",
+            text: "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last Updated\" date. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page."
+        },
+        
+        contact: {
+            title: "Contact Us",
+            text: "If you have any questions about this Privacy Policy, please contact us at contact@quadraticlearning.com."
+        },
+        
+        footer: "This document was last updated on May 15, 2024.",
+        returnToHome: "Return to Home"
     }
 }; 
