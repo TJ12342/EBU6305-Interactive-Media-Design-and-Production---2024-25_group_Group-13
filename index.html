@@ -121,18 +121,6 @@
       </div>
     </section>
 
-    <!-- Carousel section -->
-    <section class="carousel-section">
-      <div class="carousel-container">
-        <div class="carousel-slide">
-          <img src="src/assets/images/homepage/697474272246712539.jpg" alt="Ad 1">
-          <img src="src/assets/images/homepage/丁真.jpeg" alt="Ad 2">
-          <img src="src/assets/images/homepage/111.png" alt="Ad 3">
-        </div>
-        <button class="prev">&#10094;</button>
-        <button class="next">&#10095;</button>
-      </div>
-    </section>
 
     <section class="features">
       <h2 data-i18n="home.features.title">Website Features</h2>
@@ -177,6 +165,20 @@
     </section>
   </main>
 
+    <!-- Carousel section -->
+    <section class="carousel-section">
+      <div class="carousel-container">
+        <div class="carousel-slide">
+          <img src="src/assets/images/homepage/697474272246712539.jpg" alt="Ad 1">
+          <img src="src/assets/images/homepage/丁真.jpeg" alt="Ad 2">
+          <img src="src/assets/images/homepage/111.png" alt="Ad 3">
+        </div>
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </section>
+
+
   <footer>
     <div class="footer-content">
       <div class="footer-contact">
@@ -201,19 +203,60 @@
       const images = document.querySelectorAll('.carousel-slide img');
       const prev = document.querySelector('.prev');
       const next = document.querySelector('.next');
-      let index = 0;
-
-      function showSlide(i) {
-        index = (i + images.length) % images.length;
-        slide.style.transform = `translateX(-${index * 100}%)`;
+  
+      // 克隆第一张和最后一张用于无缝过渡
+      const firstClone = images[0].cloneNode(true);
+      const lastClone = images[images.length - 1].cloneNode(true);
+  
+      firstClone.id = 'first-clone';
+      lastClone.id = 'last-clone';
+  
+      slide.appendChild(firstClone);
+      slide.insertBefore(lastClone, images[0]);
+  
+      const newImages = document.querySelectorAll('.carousel-slide img');
+      let index = 1;
+      const imageWidth = 100;
+  
+      slide.style.transform = `translateX(-${index * imageWidth}%)`;
+  
+      function moveToIndex(i) {
+        index = i;
+        slide.style.transition = 'transform 0.5s ease-in-out';
+        slide.style.transform = `translateX(-${index * imageWidth}%)`;
       }
-
-      prev.addEventListener('click', () => showSlide(index - 1));
-      next.addEventListener('click', () => showSlide(index + 1));
-
-      setInterval(() => showSlide(index + 1), 5000);
+  
+      function resetPosition() {
+        if (newImages[index].id === 'first-clone') {
+          slide.style.transition = 'none';
+          index = 1;
+          slide.style.transform = `translateX(-${index * imageWidth}%)`;
+        } else if (newImages[index].id === 'last-clone') {
+          slide.style.transition = 'none';
+          index = newImages.length - 2;
+          slide.style.transform = `translateX(-${index * imageWidth}%)`;
+        }
+      }
+  
+      next.addEventListener('click', () => {
+        if (index >= newImages.length - 1) return;
+        moveToIndex(index + 1);
+      });
+  
+      prev.addEventListener('click', () => {
+        if (index <= 0) return;
+        moveToIndex(index - 1);
+      });
+  
+      slide.addEventListener('transitionend', resetPosition);
+  
+      setInterval(() => {
+        if (index >= newImages.length - 1) return;
+        moveToIndex(index + 1);
+      }, 5000);
     });
   </script>
+  
 </body>
 </html>
 
