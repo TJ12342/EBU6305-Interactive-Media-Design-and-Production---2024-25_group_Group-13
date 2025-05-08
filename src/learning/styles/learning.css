@@ -833,4 +833,203 @@ body.dark-mode .case-study-card {
 #check-trans-quiz:hover,
 #check-app-quiz:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Interactive Problem-Solver Styles */
+.application-tabs {
+    margin: 2rem 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+}
+
+.tab-navigation {
+    display: flex;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tab-btn {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.tab-btn:hover {
+    background-color: #f0f0f0;
+    color: #6200ea;
+}
+
+.tab-btn.active {
+    color: #6200ea;
+    background-color: #fff;
+    border-bottom: 3px solid #6200ea;
+}
+
+.tab-content {
+    padding: 0;
+}
+
+.tab-pane {
+    display: none;
+    padding: 0;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.sandbox-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 600px;
+}
+
+@media (max-width: 992px) {
+    .sandbox-container {
+        flex-direction: column;
+    }
+}
+
+.visualization-area {
+    flex: 3;
+    padding: 1.5rem;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.params-area {
+    flex: 2;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+.interactive-visualization {
+    width: 100%;
+    height: 400px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+.animation-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    padding: 0.6rem 1.2rem;
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #4b00b5;
+}
+
+.action-btn:active {
+    transform: translateY(1px);
+}
+
+.parameter-controls {
+    margin: 1.5rem 0;
+}
+
+.param-group {
+    margin-bottom: 1.5rem;
+}
+
+.param-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.param-group input[type="range"] {
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.param-hint {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.3rem;
+}
+
+.equation-display {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+.equation-display h5 {
+    margin-top: 0;
+    color: #6200ea;
+    font-weight: 600;
+}
+
+.formula-box {
+    background-color: #f7f7f7;
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+.formula-box p {
+    margin: 0.5rem 0;
+}
+
+.results-box {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: #edf7ff;
+    border: 1px solid #d0e5f5;
+    border-radius: 6px;
+}
+
+.results-box h5 {
+    margin-top: 0;
+    color: #0056b3;
+    font-weight: 600;
+}
+
+.results-box p {
+    margin: 0.7rem 0;
+    font-size: 1.05rem;
+}
+
+.results-box strong {
+    color: #333;
 } 

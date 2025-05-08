@@ -695,23 +695,170 @@
                 <!-- Interactive Problem-Solving -->
                 <div class="interactive-demo">
                     <h3 data-i18n="learning.content.applications.interactive.title">Interactive Problem-Solver</h3>
-                    <p data-i18n="learning.content.applications.interactive.description">Explore how to apply quadratic equations to solve real-world problems:</p>
+                    <p data-i18n="learning.content.applications.interactive.description">Explore how to apply quadratic equations to solve real-world problems in this interactive sandbox:</p>
                     
-                    <div class="problem-selector">
-                        <label for="problem-select" data-i18n="learning.content.applications.interactive.select">Select a problem type:</label>
-                        <select id="problem-select">
-                            <option value="projectile" data-i18n="learning.content.applications.interactive.option1">Projectile Motion</option>
-                            <option value="revenue" data-i18n="learning.content.applications.interactive.option2">Revenue Optimization</option>
-                            <option value="area" data-i18n="learning.content.applications.interactive.option3">Area Maximization</option>
-                        </select>
-                        <button id="load-problem" class="btn" data-i18n="learning.content.applications.interactive.loadButton">Load Problem</button>
-                    </div>
-                    
-                    <div id="problem-container">
-                        <div id="problem-description"></div>
-                        <div id="problem-visualization" style="min-height: 250px; min-width: 400px;"></div>
-                        <div id="problem-controls"></div>
-                        <div id="problem-solution"></div>
+                    <div class="application-tabs">
+                        <div class="tab-navigation">
+                            <button class="tab-btn active" data-tab="projectile" data-i18n="learning.content.applications.interactive.tab1">Projectile Motion</button>
+                            <button class="tab-btn" data-tab="revenue" data-i18n="learning.content.applications.interactive.tab2">Revenue Optimization</button>
+                            <button class="tab-btn" data-tab="area" data-i18n="learning.content.applications.interactive.tab3">Area Maximization</button>
+                        </div>
+                        
+                        <div class="tab-content">
+                            <!-- Projectile Motion Tab -->
+                            <div class="tab-pane active" id="projectile-tab">
+                                <div class="sandbox-container">
+                                    <div class="visualization-area">
+                                        <div id="projectile-visualization" class="interactive-visualization">
+                                            <!-- Canvas for drawing the projectile motion -->
+                                            <canvas id="projectile-canvas" width="600" height="400"></canvas>
+                                            <div class="animation-controls">
+                                                <button id="projectile-start" class="action-btn" data-i18n="learning.content.applications.interactive.launch">Launch</button>
+                                                <button id="projectile-reset" class="action-btn" data-i18n="learning.content.applications.interactive.reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="params-area">
+                                        <h4 data-i18n="learning.content.applications.interactive.projectile.title">Basketball Throw Simulator</h4>
+                                        <p data-i18n="learning.content.applications.interactive.projectile.description">Adjust parameters to see how they affect the trajectory of a basketball throw.</p>
+                                        
+                                        <div class="parameter-controls">
+                                            <div class="param-group">
+                                                <label for="projectile-height" data-i18n="learning.content.applications.interactive.projectile.initialHeight">Initial Height (m): <span id="height-value">2.0</span></label>
+                                                <input type="range" id="projectile-height" min="1" max="5" step="0.1" value="2.0">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.projectile.heightHint">Height of the player's hands when throwing</div>
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="projectile-velocity" data-i18n="learning.content.applications.interactive.projectile.initialVelocity">Initial Velocity (m/s): <span id="velocity-value">7.0</span></label>
+                                                <input type="range" id="projectile-velocity" min="1" max="15" step="0.1" value="7.0">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.projectile.velocityHint">How fast the ball is thrown</div>
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="projectile-angle" data-i18n="learning.content.applications.interactive.projectile.angle">Angle (degrees): <span id="angle-value">45</span></label>
+                                                <input type="range" id="projectile-angle" min="0" max="90" step="1" value="45">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.projectile.angleHint">Angle of the throw relative to horizontal</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="equation-display">
+                                            <h5 data-i18n="learning.content.applications.interactive.projectile.equationTitle">Resulting Equations:</h5>
+                                            <div class="formula-box">
+                                                <p><strong data-i18n="learning.content.applications.interactive.projectile.horizontal">Horizontal position:</strong> <span id="x-equation">x(t) = v₀·cos(θ)·t</span></p>
+                                                <p><strong data-i18n="learning.content.applications.interactive.projectile.vertical">Vertical position:</strong> <span id="y-equation">y(t) = h₀ + v₀·sin(θ)·t - 4.9t²</span></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="results-box">
+                                            <h5 data-i18n="learning.content.applications.interactive.projectile.analysisTitle">Trajectory Analysis:</h5>
+                                            <p><strong data-i18n="learning.content.applications.interactive.projectile.maxHeight">Maximum Height:</strong> <span id="max-height">0.0</span> m</p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.projectile.timeInAir">Time in Air:</strong> <span id="time-in-air">0.0</span> s</p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.projectile.distance">Horizontal Distance:</strong> <span id="distance">0.0</span> m</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Revenue Optimization Tab -->
+                            <div class="tab-pane" id="revenue-tab">
+                                <div class="sandbox-container">
+                                    <div class="visualization-area">
+                                        <div id="revenue-visualization" class="interactive-visualization">
+                                            <!-- Canvas for drawing the revenue curves -->
+                                            <canvas id="revenue-canvas" width="600" height="400"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="params-area">
+                                        <h4 data-i18n="learning.content.applications.interactive.revenue.title">Ticket Pricing Simulator</h4>
+                                        <p data-i18n="learning.content.applications.interactive.revenue.description">Find the optimal ticket price to maximize revenue for your event.</p>
+                                        
+                                        <div class="parameter-controls">
+                                            <div class="param-group">
+                                                <label for="revenue-base-price" data-i18n="learning.content.applications.interactive.revenue.basePrice">Base Price ($): <span id="base-price-value">10.00</span></label>
+                                                <input type="range" id="revenue-base-price" min="5" max="30" step="0.5" value="10">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.revenue.basePriceHint">Starting ticket price</div>
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="revenue-base-demand" data-i18n="learning.content.applications.interactive.revenue.baseDemand">Base Demand (tickets): <span id="base-demand-value">500</span></label>
+                                                <input type="range" id="revenue-base-demand" min="100" max="1000" step="10" value="500">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.revenue.baseDemandHint">Number of tickets sold at base price</div>
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="revenue-elasticity" data-i18n="learning.content.applications.interactive.revenue.elasticity">Price Elasticity: <span id="elasticity-value">20</span></label>
+                                                <input type="range" id="revenue-elasticity" min="5" max="50" step="1" value="20">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.revenue.elasticityHint">Tickets lost per $1 increase</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="equation-display">
+                                            <h5 data-i18n="learning.content.applications.interactive.revenue.equationTitle">Resulting Equations:</h5>
+                                            <div class="formula-box">
+                                                <p><strong data-i18n="learning.content.applications.interactive.revenue.demandEquation">Demand Equation:</strong> <span id="demand-equation">q = 500 - 20p</span></p>
+                                                <p><strong data-i18n="learning.content.applications.interactive.revenue.revenueEquation">Revenue Equation:</strong> <span id="revenue-equation">R = p(500 - 20p) = 500p - 20p²</span></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="results-box">
+                                            <h5 data-i18n="learning.content.applications.interactive.revenue.analysisTitle">Revenue Analysis:</h5>
+                                            <p><strong data-i18n="learning.content.applications.interactive.revenue.optimalPrice">Optimal Price:</strong> $<span id="optimal-price">0.00</span></p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.revenue.maxRevenue">Maximum Revenue:</strong> $<span id="max-revenue">0.00</span></p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.revenue.ticketsSold">Tickets Sold:</strong> <span id="tickets-sold">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Area Maximization Tab -->
+                            <div class="tab-pane" id="area-tab">
+                                <div class="sandbox-container">
+                                    <div class="visualization-area">
+                                        <div id="area-visualization" class="interactive-visualization">
+                                            <!-- Canvas for drawing the area problem -->
+                                            <canvas id="area-canvas" width="600" height="400"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="params-area">
+                                        <h4 data-i18n="learning.content.applications.interactive.area.title">Fencing Problem Simulator</h4>
+                                        <p data-i18n="learning.content.applications.interactive.area.description">Find the dimensions that maximize the area of a rectangular field given a fixed amount of fencing.</p>
+                                        
+                                        <div class="parameter-controls">
+                                            <div class="param-group">
+                                                <label for="area-perimeter" data-i18n="learning.content.applications.interactive.area.perimeter">Total Fencing (m): <span id="perimeter-value">100</span></label>
+                                                <input type="range" id="area-perimeter" min="40" max="200" step="2" value="100">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.area.perimeterHint">Total length of available fencing</div>
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="area-width" data-i18n="learning.content.applications.interactive.area.width">Width (m): <span id="width-value">25</span></label>
+                                                <input type="range" id="area-width" min="1" max="50" step="0.5" value="25">
+                                                <div class="param-hint" data-i18n="learning.content.applications.interactive.area.widthHint">Adjust to see how width affects area</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="equation-display">
+                                            <h5 data-i18n="learning.content.applications.interactive.area.equationTitle">Resulting Equations:</h5>
+                                            <div class="formula-box">
+                                                <p><strong data-i18n="learning.content.applications.interactive.area.perimeterEquation">Perimeter Equation:</strong> <span id="perimeter-equation">2x + 2y = 100</span></p>
+                                                <p><strong data-i18n="learning.content.applications.interactive.area.lengthEquation">Length Equation:</strong> <span id="length-equation">y = (100 - 2x)/2 = 50 - x</span></p>
+                                                <p><strong data-i18n="learning.content.applications.interactive.area.areaEquation">Area Equation:</strong> <span id="area-equation">A = x·y = x(50-x) = 50x - x²</span></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="results-box">
+                                            <h5 data-i18n="learning.content.applications.interactive.area.analysisTitle">Area Analysis:</h5>
+                                            <p><strong data-i18n="learning.content.applications.interactive.area.currentWidth">Current Width:</strong> <span id="current-width">0.0</span> m</p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.area.currentLength">Current Length:</strong> <span id="current-length">0.0</span> m</p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.area.currentArea">Current Area:</strong> <span id="current-area">0.0</span> m²</p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.area.optimalDimensions">Optimal Dimensions:</strong> <span id="optimal-dimensions">0.0 × 0.0</span> m</p>
+                                            <p><strong data-i18n="learning.content.applications.interactive.area.maxArea">Maximum Area:</strong> <span id="max-area">0.0</span> m²</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
