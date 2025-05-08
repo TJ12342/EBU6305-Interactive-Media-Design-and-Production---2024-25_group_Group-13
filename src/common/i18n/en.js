@@ -457,54 +457,118 @@ window.i18n.en = {
             title: "Knowledge Assessment",
             description: "Test your understanding of quadratic equations and parabolas. This assessment includes various question types and will provide detailed analysis and recommendations upon completion."
         },
-        title: "Test Your Knowledge",
-        description: "Assess your understanding of quadratic equations and parabolas through our tests. Choose a difficulty level to begin.",
-        
-        // Difficulty levels
         difficulty: {
-            label: "Select Difficulty:",
+            title: "Select Difficulty",
             easy: "Easy",
             medium: "Medium",
             hard: "Hard"
         },
+        start: "Begin Test",
         
-        // Test types
-        types: {
-            title: "Test Types",
-            multipleChoice: {
-                title: "Multiple Choice",
-                description: "Test basic concepts and simple applications"
+        // Test interface
+        interface: {
+            question: "Question",
+            of: "/",
+            timeRemaining: "Time remaining",
+            questionNavigation: "Question Navigation",
+            previous: "Previous",
+            next: "Next",
+            submit: "Submit Test",
+            restart: "Restart Test"
+        },
+        
+        // Results page
+        results: {
+            title: "Test Results",
+            score: "Score",
+            timeUsed: "Time used",
+            performanceSummary: "Performance Summary",
+            detailedAnalysis: "Detailed Analysis",
+            questionNumber: "Q#",
+            type: "Type",
+            difficulty: "Difficulty",
+            result: "Result",
+            explanation: "Explanation",
+            knowledgeMastery: "Knowledge Mastery",
+            topics: {
+                basicConcepts: "Basic Concepts",
+                graphTransformations: "Graph Transformations",
+                equationSolving: "Equation Solving",
+                appliedProblems: "Applied Problems"
             },
-            fillInBlank: {
-                title: "Fill in the Blank",
-                description: "Test your calculation abilities and applied knowledge"
+            recommendations: "Learning Recommendations",
+            reviewTest: "Review Questions & Answers",
+            retryTest: "Retake Test",
+            shareResults: "Share Results"
+        },
+        
+        // Question types
+        questionTypes: {
+            multipleChoice: "Multiple Choice",
+            fillInBlank: "Fill in the Blank",
+            graphQuestion: "Graph Question"
+        },
+        
+        // Feedback
+        feedback: {
+            correct: "Correct",
+            incorrect: "Incorrect",
+            unanswered: "Unanswered",
+            correctAnswer: "Correct answer"
+        },
+        
+        // Notifications
+        notification: {
+            resumed: "Test resumed",
+            saved: "Test progress saved",
+            timeWarning: "5 minutes remaining",
+            timeAlmostUp: "1 minute remaining",
+            timeUp: "Time's up"
+        },
+        
+        // Performance summary text
+        summary: {
+            excellent: "Excellent! You have a deep understanding of quadratic equations and parabolas.",
+            good: "Well done! You have a good grasp of quadratic equations and parabolas.",
+            average: "You have a basic understanding of quadratic equations and parabolas, but there's room for improvement.",
+            needsImprovement: "You need more practice to strengthen your understanding of quadratic equations and parabolas.",
+            strengthWeakness: "You excel in {strength}, but need to work on {weakness}."
+        },
+        
+        // Difficulty level results descriptions
+        difficultyResults: {
+            easy: {
+                excellent: "At the easy level, your performance was outstanding! You've mastered the basics of quadratic equations. Consider trying the medium difficulty test.",
+                good: "At the easy level, you performed well. Continue practicing to further solidify your basic knowledge.",
+                average: "At the easy level, your performance met the basic requirements. Reviewing the basic concepts would be helpful.",
+                needsImprovement: "At the easy level, you need to strengthen your basic knowledge. We recommend reviewing the basic concepts section in the learning module."
             },
-            problemSolving: {
-                title: "Problem Solving",
-                description: "Apply quadratic equations to solve complex problems"
+            medium: {
+                excellent: "At the medium level, your performance was exceptional! You have a strong understanding and application of quadratic equations. You can try the hard level test now.",
+                good: "At the medium level, you performed well. You have a good grasp of most concepts, with just a few areas needing small improvements.",
+                average: "At the medium level, your performance was average. Targeted practice on your weaker areas can help improve your overall performance.",
+                needsImprovement: "At the medium level, you need more practice. We recommend revisiting the relevant concepts before trying again."
+            },
+            hard: {
+                excellent: "At the hard level, your performance was impressive! You have a deep and comprehensive understanding of quadratic equations. You've mastered advanced knowledge of this topic.",
+                good: "At the hard level, you performed quite well! You have a good understanding of complex problems, with just a few details to improve upon.",
+                average: "At the hard level, your performance was acceptable. More practice with complex problems will help improve your problem-solving abilities.",
+                needsImprovement: "At the hard level, you encountered some challenges. We recommend mastering the medium level content before returning to the hard level."
             }
         },
         
-        // Test-related buttons and prompts
-        controls: {
-            start: "Start Test",
-            next: "Next Question",
-            previous: "Previous Question",
-            submit: "Submit Answer",
-            finishTest: "Finish Test",
-            timeRemaining: "Time Remaining",
-            questionProgress: "Question {current} / {total}"
+        // Topic names
+        topic: {
+            basic: "Basic Concepts",
+            transformation: "Graph Transformations",
+            equation: "Equation Solving",
+            application: "Applied Problems"
         },
         
-        // Test results
-        results: {
-            title: "Test Results",
-            score: "Your Score: {score}%",
-            timeTaken: "Time Taken: {time}",
-            correct: "Correct Answers: {correct} / {total}",
-            reviewAnswers: "Review Answers",
-            retakeTest: "Retake Test",
-            backToTests: "Back to Tests"
+        // Input placeholders
+        placeholder: {
+            xCoordinate: "x-coordinate",
+            yCoordinate: "y-coordinate"
         }
     },
     

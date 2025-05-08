@@ -1502,15 +1502,25 @@ function setPerformanceSummary(results) {
     
     // 根据得分率生成总结文本
     let summaryText = '';
+    let performanceLevel = '';
     
     if (results.percentage >= 90) {
-        summaryText = getTranslation('test.summary.excellent');
+        performanceLevel = 'excellent';
     } else if (results.percentage >= 75) {
-        summaryText = getTranslation('test.summary.good');
+        performanceLevel = 'good';
     } else if (results.percentage >= 60) {
-        summaryText = getTranslation('test.summary.average');
+        performanceLevel = 'average';
     } else {
-        summaryText = getTranslation('test.summary.needsImprovement');
+        performanceLevel = 'needsImprovement';
+    }
+    
+    // 获取基本总结文本
+    summaryText = getTranslation(`test.summary.${performanceLevel}`);
+    
+    // 添加基于难度级别的具体总结文本
+    const difficultySpecificText = getTranslation(`test.difficultyResults.${currentTest.difficulty}.${performanceLevel}`);
+    if (difficultySpecificText) {
+        summaryText += ' ' + difficultySpecificText;
     }
     
     // 添加强项和弱项分析
@@ -1528,8 +1538,13 @@ function setPerformanceSummary(results) {
             const strongTopicName = getTopicName(strongestTopic[0]);
             const weakTopicName = getTopicName(weakestTopic[0]);
             
-            summaryText += ` ${getTranslation('test.summary.strengthWeakness')}`;
-            summaryText = summaryText.replace('{strength}', strongTopicName).replace('{weakness}', weakTopicName);
+            let strengthWeaknessText = getTranslation('test.summary.strengthWeakness');
+            if (strengthWeaknessText) {
+                strengthWeaknessText = strengthWeaknessText
+                    .replace('{strength}', strongTopicName)
+                    .replace('{weakness}', weakTopicName);
+                summaryText += ' ' + strengthWeaknessText;
+            }
         }
     }
     
@@ -1631,7 +1646,22 @@ function generateResultsTable(results) {
 
 // 获取问题类型名称
 function getQuestionTypeName(type) {
-    const translationKey = `test.questionTypes.${type.replace('-', '')}`;
+    // 修正翻译键格式，确保与zh.js中定义的键匹配
+    let translationKey;
+    switch (type) {
+        case 'multiple-choice':
+            translationKey = 'test.questionTypes.multipleChoice';
+            break;
+        case 'fill-in-blank':
+            translationKey = 'test.questionTypes.fillInBlank';
+            break;
+        case 'graph-question':
+            translationKey = 'test.questionTypes.graphQuestion';
+            break;
+        default:
+            translationKey = `test.questionTypes.${type}`;
+    }
+
     const translated = getTranslation(translationKey);
     if (translated) {
         return translated;
@@ -1724,19 +1754,10 @@ function generateRecommendations(results) {
     
     // 为每个需要改进的主题添加建议
     topicsToImprove.forEach(([topic, _]) => {
-        switch (topic) {
-            case 'basic':
-                recommendations.push(getTranslation('test.recommendations.basic'));
-                break;
-            case 'transformation':
-                recommendations.push(getTranslation('test.recommendations.transformation'));
-                break;
-            case 'equation':
-                recommendations.push(getTranslation('test.recommendations.equation'));
-                break;
-            case 'application':
-                recommendations.push(getTranslation('test.recommendations.application'));
-                break;
+        const recommendationKey = `test.recommendations.${topic}`;
+        const recommendation = getTranslation(recommendationKey);
+        if (recommendation) {
+            recommendations.push(recommendation);
         }
     });
     
@@ -1750,8 +1771,10 @@ function generateRecommendations(results) {
         const strongTopicName = getTopicName(strongestTopic);
         
         let strengthRecommendation = getTranslation('test.recommendations.strength');
-        strengthRecommendation = strengthRecommendation.replace('{topic}', strongTopicName);
-        recommendations.push(strengthRecommendation);
+        if (strengthRecommendation) {
+            strengthRecommendation = strengthRecommendation.replace('{topic}', strongTopicName);
+            recommendations.push(strengthRecommendation);
+        }
     }
     
     // 4. 添加一般性学习建议
@@ -1838,7 +1861,7 @@ function shareResults() {
     const score = document.getElementById('score-percentage').textContent;
     const difficulty = getDifficultyText(currentTest.difficulty);
     
-    const shareText = `${getTranslation('test.share.message') || '我在二次函数测试中得了'} ${score} ${getTranslation('test.share.difficulty') || '难度：'} ${difficulty}!`;
+    const shareText = `${getTranslation('test.share.message') || '我在二次方程测试中得了'} ${score} ${getTranslation('test.share.difficulty') || '难度：'} ${difficulty}!`;
     
     // 直接复制到剪贴板
     copyToClipboard(shareText);
