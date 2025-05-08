@@ -44,6 +44,10 @@ window.i18n.zh = {
                 title: "教育游戏",
                 description: "通过有趣的挑战来测试和提高你的技能"
             },
+            test: {
+                title: "知识测试",
+                description: "测试你对二次方程的理解"
+            },
             community: {
                 title: "学习社区",
                 description: "加入社区，提问和分享你的经验"
@@ -143,6 +147,27 @@ window.i18n.zh = {
                 factorizedForm: {
                     title: "因式分解形式",
                     description: "当方程有实数解时，可以表示为 y = a(x - r₁)(x - r₂)，其中 r₁ 和 r₂ 是方程的根。"
+                },
+                formula1: "ax² + bx + c = 0，其中 a ≠ 0",
+                linearNote: "当a = 0时，方程简化为线性方程。",
+                functionDefinition: "二次函数定义为：",
+                formula2: "f(x) = ax² + bx + c，其中 a ≠ 0",
+                parabolaNote: "二次函数的图像是一条抛物线。",
+                keyPoints: {
+                    vertex: "<strong>顶点：</strong>抛物线上y值达到最大或最小的点。对于函数f(x) = ax² + bx + c，顶点的x坐标是-b/(2a)，y坐标可以通过将此x值代入函数中得到。",
+                    axis: "<strong>对称轴：</strong>通过顶点的垂直线，抛物线关于此线对称。对称轴的方程是x = -b/(2a)。",
+                    direction: "<strong>开口方向：</strong>当a > 0时，抛物线向上开口；当a < 0时，抛物线向下开口。",
+                    zeros: "<strong>零点（根）：</strong>图像与x轴相交的点，即f(x) = 0的解。"
+                },
+                interactive: {
+                    title: "交互式演示",
+                    aLabel: "a: <span id=\"a-value\">1</span>",
+                    bLabel: "b: <span id=\"b-value\">0</span>",
+                    cLabel: "c: <span id=\"c-value\">0</span>",
+                    equationLabel: "方程：",
+                    vertexLabel: "顶点：",
+                    axisLabel: "对称轴：",
+                    directionLabel: "方向："
                 }
             },
             coefficients: {

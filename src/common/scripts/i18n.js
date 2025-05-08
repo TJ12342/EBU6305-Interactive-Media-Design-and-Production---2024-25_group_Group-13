@@ -263,14 +263,69 @@ function updateLanguageSelector() {
 
 // 翻译所有带data-i18n属性的元素
 function translateAllElements() {
-    // 获取所有带data-i18n属性的元素
+    // 获取所有带data-i18n属性的元素 - 确保更深层次的嵌套元素也被选中
     const elements = document.querySelectorAll('[data-i18n]');
+    
+    console.log('找到需要翻译的元素数量:', elements.length);
     
     // 遍历每个元素并翻译
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
-        translateElement(element);
+        const translation = getTranslation(key);
+        
+        // 在控制台记录特定元素的翻译情况
+        if (key.includes('features.') || key.includes('hero.')) {
+            console.log(`翻译元素 "${key}": "${element.textContent}" => "${translation}"`);
+        }
+        
+        // 特殊处理logo标题
+        if (element.tagName === 'H1' && element.parentElement && element.parentElement.classList.contains('logo')) {
+            element.textContent = "Quadratic Equations & Parabolas";
+        } 
+        // 特殊处理暗黑模式按钮，不修改其图标
+        else if (element.id === 'dark-mode-btn') {
+            // 保持🌓图标，只更新aria-label
+            if (element.textContent.trim() !== '🌓') {
+                element.textContent = '🌓';
+            }
+            // 更新aria-label属性
+            if (element.hasAttribute('aria-label') && translation) {
+                element.setAttribute('aria-label', translation);
+            }
+        }
+        // 普通元素正常更新文本内容
+        else if (translation) {
+            element.textContent = translation;
+        }
     });
+    
+    // 特别检查首页中的特色功能卡片
+    const featureCards = document.querySelectorAll('.feature-card');
+    if (featureCards.length > 0) {
+        console.log('找到特色功能卡片:', featureCards.length);
+        featureCards.forEach(card => {
+            const title = card.querySelector('h3[data-i18n]');
+            const description = card.querySelector('p[data-i18n]');
+            
+            if (title) {
+                const key = title.getAttribute('data-i18n');
+                const translation = getTranslation(key);
+                if (translation) {
+                    console.log(`翻译特色卡片标题 "${key}": "${title.textContent}" => "${translation}"`);
+                    title.textContent = translation;
+                }
+            }
+            
+            if (description) {
+                const key = description.getAttribute('data-i18n');
+                const translation = getTranslation(key);
+                if (translation) {
+                    console.log(`翻译特色卡片描述 "${key}": "${description.textContent}" => "${translation}"`);
+                    description.textContent = translation;
+                }
+            }
+        });
+    }
 }
 
 // 更新导航元素

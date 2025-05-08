@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化测试页面功能
     initTestPage();
     
-    // 添加色盲关怀模式功能
-    initColorBlindMode();
-    
     // 监听语言变更
     const languageSelector = document.getElementById('language');
     if (languageSelector) {
@@ -104,104 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-// 初始化色盲关怀模式
-function initColorBlindMode() {
-    // 直接应用色盲友好样式，不再创建切换按钮
-    document.body.classList.add('color-blind-mode');
-    
-    // 保存设置到本地存储
-    localStorage.setItem('colorBlindMode', true);
-    
-    // 添加CSS样式到头部
-    addColorBlindStyles();
-}
-
-// 添加色盲模式CSS样式
-function addColorBlindStyles() {
-    // 检查是否已经添加了样式
-    if (document.getElementById('color-blind-styles')) return;
-    
-    const styleSheet = document.createElement('style');
-    styleSheet.id = 'color-blind-styles';
-    styleSheet.textContent = `
-        /* 色盲模式全局样式 */
-        body.color-blind-mode .correct, 
-        body.color-blind-mode .result-status.correct {
-            background-color: #000 !important;
-            color: #fff !important;
-            border: 2px solid #000 !important;
-            position: relative;
-        }
-        
-        body.color-blind-mode .incorrect, 
-        body.color-blind-mode .result-status.incorrect {
-            background-color: #fff !important;
-            color: #000 !important;
-            border: 2px dashed #000 !important;
-            position: relative;
-        }
-        
-        /* 添加图案区分 */
-        body.color-blind-mode .result-status.correct::after {
-            content: "✓";
-            margin-left: 5px;
-        }
-        
-        body.color-blind-mode .result-status.incorrect::after {
-            content: "✗";
-            margin-left: 5px;
-        }
-        
-        /* 问题导航点样式 */
-        body.color-blind-mode .question-dot.answered {
-            border: 3px solid #000;
-        }
-        
-        body.color-blind-mode .question-dot.active {
-            background-color: #000;
-            color: #fff;
-        }
-        
-        /* 进度条样式 */
-        body.color-blind-mode .progress-bar {
-            background-image: linear-gradient(45deg, #000 25%, #333 25%, #333 50%, #000 50%, #000 75%, #333 75%, #333 100%);
-            background-size: 56.57px 56.57px;
-            color: #fff;
-        }
-        
-        /* 计时器警告样式 */
-        body.color-blind-mode #timer {
-            border: 2px solid #000;
-            padding: 2px 5px;
-        }
-        
-        body.color-blind-mode #timer.warning {
-            border: 2px dashed #000;
-            font-weight: bold;
-            background-color: #eee;
-        }
-        
-        /* 提升表单元素的对比度 */
-        body.color-blind-mode input[type="radio"]:checked + label {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-        
-        body.color-blind-mode button {
-            border: 2px solid #000;
-        }
-    `;
-    
-    document.head.appendChild(styleSheet);
-}
-
-// 切换色盲模式 - 保留此函数以防其他地方调用，但不再使用
-function toggleColorBlindMode() {
-    // 保持色盲模式始终开启
-    document.body.classList.add('color-blind-mode');
-    localStorage.setItem('colorBlindMode', true);
-}
 
 // 手动更新介绍文本
 function updateIntroText() {

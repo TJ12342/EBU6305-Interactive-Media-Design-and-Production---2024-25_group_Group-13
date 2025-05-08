@@ -62,21 +62,25 @@
 
 .difficulty-btn {
     padding: 10px 20px;
-    background-color: #e0e0e0;
+    background-color: #f5f5f5;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .difficulty-btn:hover {
-    background-color: #d0d0d0;
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .difficulty-btn.active {
     background-color: #0066cc;
     color: white;
+    box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
 }
 
 /* 开始测试按钮 */
@@ -86,18 +90,22 @@
 }
 
 #start-test-btn {
-    background-color: #4CAF50;
+    background-color: #00acc1;
     color: white;
     border: none;
     padding: 12px 30px;
     font-size: 18px;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 172, 193, 0.3);
 }
 
 #start-test-btn:hover {
-    background-color: #3e8e41;
+    background-color: #0097a7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 151, 167, 0.4);
 }
 
 /* 测试区域 */
@@ -263,53 +271,76 @@
     font-size: 16px;
 }
 
-/* 导航按钮 */
+/* 测试导航 */
 .test-navigation {
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .test-navigation button {
-    padding: 10px 25px;
+    padding: 10px 20px;
+    background-color: #f5f5f5;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #prev-question {
-    background-color: #e0e0e0;
-    color: #333;
+    background-color: #f5f5f5;
+    color: #555;
+    border: 1px solid #ddd;
 }
 
 #prev-question:hover:not(:disabled) {
-    background-color: #d0d0d0;
+    background-color: #e8e8e8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #prev-question:disabled {
-    background-color: #f0f0f0;
-    color: #aaa;
+    opacity: 0.5;
     cursor: not-allowed;
+    background-color: #f5f5f5;
 }
 
 #next-question {
-    background-color: #0066cc;
-    color: white;
+    background-color: #e0f7fa;
+    color: #00838f;
 }
 
 #next-question:hover {
-    background-color: #0055aa;
+    background-color: #b2ebf2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #submit-test {
-    background-color: #4CAF50;
+    background-color: #00acc1;
     color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 172, 193, 0.3);
 }
 
 #submit-test:hover {
-    background-color: #3e8e41;
+    background-color: #0097a7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 151, 167, 0.4);
+}
+
+#restart-test {
+    background-color: #f5f5f5;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+#restart-test:hover {
+    background-color: #e8e8e8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 重新开始按钮样式 */
@@ -557,27 +588,17 @@
 }
 
 .result-status.correct {
-    background-color: #000 !important;
-    color: #fff !important;
-    border: 2px solid #000 !important;
-    position: relative;
-}
-
-.result-status.correct::after {
-    content: "✓";
-    margin-left: 5px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
 }
 
 .result-status.incorrect {
-    background-color: #fff !important;
-    color: #000 !important;
-    border: 2px dashed #000 !important;
-    position: relative;
-}
-
-.result-status.incorrect::after {
-    content: "✗";
-    margin-left: 5px;
+    background-color: #F44336;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
 }
 
 /* 知识点掌握情况 */
@@ -612,15 +633,14 @@
 
 .progress-bar {
     height: 100%;
-    background-image: linear-gradient(45deg, #000 25%, #333 25%, #333 50%, #000 50%, #000 75%, #333 75%, #333 100%);
-    background-size: 56.57px 56.57px;
-    color: #fff;
+    background-color: #4CAF50;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding-right: 10px;
     font-size: 14px;
+    color: white;
 }
 
 /* 建议 */
@@ -651,48 +671,55 @@
     border-bottom: none;
 }
 
-/* 操作按钮 */
+/* 结果页面的操作按钮 */
 .action-buttons {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
+    margin-top: 30px;
 }
 
 .action-buttons button {
-    padding: 12px 25px;
+    padding: 10px 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 #review-test {
-    background-color: #0066cc;
-    color: white;
+    background-color: #e0f7fa;
+    color: #00838f;
 }
 
 #review-test:hover {
-    background-color: #0055aa;
+    background-color: #b2ebf2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #retry-test {
-    background-color: #ff9800;
-    color: white;
+    background-color: #e8f5e9;
+    color: #2e7d32;
 }
 
 #retry-test:hover {
-    background-color: #e68a00;
+    background-color: #c8e6c9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #share-results {
-    background-color: #9c27b0;
-    color: white;
+    background-color: #e3f2fd;
+    color: #0277bd;
 }
 
 #share-results:hover {
-    background-color: #7b1fa2;
+    background-color: #bbdefb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* 暗黑模式适配 */
@@ -708,16 +735,17 @@
 }
 
 .dark-mode .difficulty-btn {
-    background-color: #465a6c;
+    background-color: #3a3a3a;
     color: #e0e0e0;
 }
 
 .dark-mode .difficulty-btn:hover {
-    background-color: #546e7a;
+    background-color: #4a4a4a;
 }
 
 .dark-mode .difficulty-btn.active {
-    background-color: #1976d2;
+    background-color: #0077cc;
+    color: white;
 }
 
 .dark-mode .test-area,
@@ -775,17 +803,48 @@
 }
 
 .dark-mode #prev-question {
-    background-color: #546e7a;
+    background-color: #3a3a3a;
     color: #e0e0e0;
+    border-color: #555;
 }
 
 .dark-mode #prev-question:hover:not(:disabled) {
-    background-color: #607d8b;
+    background-color: #4a4a4a;
 }
 
 .dark-mode #prev-question:disabled {
-    background-color: #455a64;
-    color: #78909c;
+    opacity: 0.5;
+    background-color: #3a3a3a;
+}
+
+.dark-mode #next-question {
+    background-color: #006064;
+    color: #e0e0e0;
+}
+
+.dark-mode #next-question:hover {
+    background-color: #00838f;
+}
+
+.dark-mode #submit-test {
+    background-color: #00838f;
+}
+
+.dark-mode #submit-test:hover {
+    background-color: #00acc1;
+}
+
+.dark-mode #review-test,
+.dark-mode #retry-test,
+.dark-mode #share-results {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+.dark-mode #review-test:hover,
+.dark-mode #retry-test:hover,
+.dark-mode #share-results:hover {
+    background-color: #4a4a4a;
 }
 
 /* 答案解释样式 */
@@ -1008,42 +1067,15 @@
     }
 }
 
-/* 加强按钮对比度 */
-.difficulty-btn, #start-test-btn, .test-navigation button, .action-buttons button {
-    border: 2px solid #000;
-    font-weight: bold;
-}
-
-.difficulty-btn.active {
-    background-color: #000;
-    color: white;
-    border: 2px solid #000;
-}
-
-/* 计时器样式增强 */
+/* 计时器样式 */
 #timer {
-    border: 2px solid #000;
     padding: 2px 5px;
     background-color: #fff;
     color: #000;
 }
 
 #timer.warning {
-    border: 2px dashed #000;
     font-weight: bold;
-    background-color: #eee;
-}
-
-/* 进度条增强 */
-.progress-bar {
-    height: 100%;
-    background-image: linear-gradient(45deg, #000 25%, #333 25%, #333 50%, #000 50%, #000 75%, #333 75%, #333 100%);
-    background-size: 56.57px 56.57px;
-    color: #fff;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    font-size: 14px;
+    background-color: #fee;
+    color: #f44336;
 }

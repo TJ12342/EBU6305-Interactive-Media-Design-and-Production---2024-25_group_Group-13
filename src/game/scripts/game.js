@@ -1523,8 +1523,11 @@ function initVertexHunterGame() {
         return;
     }
     
-    // 游戏变量
-    let a, b, c;
+    // 游戏变量 - 明确初始化 a, b, c 值
+    // 这些变量需要声明在函数作用域中，以便其他嵌套函数可以访问
+    let a = 1;  // 默认值
+    let b = 0;  // 默认值
+    let c = 0;  // 默认值
     let correctVertexX, correctVertexY;
     let score = 0;
     
@@ -1562,17 +1565,49 @@ function initVertexHunterGame() {
     
     // 生成新的二次函数
     function generateNewFunction() {
-        // 生成随机系数
+        console.log('生成新二次函数...');
+        
+        // 直接定义顶点坐标 (h, k)
+        // 随机选择x坐标（顶点的水平位置）
+        let h = Math.floor(Math.random() * 9) - 4; // 整数，范围在-4到4之间
+        if (Math.random() > 0.5 && h !== 0) { // 增加非零检查，确保即使加0.5也不会让非零值变为0
+            h += 0.5; // 添加0.5使其有一位小数
+        }
+        
+        // 随机选择y坐标（顶点的垂直位置）
+        let k = Math.floor(Math.random() * 7) - 3; // 整数，范围在-3到3之间
+        if (Math.random() > 0.5) {
+            k += 0.5; // 添加0.5使其有一位小数
+        }
+        
+        // 生成随机a系数 - 控制抛物线的开口方向和宽窄
         a = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 0.5);
-        b = Math.random() * 8 - 4;
-        c = Math.random() * 6 - 3;
+        a = Math.round(a * 10) / 10; // 限制a的精度
+        if (a === 0) a = 0.5; // 防止a为0
         
-        // 计算正确的顶点坐标
-        correctVertexX = -b / (2 * a);
-        correctVertexY = a * correctVertexX * correctVertexX + b * correctVertexX + c;
+        // 从顶点形式 f(x) = a(x-h)² + k 转换为标准形式 f(x) = ax² + bx + c
+        b = -2 * a * h;
+        c = a * h * h + k;
         
-        console.log('生成新函数，参数:', a, b, c);
-        console.log('顶点坐标:', correctVertexX, correctVertexY);
+        // 保存正确的顶点坐标
+        correctVertexX = h;
+        correctVertexY = k;
+        
+        // 验证计算是否正确
+        const testVertexX = -b / (2 * a);
+        const testVertexY = a * testVertexX * testVertexX + b * testVertexX + c;
+        
+        // 打印调试信息
+        console.log('生成新函数:');
+        console.log('- 顶点坐标 (h,k):', h, k);
+        console.log('- 系数 (a,b,c):', a, b, c);
+        console.log('- 验证顶点X:', testVertexX);
+        console.log('- 验证顶点Y:', testVertexY);
+        
+        // 如果计算有误，输出警告
+        if (Math.abs(testVertexX - h) > 0.001 || Math.abs(testVertexY - k) > 0.001) {
+            console.warn('警告：计算的顶点与预期不符！');
+        }
         
         // 更新方程显示
         equationDisplay.textContent = formatQuadraticFunction(a, b, c);
@@ -1584,6 +1619,14 @@ function initVertexHunterGame() {
         // 清空反馈
         feedbackDisplay.textContent = '';
         feedbackDisplay.className = 'feedback-message';
+        
+        console.log('准备绘制顶点猎人函数...');
+        
+        // 强制立即重绘 - 重要：确保在值改变后立即更新图像
+        setTimeout(function() {
+            // 重新绘制函数图形
+            drawVertexHunterFunction();
+        }, 0);
     }
     
     // 绘制函数
@@ -1696,6 +1739,13 @@ function initVertexHunterGame() {
     
     // 绘制抛物线
     function drawVertexParabola() {
+        console.log('开始绘制抛物线, 参数:', a, b, c);
+        
+        if (a === undefined || b === undefined || c === undefined) {
+            console.error('抛物线参数未定义!');
+            return;
+        }
+        
         const width = canvas.width;
         const height = canvas.height;
         const centerX = width / 2;
@@ -1703,11 +1753,24 @@ function initVertexHunterGame() {
         const scaleX = width / 12;
         const scaleY = height / 8;
         
+        // 保存当前绘图状态
+        ctx.save();
+        
+        // 清除当前路径
         ctx.beginPath();
         ctx.strokeStyle = '#673ab7';
         ctx.lineWidth = 3;
         
+        // 使用渐变颜色
+        const gradient = ctx.createLinearGradient(0, 0, width, 0);
+        gradient.addColorStop(0, '#8e24aa');
+        gradient.addColorStop(0.5, '#673ab7');
+        gradient.addColorStop(1, '#5e35b1');
+        ctx.strokeStyle = gradient;
+        
         let isFirstPoint = true;
+        let validPointsCount = 0;
+        
         // 在x轴范围内绘制抛物线
         for (let pixelX = 0; pixelX <= width; pixelX += 2) {
             // 将像素坐标转换为数学坐标
@@ -1717,15 +1780,38 @@ function initVertexHunterGame() {
             // 将数学坐标转换回像素坐标
             const canvasY = centerY - y * scaleY;
             
+            // 跳过超出画布范围的点
+            if (canvasY < -100 || canvasY > height + 100) continue;
+            
             if (isFirstPoint) {
                 ctx.moveTo(pixelX, canvasY);
                 isFirstPoint = false;
             } else {
                 ctx.lineTo(pixelX, canvasY);
             }
+            validPointsCount++;
         }
         
         ctx.stroke();
+        
+        // 恢复绘图状态
+        ctx.restore();
+        
+        console.log('抛物线绘制完成, 有效点数:', validPointsCount);
+        
+        // 绘制顶点标记
+        const vertexPixelX = centerX + correctVertexX * scaleX;
+        const vertexPixelY = centerY - correctVertexY * scaleY;
+        
+        // 只有当顶点在可视范围内时才绘制
+        if (vertexPixelX >= 0 && vertexPixelX <= width && 
+            vertexPixelY >= 0 && vertexPixelY <= height) {
+            // 绘制顶点提示点 (但不显示，仅用于调试)
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(244, 67, 54, 0.1)'; // 红色，几乎透明
+            ctx.arc(vertexPixelX, vertexPixelY, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
     
     // 检查顶点答案

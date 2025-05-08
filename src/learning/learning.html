@@ -13,7 +13,9 @@
     <!-- 顶部导航栏 -->
     <header>
         <div class="logo">
-            <h1 data-i18n="nav.home">Quadratic Equations & Parabolas</h1>
+            <a href="../../index.html">
+                <h1>Quadratic Equations & Parabolas</h1>
+            </a>
         </div>
         <nav>
             <ul>
@@ -101,53 +103,53 @@
                 <div class="concept-section">
                     <h3 data-i18n="learning.content.basicConcepts.standardForm.title">Definition of Quadratic Equations</h3>
                     <p data-i18n="learning.content.basicConcepts.standardForm.description">A quadratic equation is a polynomial equation of the second degree. The general form is:</p>
-                    <div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
-                    <p>When a = 0, the equation reduces to a linear equation.</p>
+                    <div class="formula" data-i18n="learning.content.basicConcepts.formula1">ax² + bx + c = 0, where a ≠ 0</div>
+                    <p data-i18n="learning.content.basicConcepts.linearNote">When a = 0, the equation reduces to a linear equation.</p>
                 </div>
                 
                 <div class="concept-section">
                     <h3 data-i18n="learning.content.basicConcepts.vertexForm.title">Quadratic Functions</h3>
-                    <p>A quadratic function is defined as:</p>
-                    <div class="formula">f(x) = ax² + bx + c, where a ≠ 0</div>
-                    <p>The graph of a quadratic function is a parabola.</p>
+                    <p data-i18n="learning.content.basicConcepts.functionDefinition">A quadratic function is defined as:</p>
+                    <div class="formula" data-i18n="learning.content.basicConcepts.formula2">f(x) = ax² + bx + c, where a ≠ 0</div>
+                    <p data-i18n="learning.content.basicConcepts.parabolaNote">The graph of a quadratic function is a parabola.</p>
                 </div>
                 
                 <div class="concept-section">
                     <h3 data-i18n="learning.content.basicConcepts.factorizedForm.title">Key Points of a Parabola</h3>
                     <ul>
-                        <li><strong>Vertex:</strong> The point on the parabola where the y-value is at its maximum or minimum. For the function f(x) = ax² + bx + c, the x-coordinate of the vertex is -b/(2a), and the y-coordinate can be found by substituting this x-value into the function.</li>
-                        <li><strong>Axis of Symmetry:</strong> The vertical line passing through the vertex, about which the parabola is symmetric. The equation of the axis of symmetry is x = -b/(2a).</li>
-                        <li><strong>Direction of Opening:</strong> When a > 0, the parabola opens upward; when a < 0, the parabola opens downward.</li>
-                        <li><strong>Zeros (Roots):</strong> The points where the graph intersects the x-axis, i.e., the solutions to f(x) = 0.</li>
+                        <li data-i18n="learning.content.basicConcepts.keyPoints.vertex"><strong>Vertex:</strong> The point on the parabola where the y-value is at its maximum or minimum. For the function f(x) = ax² + bx + c, the x-coordinate of the vertex is -b/(2a), and the y-coordinate can be found by substituting this x-value into the function.</li>
+                        <li data-i18n="learning.content.basicConcepts.keyPoints.axis"><strong>Axis of Symmetry:</strong> The vertical line passing through the vertex, about which the parabola is symmetric. The equation of the axis of symmetry is x = -b/(2a).</li>
+                        <li data-i18n="learning.content.basicConcepts.keyPoints.direction"><strong>Direction of Opening:</strong> When a > 0, the parabola opens upward; when a < 0, the parabola opens downward.</li>
+                        <li data-i18n="learning.content.basicConcepts.keyPoints.zeros"><strong>Zeros (Roots):</strong> The points where the graph intersects the x-axis, i.e., the solutions to f(x) = 0.</li>
                     </ul>
                 </div>
                 
                 <div class="interactive-demo">
-                    <h3>Interactive Demonstration</h3>
+                    <h3 data-i18n="learning.content.basicConcepts.interactive.title">Interactive Demonstration</h3>
                     <div class="interactive-container">
                         <div id="basic-concepts-graph" style="min-height: 300px; min-width: 400px;"></div>
                         <div class="controls">
                             <div class="control-group">
-                                <label>a: <span id="a-value">1</span></label>
+                                <label data-i18n="learning.content.basicConcepts.interactive.aLabel">a: <span id="a-value">1</span></label>
                                 <input type="range" id="a-slider" min="-3" max="3" step="0.1" value="1">
                             </div>
                             <div class="control-group">
-                                <label>b: <span id="b-value">0</span></label>
+                                <label data-i18n="learning.content.basicConcepts.interactive.bLabel">b: <span id="b-value">0</span></label>
                                 <input type="range" id="b-slider" min="-5" max="5" step="0.1" value="0">
                             </div>
                             <div class="control-group">
-                                <label>c: <span id="c-value">0</span></label>
+                                <label data-i18n="learning.content.basicConcepts.interactive.cLabel">c: <span id="c-value">0</span></label>
                                 <input type="range" id="c-slider" min="-5" max="5" step="0.1" value="0">
                             </div>
                         </div>
                     </div>
                     <div class="equation-display">
-                        Equation: <span id="current-equation">f(x) = x²</span>
+                        <span data-i18n="learning.content.basicConcepts.interactive.equationLabel">Equation:</span> <span id="current-equation">f(x) = x²</span>
                     </div>
                     <div class="key-points">
-                        <div><strong>Vertex:</strong> <span id="vertex">(0, 0)</span></div>
-                        <div><strong>Axis of Symmetry:</strong> <span id="axis">x = 0</span></div>
-                        <div><strong>Direction:</strong> <span id="direction">Upward</span></div>
+                        <div><strong data-i18n="learning.content.basicConcepts.interactive.vertexLabel">Vertex:</strong> <span id="vertex">(0, 0)</span></div>
+                        <div><strong data-i18n="learning.content.basicConcepts.interactive.axisLabel">Axis of Symmetry:</strong> <span id="axis">x = 0</span></div>
+                        <div><strong data-i18n="learning.content.basicConcepts.interactive.directionLabel">Direction:</strong> <span id="direction">Upward</span></div>
                     </div>
                 </div>
             </section>

@@ -44,6 +44,10 @@ window.i18n.en = {
                 title: "Educational Games",
                 description: "Test and improve your skills through fun challenges"
             },
+            test: {
+                title: "Knowledge Test",
+                description: "Test your understanding of quadratic equations"
+            },
             community: {
                 title: "Learning Community",
                 description: "Join the community to ask questions and share your experiences"
