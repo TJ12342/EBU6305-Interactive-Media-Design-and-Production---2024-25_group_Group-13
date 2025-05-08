@@ -148,15 +148,33 @@
 }
 
 .difficulty-badge.easy {
-    background-color: #4CAF50;
+    background-color: #00897b;
+    position: relative;
+}
+
+.difficulty-badge.easy::before {
+    content: "•";
+    margin-right: 3px;
 }
 
 .difficulty-badge.medium {
     background-color: #ff9800;
+    position: relative;
+}
+
+.difficulty-badge.medium::before {
+    content: "••";
+    margin-right: 3px;
 }
 
 .difficulty-badge.hard {
-    background-color: #f44336;
+    background-color: #5d4037;
+    position: relative;
+}
+
+.difficulty-badge.hard::before {
+    content: "•••";
+    margin-right: 3px;
 }
 
 .test-timer {
@@ -202,13 +220,13 @@
     padding: 10px;
     background-color: white;
     border-radius: 5px;
-    border: 2px solid #333;
+    border: 1px solid #ddd;
     transition: all 0.2s;
 }
 
 .option:hover {
     background-color: #f0f0f0;
-    border-color: #000;
+    border-color: #ccc;
 }
 
 .option input[type="radio"] {
@@ -454,7 +472,7 @@
     justify-content: center;
     border-radius: 50%;
     background-color: #fff;
-    border: 2px solid #333;
+    border: 1px solid #ddd;
     font-size: 14px;
     margin: 0 5px;
     cursor: pointer;
@@ -466,14 +484,21 @@
 }
 
 .question-dot.active {
-    background-color: #000;
+    background-color: #00acc1;
     color: #fff;
-    border-color: #000;
+    border-color: #00acc1;
 }
 
 .question-dot.answered {
-    border: 3px solid #000;
-    background-color: #f0f0f0;
+    border: 1px solid #00acc1;
+    background-color: #e0f7fa;
+    position: relative;
+}
+
+.question-dot.answered::before {
+    content: "✓";
+    font-size: 12px;
+    color: #00acc1;
 }
 
 /* 测试结果 */
@@ -513,13 +538,32 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #00acc1 0%, #00897b 100%);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     font-weight: bold;
+    box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.score-circle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 8px,
+        rgba(255, 255, 255, 0.1) 8px,
+        rgba(255, 255, 255, 0.1) 16px
+    );
 }
 
 .score-details {
@@ -588,17 +632,27 @@
 }
 
 .result-status.correct {
-    background-color: #4CAF50;
+    background-color: #00897b;
     color: white;
     padding: 3px 8px;
     border-radius: 3px;
+    position: relative;
+}
+
+.result-status.correct::before {
+    content: "✓";
 }
 
 .result-status.incorrect {
-    background-color: #F44336;
+    background-color: #5d4037;
     color: white;
     padding: 3px 8px;
     border-radius: 3px;
+    position: relative;
+}
+
+.result-status.incorrect::before {
+    content: "✗";
 }
 
 /* 知识点掌握情况 */
@@ -633,7 +687,7 @@
 
 .progress-bar {
     height: 100%;
-    background-color: #4CAF50;
+    background: linear-gradient(90deg, #00897b 0%, #00acc1 100%);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -641,6 +695,24 @@
     padding-right: 10px;
     font-size: 14px;
     color: white;
+    position: relative;
+}
+
+.progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+    border-radius: 10px;
 }
 
 /* 建议 */
@@ -1076,6 +1148,57 @@
 
 #timer.warning {
     font-weight: bold;
-    background-color: #fee;
-    color: #f44336;
+    background-color: #fff3e0;
+    color: #ff6f00;
+    position: relative;
+}
+
+#timer.warning::before {
+    content: "⏱ ";
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.dark-mode .difficulty-badge.easy {
+    background-color: #26a69a;
+}
+
+.dark-mode .difficulty-badge.hard {
+    background-color: #6d4c41;
+}
+
+.dark-mode .result-status.correct {
+    background-color: #26a69a;
+}
+
+.dark-mode .result-status.incorrect {
+    background-color: #6d4c41;
+}
+
+.dark-mode .progress-bar {
+    background: linear-gradient(90deg, #26a69a 0%, #00acc1 100%);
+}
+
+.dark-mode .question-dot.answered {
+    border: 1px solid #26a69a;
+    background-color: rgba(38, 166, 154, 0.2);
+}
+
+.dark-mode .question-dot.answered::before {
+    color: #26a69a;
+}
+
+.dark-mode #timer.warning {
+    background-color: #3e2723;
+    color: #ffab40;
+}
+
+.dark-mode .score-circle {
+    background: linear-gradient(135deg, #00acc1 0%, #26a69a 100%);
+    box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.2);
 }

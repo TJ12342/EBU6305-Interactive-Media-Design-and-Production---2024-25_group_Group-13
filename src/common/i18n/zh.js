@@ -595,16 +595,105 @@ window.i18n.zh = {
         // 反馈信息
         feedback: {
             correct: "正确",
-            incorrect: "错误"
+            incorrect: "错误",
+            unanswered: "未回答",
+            correctAnswer: "正确答案"
         },
         
         // 通知消息
         notification: {
             resumed: "测试已恢复",
             saved: "测试进度已保存",
+            reset: "测试已重置",
             timeWarning: "还剩5分钟",
             timeAlmostUp: "还剩1分钟",
             timeUp: "时间到"
+        },
+        
+        // 表现总结文本
+        summary: {
+            excellent: "太棒了！你对二次方程和抛物线有很深入的理解。",
+            good: "做得好！你对二次方程和抛物线有良好的掌握。",
+            average: "你对二次方程和抛物线有基本的理解，但还有提升空间。",
+            needsImprovement: "你需要更多练习来加强对二次方程和抛物线的理解。",
+            strengthWeakness: "你在{strength}方面表现出色，但在{weakness}方面还需加强。"
+        },
+        
+        // 难度级别结果描述
+        difficultyResults: {
+            easy: {
+                excellent: "在简单难度下，你的表现非常出色！你已经掌握了二次方程的基础知识。建议尝试中等难度的测试。",
+                good: "在简单难度下，你表现良好。继续练习可以进一步巩固基础知识。",
+                average: "在简单难度下，你的表现达到了基本要求。多复习基础概念会对你有所帮助。",
+                needsImprovement: "在简单难度下，你需要加强基础知识的学习。建议回顾学习模块中的基础概念部分。"
+            },
+            medium: {
+                excellent: "在中等难度下，你的表现卓越！你对二次方程有很好的理解和应用能力。可以尝试困难级别的测试了。",
+                good: "在中等难度下，你表现良好。你对大部分概念有很好的掌握，只需要在某些方面进行小幅提升。",
+                average: "在中等难度下，你的表现符合平均水平。针对性地练习弱项可以帮助你提高整体表现。",
+                needsImprovement: "在中等难度下，你还需要更多练习。建议重新学习相关概念，然后再次尝试。"
+            },
+            hard: {
+                excellent: "在困难难度下，你的表现令人印象深刻！你对二次方程有深入且全面的理解。你已经掌握了这个主题的高级知识。",
+                good: "在困难难度下，你表现相当不错！你对复杂问题有很好的理解能力，只需要在某些细节方面进一步提高。",
+                average: "在困难难度下，你的表现达到了可接受的水平。多练习复杂问题会帮助你提高解题能力。",
+                needsImprovement: "在困难难度下，你遇到了一些挑战。建议先掌握中等难度的内容，再回来尝试困难级别。"
+            }
+        },
+        
+        // 主题名称
+        topic: {
+            basic: "基础概念",
+            transformation: "图形变换",
+            equation: "方程求解",
+            application: "应用问题"
+        },
+        
+        // 输入框占位符
+        placeholder: {
+            xCoordinate: "x坐标",
+            yCoordinate: "y坐标"
+        },
+        
+        // 重新开始确认提示
+        reset: {
+            confirm: "确定要重新开始测试吗？当前进度将丢失。"
+        },
+        
+        // 分享结果相关文本
+        share: {
+            message: "我在二次方程测试中得了",
+            difficulty: "难度：",
+            copied: "测试结果已复制到剪贴板！"
+        },
+        
+        // 推荐相关翻译
+        recommendations: {
+            reviewBasics: "建议复习二次方程的基本概念和性质。",
+            basic: "加强对二次方程基础概念的理解，尤其是标准形式和图形表示。",
+            transformation: "继续练习图形变换，特别是平移、拉伸和反射对抛物线的影响。",
+            equation: "多做一些方程求解题，熟练掌握公式法、因式分解和配方法。",
+            application: "尝试更多应用题，提高将真实问题转化为数学模型的能力。",
+            strength: "继续发挥你在{topic}方面的优势，可以尝试更高难度的题目。",
+            general: "保持良好的学习习惯，多练习，不断巩固和扩展你的知识面。"
+        },
+        
+        // 帮助提示
+        tips: {
+            answering: "选择答案或输入你认为正确的值",
+            navigation: "使用上方的导航点可以直接跳转到任何题目",
+            timeManagement: "注意合理分配时间，较难的题目可以先跳过稍后再做"
+        },
+        
+        timer: {
+            fiveMinutes: "还剩5分钟！",
+            oneMinute: "还剩1分钟！",
+            thirtySeconds: "还剩30秒！"
+        },
+        
+        // 图片替代文本
+        alt: {
+            parabolaGraph: "抛物线图形"
         }
     },
     
