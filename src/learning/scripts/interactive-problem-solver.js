@@ -4,6 +4,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("Interactive Problem Solver: DOM loaded");
+    
     // Tab switching functionality
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
@@ -31,8 +33,15 @@ document.addEventListener('DOMContentLoaded', function() {
  * Projectile Motion Simulator
  */
 function initProjectileSimulator() {
+    console.log("Initializing Projectile Simulator");
+    
     // Get DOM elements
     const canvas = document.getElementById('projectile-canvas');
+    if (!canvas) {
+        console.error("Projectile canvas not found");
+        return;
+    }
+    
     const ctx = canvas.getContext('2d');
     const heightSlider = document.getElementById('projectile-height');
     const velocitySlider = document.getElementById('projectile-velocity');
@@ -309,8 +318,15 @@ function initProjectileSimulator() {
  * Revenue Optimization Simulator
  */
 function initRevenueSimulator() {
+    console.log("Initializing Revenue Simulator");
+    
     // Get DOM elements
     const canvas = document.getElementById('revenue-canvas');
+    if (!canvas) {
+        console.error("Revenue canvas not found");
+        return;
+    }
+    
     const ctx = canvas.getContext('2d');
     const basePriceSlider = document.getElementById('revenue-base-price');
     const baseDemandSlider = document.getElementById('revenue-base-demand');
@@ -330,9 +346,12 @@ function initRevenueSimulator() {
     let elasticity = parseFloat(elasticitySlider.value);
     
     // Scale factors for drawing
-    const PADDING = 40;
-    const GRAPH_WIDTH = canvas.width - 2 * PADDING;
-    const GRAPH_HEIGHT = canvas.height - 2 * PADDING;
+    const PADDING_RIGHT = 40;
+    const PADDING_TOP = 40;
+    const PADDING_BOTTOM = 40;
+    const PADDING_LEFT = 70; // Increased left padding to avoid text overlap
+    const GRAPH_WIDTH = canvas.width - PADDING_LEFT - PADDING_RIGHT;
+    const GRAPH_HEIGHT = canvas.height - PADDING_TOP - PADDING_BOTTOM;
     
     // Update values when sliders change
     basePriceSlider.addEventListener('input', updateValues);
@@ -385,16 +404,16 @@ function initRevenueSimulator() {
         const maxRevenueValue = optimalPrice * (intercept - elasticity * optimalPrice);
         
         // Define scaling functions
-        const scaleX = (price) => PADDING + (price / maxPrice) * GRAPH_WIDTH;
-        const scaleY = (value) => canvas.height - PADDING - (value / maxRevenueValue) * GRAPH_HEIGHT;
+        const scaleX = (price) => PADDING_LEFT + (price / maxPrice) * GRAPH_WIDTH;
+        const scaleY = (value) => canvas.height - PADDING_BOTTOM - (value / maxRevenueValue) * GRAPH_HEIGHT;
         
         // Draw axes
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(PADDING, PADDING);
-        ctx.lineTo(PADDING, canvas.height - PADDING);
-        ctx.lineTo(canvas.width - PADDING, canvas.height - PADDING);
+        ctx.moveTo(PADDING_LEFT, PADDING_TOP);
+        ctx.lineTo(PADDING_LEFT, canvas.height - PADDING_BOTTOM);
+        ctx.lineTo(canvas.width - PADDING_RIGHT, canvas.height - PADDING_BOTTOM);
         ctx.stroke();
         
         // Draw axis labels
@@ -407,7 +426,7 @@ function initRevenueSimulator() {
         
         // Y-axis (Revenue/Demand)
         ctx.save();
-        ctx.translate(15, canvas.height / 2);
+        ctx.translate(20, canvas.height / 2);
         ctx.rotate(-Math.PI / 2);
         ctx.fillText('Revenue ($) / Demand', 0, 0);
         ctx.restore();
@@ -422,17 +441,17 @@ function initRevenueSimulator() {
         for (let i = 0; i <= 5; i++) {
             const x = scaleX(i * xStep);
             ctx.beginPath();
-            ctx.moveTo(x, canvas.height - PADDING);
-            ctx.lineTo(x, canvas.height - PADDING + 5);
+            ctx.moveTo(x, canvas.height - PADDING_BOTTOM);
+            ctx.lineTo(x, canvas.height - PADDING_BOTTOM + 5);
             ctx.stroke();
-            ctx.fillText((i * xStep).toFixed(1), x, canvas.height - PADDING + 15);
+            ctx.fillText((i * xStep).toFixed(1), x, canvas.height - PADDING_BOTTOM + 15);
             
             // Grid lines
             if (i > 0) {
                 ctx.beginPath();
                 ctx.setLineDash([3, 3]);
-                ctx.moveTo(x, PADDING);
-                ctx.lineTo(x, canvas.height - PADDING);
+                ctx.moveTo(x, PADDING_TOP);
+                ctx.lineTo(x, canvas.height - PADDING_BOTTOM);
                 ctx.stroke();
                 ctx.setLineDash([]);
             }
@@ -443,18 +462,18 @@ function initRevenueSimulator() {
         for (let i = 0; i <= 5; i++) {
             const y = scaleY(i * yStep);
             ctx.beginPath();
-            ctx.moveTo(PADDING, y);
-            ctx.lineTo(PADDING - 5, y);
+            ctx.moveTo(PADDING_LEFT, y);
+            ctx.lineTo(PADDING_LEFT - 5, y);
             ctx.stroke();
             ctx.textAlign = 'right';
-            ctx.fillText((i * yStep).toFixed(0), PADDING - 8, y + 4);
+            ctx.fillText((i * yStep).toFixed(0), PADDING_LEFT - 10, y + 4);
             
             // Grid lines
             if (i > 0) {
                 ctx.beginPath();
                 ctx.setLineDash([3, 3]);
-                ctx.moveTo(PADDING, y);
-                ctx.lineTo(canvas.width - PADDING, y);
+                ctx.moveTo(PADDING_LEFT, y);
+                ctx.lineTo(canvas.width - PADDING_RIGHT, y);
                 ctx.stroke();
                 ctx.setLineDash([]);
             }
@@ -508,7 +527,7 @@ function initRevenueSimulator() {
         ctx.lineWidth = 1;
         ctx.setLineDash([5, 3]);
         ctx.beginPath();
-        ctx.moveTo(optimalX, canvas.height - PADDING);
+        ctx.moveTo(optimalX, canvas.height - PADDING_BOTTOM);
         ctx.lineTo(optimalX, optimalY);
         ctx.stroke();
         ctx.setLineDash([]);
@@ -521,8 +540,8 @@ function initRevenueSimulator() {
         
         // Draw legend
         ctx.font = '12px Arial';
-        const legendX = canvas.width - PADDING - 150;
-        const legendY = PADDING + 20;
+        const legendX = canvas.width - PADDING_RIGHT - 150;
+        const legendY = PADDING_TOP + 20;
         
         // Demand curve
         ctx.strokeStyle = '#5470C6';
@@ -556,11 +575,18 @@ function initRevenueSimulator() {
 }
 
 /**
- * Area Maximization Simulator
+ * Area Optimizer Simulator
  */
 function initAreaSimulator() {
+    console.log("Initializing Area Simulator");
+    
     // Get DOM elements
     const canvas = document.getElementById('area-canvas');
+    if (!canvas) {
+        console.error("Area canvas not found");
+        return;
+    }
+    
     const ctx = canvas.getContext('2d');
     const perimeterSlider = document.getElementById('area-perimeter');
     const widthSlider = document.getElementById('area-width');
