@@ -107,40 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 初始化色盲关怀模式
 function initColorBlindMode() {
-    // 检查是否已经有色盲模式按钮，如果没有则创建
-    const header = document.querySelector('header') || document.body;
-    let colorBlindToggle = document.getElementById('color-blind-toggle');
+    // 直接应用色盲友好样式，不再创建切换按钮
+    document.body.classList.add('color-blind-mode');
     
-    if (!colorBlindToggle) {
-        // 创建色盲模式切换按钮
-        colorBlindToggle = document.createElement('button');
-        colorBlindToggle.id = 'color-blind-toggle';
-        colorBlindToggle.className = 'accessibility-btn';
-        colorBlindToggle.innerHTML = '👁️ 色盲模式';
-        colorBlindToggle.title = '切换色盲友好模式';
-        
-        // 放置在合适的位置
-        const testNav = document.querySelector('.test-nav');
-        if (testNav) {
-            testNav.appendChild(colorBlindToggle);
-        } else {
-            // 如果没有找到导航区，则添加到页面顶部
-            const container = document.querySelector('.container') || document.body;
-            container.insertBefore(colorBlindToggle, container.firstChild);
-        }
-        
-        // 加载保存的色盲模式设置
-        const isColorBlindMode = localStorage.getItem('colorBlindMode') === 'true';
-        if (isColorBlindMode) {
-            document.body.classList.add('color-blind-mode');
-            colorBlindToggle.classList.add('active');
-        }
-        
-        // 添加点击事件
-        colorBlindToggle.addEventListener('click', function() {
-            toggleColorBlindMode();
-        });
-    }
+    // 保存设置到本地存储
+    localStorage.setItem('colorBlindMode', true);
     
     // 添加CSS样式到头部
     addColorBlindStyles();
@@ -154,21 +125,6 @@ function addColorBlindStyles() {
     const styleSheet = document.createElement('style');
     styleSheet.id = 'color-blind-styles';
     styleSheet.textContent = `
-        /* 色盲模式按钮样式 */
-        .accessibility-btn {
-            padding: 8px 12px;
-            background-color: #f0f0f0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 10px;
-            font-size: 14px;
-        }
-        .accessibility-btn.active {
-            background-color: #000;
-            color: #fff;
-        }
-        
         /* 色盲模式全局样式 */
         body.color-blind-mode .correct, 
         body.color-blind-mode .result-status.correct {
@@ -240,25 +196,11 @@ function addColorBlindStyles() {
     document.head.appendChild(styleSheet);
 }
 
-// 切换色盲模式
+// 切换色盲模式 - 保留此函数以防其他地方调用，但不再使用
 function toggleColorBlindMode() {
-    const body = document.body;
-    const btn = document.getElementById('color-blind-toggle');
-    
-    // 切换类和按钮状态
-    body.classList.toggle('color-blind-mode');
-    if (btn) btn.classList.toggle('active');
-    
-    // 保存设置到本地存储
-    const isActive = body.classList.contains('color-blind-mode');
-    localStorage.setItem('colorBlindMode', isActive);
-    
-    // 显示通知
-    showNotification(
-        isActive 
-            ? (getTranslation('test.colorBlind.enabled') || '已启用色盲友好模式') 
-            : (getTranslation('test.colorBlind.disabled') || '已关闭色盲友好模式')
-    );
+    // 保持色盲模式始终开启
+    document.body.classList.add('color-blind-mode');
+    localStorage.setItem('colorBlindMode', true);
 }
 
 // 手动更新介绍文本

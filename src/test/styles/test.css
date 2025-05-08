@@ -194,16 +194,22 @@
     padding: 10px;
     background-color: white;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 2px solid #333;
     transition: all 0.2s;
 }
 
 .option:hover {
     background-color: #f0f0f0;
+    border-color: #000;
 }
 
 .option input[type="radio"] {
     margin-right: 10px;
+}
+
+.option input[type="radio"]:checked + label {
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 .option label {
@@ -412,15 +418,16 @@
 .question-dot {
     width: 30px;
     height: 30px;
-    border-radius: 50%;
-    background-color: #e0e0e0;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #333;
     font-size: 14px;
-    color: #555;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .question-dot:hover {
@@ -428,13 +435,14 @@
 }
 
 .question-dot.active {
-    background-color: #0066cc;
-    color: white;
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
 }
 
 .question-dot.answered {
-    background-color: #4CAF50;
-    color: white;
+    border: 3px solid #000;
+    background-color: #f0f0f0;
 }
 
 /* 测试结果 */
@@ -549,11 +557,27 @@
 }
 
 .result-status.correct {
-    color: #4CAF50;
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 2px solid #000 !important;
+    position: relative;
+}
+
+.result-status.correct::after {
+    content: "✓";
+    margin-left: 5px;
 }
 
 .result-status.incorrect {
-    color: #f44336;
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 2px dashed #000 !important;
+    position: relative;
+}
+
+.result-status.incorrect::after {
+    content: "✗";
+    margin-left: 5px;
 }
 
 /* 知识点掌握情况 */
@@ -588,13 +612,14 @@
 
 .progress-bar {
     height: 100%;
-    background-color: #4CAF50;
+    background-image: linear-gradient(45deg, #000 25%, #333 25%, #333 50%, #000 50%, #000 75%, #333 75%, #333 100%);
+    background-size: 56.57px 56.57px;
+    color: #fff;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding-right: 10px;
-    color: white;
     font-size: 14px;
 }
 
@@ -981,4 +1006,44 @@
     .results-table th, .results-table td {
         padding: 8px;
     }
+}
+
+/* 加强按钮对比度 */
+.difficulty-btn, #start-test-btn, .test-navigation button, .action-buttons button {
+    border: 2px solid #000;
+    font-weight: bold;
+}
+
+.difficulty-btn.active {
+    background-color: #000;
+    color: white;
+    border: 2px solid #000;
+}
+
+/* 计时器样式增强 */
+#timer {
+    border: 2px solid #000;
+    padding: 2px 5px;
+    background-color: #fff;
+    color: #000;
+}
+
+#timer.warning {
+    border: 2px dashed #000;
+    font-weight: bold;
+    background-color: #eee;
+}
+
+/* 进度条增强 */
+.progress-bar {
+    height: 100%;
+    background-image: linear-gradient(45deg, #000 25%, #333 25%, #333 50%, #000 50%, #000 75%, #333 75%, #333 100%);
+    background-size: 56.57px 56.57px;
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-size: 14px;
 }
