@@ -153,6 +153,27 @@ window.i18n.en = {
                 factorizedForm: {
                     title: "Factorized Form",
                     description: "When the equation has real roots, it can be represented as y = a(x - r₁)(x - r₂), where r₁ and r₂ are the roots of the equation."
+                },
+                formula1: "ax² + bx + c = 0, where a ≠ 0",
+                linearNote: "When a = 0, the equation simplifies to a linear equation.",
+                functionDefinition: "A quadratic function is defined as:",
+                formula2: "f(x) = ax² + bx + c, where a ≠ 0",
+                parabolaNote: "The graph of a quadratic function is a parabola.",
+                keyPoints: {
+                    vertex: "Vertex: The point on the parabola where the y-value reaches a maximum or minimum. For the function f(x) = ax² + bx + c, the x-coordinate of the vertex is -b/(2a), and the y-coordinate can be found by substituting this x-value into the function.",
+                    axis: "Axis of Symmetry: A vertical line through the vertex about which the parabola is symmetric. The equation of the axis of symmetry is x = -b/(2a).",
+                    direction: "Opening Direction: When a > 0, the parabola opens upward; when a < 0, the parabola opens downward.",
+                    zeros: "Zeros (Roots): The points where the graph intersects the x-axis, which are the solutions to f(x) = 0."
+                },
+                interactive: {
+                    title: "Interactive Demonstration",
+                    aLabel: "a: <span id=\"a-value\">1</span>",
+                    bLabel: "b: <span id=\"b-value\">0</span>",
+                    cLabel: "c: <span id=\"c-value\">0</span>",
+                    equationLabel: "Equation:",
+                    vertexLabel: "Vertex:",
+                    axisLabel: "Axis of Symmetry:",
+                    directionLabel: "Direction:"
                 }
             },
             coefficients: {
@@ -232,30 +253,56 @@ window.i18n.en = {
                 }
             },
             transformations: {
+                title: "Graph Transformations",
                 intro: "A quadratic function can be transformed in various ways to shift, stretch, compress, or reflect its graph. Understanding these transformations helps in analyzing and manipulating parabolas.",
                 forms: {
                     title: "Standard Form vs. Vertex Form",
-                    description: "To better understand transformations, we need to compare the standard form and vertex form of quadratic functions:"
+                    description: "To better understand transformations, we need to compare the standard form and vertex form of quadratic functions:",
+                    standard: "Standard Form: f(x) = ax² + bx + c",
+                    vertex: "Vertex Form: f(x) = a(x - h)² + k, where (h, k) is the vertex",
+                    usefulness: "The vertex form is particularly useful for understanding transformations, as it directly shows how the parabola has been shifted from the origin.",
+                    conversion: "Converting from standard form to vertex form:\nf(x) = ax² + bx + c = a(x - h)² + k, where h = -b/(2a) and k = c - b²/(4a)"
                 },
                 horizontal: {
                     title: "Horizontal Translations",
-                    description: "The graph of f(x) = a(x - h)² + k is shifted h units horizontally from the basic parabola f(x) = ax²:"
+                    description: "The graph of f(x) = a(x - h)² + k is shifted h units horizontally from the basic parabola f(x) = ax²:",
+                    right: "If h > 0, the parabola shifts h units to the right",
+                    left: "If h < 0, the parabola shifts |h| units to the left"
                 },
                 vertical: {
                     title: "Vertical Translations",
-                    description: "The graph of f(x) = a(x - h)² + k is shifted k units vertically from the basic parabola f(x) = ax²:"
+                    description: "The graph of f(x) = a(x - h)² + k is shifted k units vertically from the basic parabola f(x) = ax²:",
+                    up: "If k > 0, the parabola shifts k units upward",
+                    down: "If k < 0, the parabola shifts |k| units downward"
                 },
                 stretching: {
                     title: "Vertical Stretching and Compression",
-                    description: "The coefficient 'a' in f(x) = a(x - h)² + k affects the vertical stretching or compression of the parabola:"
+                    description: "The coefficient 'a' in f(x) = a(x - h)² + k affects the vertical stretching or compression of the parabola:",
+                    wider: "If |a| > 1, the parabola is stretched vertically (becomes narrower)",
+                    narrower: "If 0 < |a| < 1, the parabola is compressed vertically (becomes wider)",
+                    reflection: "If a < 0, the parabola is also reflected across the x-axis (opens downward)"
                 },
                 reflections: {
                     title: "Reflections",
-                    description: "Parabolas can be reflected across the x-axis or y-axis:"
+                    description: "Parabolas can be reflected across the x-axis or y-axis:",
+                    xaxis: "Replace f(x) with -f(x)",
+                    yaxis: "Replace x with -x in the function"
                 },
                 sequence: {
                     title: "Sequence of Transformations",
-                    description: "When applying multiple transformations, the order matters. The conventional order is:"
+                    description: "When applying multiple transformations, the order matters. The conventional order is:",
+                    step1: "Stretching/compression (multiplication by a)",
+                    step2: "Reflection (if applicable)",
+                    step3: "Horizontal translation (replace x with x - h)",
+                    step4: "Vertical translation (add k)",
+                    example: {
+                        title: "Example: Transform f(x) = x² into g(x) = -2(x - 3)² + 4",
+                        description: "This involves:",
+                        step1: "Stretching by a factor of 2",
+                        step2: "Reflection across the x-axis (negative sign)",
+                        step3: "Horizontal shift 3 units to the right",
+                        step4: "Vertical shift 4 units upward"
+                    }
                 },
                 interactive: {
                     title: "Interactive Transformation Explorer",
@@ -268,7 +315,8 @@ window.i18n.en = {
                     kDesc: "Vertical shift",
                     vertex: "Vertex:",
                     direction: "Direction:",
-                    transformations: "Applied Transformations:"
+                    transformations: "Applied Transformations:",
+                    equation: "Equation:"
                 },
                 applications: {
                     title: "Applications of Transformations",
@@ -390,7 +438,23 @@ window.i18n.en = {
                     checkButton: "Check Answers"
                 },
                 casestudies: {
-                    title: "Case Studies"
+                    title: "Case Studies",
+                    description: "Explore these in-depth examples of how quadratic equations solve real-world problems:",
+                    case1: {
+                        title: "Golden Gate Bridge Design",
+                        description: "How engineers used quadratic equations to model the suspension cables of the Golden Gate Bridge, accounting for weight distribution, wind forces, and tension.",
+                        button: "Read Case Study"
+                    },
+                    case2: {
+                        title: "Solar Farm Optimization",
+                        description: "How a renewable energy company used quadratic functions to determine optimal spacing of solar panels to maximize energy collection while minimizing land use.",
+                        button: "Read Case Study"
+                    },
+                    case3: {
+                        title: "Smartphone App Pricing Strategy",
+                        description: "How a mobile app developer used a quadratic revenue model to determine the optimal price point for premium features, balancing quantity and price.",
+                        button: "Read Case Study"
+                    }
                 }
             }
         }
@@ -441,7 +505,8 @@ window.i18n.en = {
             finalScore: "Final Score",
             newHighScore: "New High Score!",
             tryAgain: "Try Again",
-            mainMenu: "Main Menu"
+            mainMenu: "Main Menu",
+            submit: "Submit"
         },
         
         // Leaderboard
@@ -453,6 +518,17 @@ window.i18n.en = {
             date: "Date",
             game: "Game",
             noRecords: "No records yet"
+        },
+        
+        // Game interface elements
+        interface: {
+            graphs: "Graphs",
+            equations: "Equations",
+            currentFunction: "Current Function:",
+            vertexCoordinates: {
+                x: "Vertex X-coordinate:",
+                y: "Vertex Y-coordinate:"
+            }
         }
     },
     

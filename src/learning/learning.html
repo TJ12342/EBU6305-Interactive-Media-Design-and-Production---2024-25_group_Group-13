@@ -331,14 +331,14 @@
                     <p data-i18n="learning.content.transformations.forms.description">To better understand transformations, we need to compare the standard form and vertex form of quadratic functions:</p>
                     
                     <ul>
-                        <li><strong>Standard Form:</strong> f(x) = ax² + bx + c</li>
-                        <li><strong>Vertex Form:</strong> f(x) = a(x - h)² + k, where (h, k) is the vertex</li>
+                        <li><strong><span data-i18n="learning.content.transformations.forms.standard">Standard Form: f(x) = ax² + bx + c</span></strong></li>
+                        <li><strong><span data-i18n="learning.content.transformations.forms.vertex">Vertex Form: f(x) = a(x - h)² + k, where (h, k) is the vertex</span></strong></li>
                     </ul>
                     
-                    <p>The vertex form is particularly useful for understanding transformations, as it directly shows how the parabola has been shifted from the origin.</p>
+                    <p data-i18n="learning.content.transformations.forms.usefulness">The vertex form is particularly useful for understanding transformations, as it directly shows how the parabola has been shifted from the origin.</p>
                     
-                    <div class="formula">
-                        Converting from standard form to vertex form:<br>
+                    <div class="formula" data-i18n="learning.content.transformations.forms.conversion">
+                        Converting from standard form to vertex form:
                         f(x) = ax² + bx + c = a(x - h)² + k, where h = -b/(2a) and k = c - b²/(4a)
                     </div>
                 </div>
@@ -349,8 +349,8 @@
                     <p data-i18n="learning.content.transformations.horizontal.description">The graph of f(x) = a(x - h)² + k is shifted h units horizontally from the basic parabola f(x) = ax²:</p>
                     
                     <ul>
-                        <li>If h > 0, the parabola shifts h units to the right</li>
-                        <li>If h < 0, the parabola shifts |h| units to the left</li>
+                        <li data-i18n="learning.content.transformations.horizontal.right">If h > 0, the parabola shifts h units to the right</li>
+                        <li data-i18n="learning.content.transformations.horizontal.left">If h < 0, the parabola shifts |h| units to the left</li>
                     </ul>
                     
                     <div class="coefficient-demo">
@@ -366,8 +366,8 @@
                     <p data-i18n="learning.content.transformations.vertical.description">The graph of f(x) = a(x - h)² + k is shifted k units vertically from the basic parabola f(x) = ax²:</p>
                     
                     <ul>
-                        <li>If k > 0, the parabola shifts k units upward</li>
-                        <li>If k < 0, the parabola shifts |k| units downward</li>
+                        <li data-i18n="learning.content.transformations.vertical.up">If k > 0, the parabola shifts k units upward</li>
+                        <li data-i18n="learning.content.transformations.vertical.down">If k < 0, the parabola shifts |k| units downward</li>
                     </ul>
                     
                     <div class="coefficient-demo">
@@ -383,9 +383,9 @@
                     <p data-i18n="learning.content.transformations.stretching.description">The coefficient 'a' in f(x) = a(x - h)² + k affects the vertical stretching or compression of the parabola:</p>
                     
                     <ul>
-                        <li>If |a| > 1, the parabola is stretched vertically (becomes narrower)</li>
-                        <li>If 0 < |a| < 1, the parabola is compressed vertically (becomes wider)</li>
-                        <li>If a < 0, the parabola is also reflected across the x-axis (opens downward)</li>
+                        <li data-i18n="learning.content.transformations.stretching.wider">If |a| > 1, the parabola is stretched vertically (becomes narrower)</li>
+                        <li data-i18n="learning.content.transformations.stretching.narrower">If 0 < |a| < 1, the parabola is compressed vertically (becomes wider)</li>
+                        <li data-i18n="learning.content.transformations.stretching.reflection">If a < 0, the parabola is also reflected across the x-axis (opens downward)</li>
                     </ul>
                     
                     <div class="coefficient-demo">
@@ -401,8 +401,8 @@
                     <p data-i18n="learning.content.transformations.reflections.description">Parabolas can be reflected across the x-axis or y-axis:</p>
                     
                     <ul>
-                        <li><strong>Reflection across the x-axis:</strong> Replace f(x) with -f(x)</li>
-                        <li><strong>Reflection across the y-axis:</strong> Replace x with -x in the function</li>
+                        <li><strong>Reflection across the x-axis:</strong> <span data-i18n="learning.content.transformations.reflections.xaxis">Replace f(x) with -f(x)</span></li>
+                        <li><strong>Reflection across the y-axis:</strong> <span data-i18n="learning.content.transformations.reflections.yaxis">Replace x with -x in the function</span></li>
                     </ul>
                     
                     <div class="coefficient-demo">
@@ -417,21 +417,21 @@
                     <h3 data-i18n="learning.content.transformations.sequence.title">Sequence of Transformations</h3>
                     <p data-i18n="learning.content.transformations.sequence.description">When applying multiple transformations, the order matters. The conventional order is:</p>
                     
-                    <ol>
-                        <li>Stretching/compression (multiplication by a)</li>
-                        <li>Reflection (if applicable)</li>
-                        <li>Horizontal translation (replace x with x - h)</li>
-                        <li>Vertical translation (add k)</li>
-                    </ol>
+                    <ul>
+                        <li data-i18n="learning.content.transformations.sequence.step1">Stretching/compression (multiplication by a)</li>
+                        <li data-i18n="learning.content.transformations.sequence.step2">Reflection (if applicable)</li>
+                        <li data-i18n="learning.content.transformations.sequence.step3">Horizontal translation (replace x with x - h)</li>
+                        <li data-i18n="learning.content.transformations.sequence.step4">Vertical translation (add k)</li>
+                    </ul>
                     
                     <div class="example-box">
-                        <h4>Example: Transform f(x) = x² into g(x) = -2(x - 3)² + 4</h4>
-                        <p>This involves:</p>
+                        <h4 data-i18n="learning.content.transformations.sequence.example.title">Example: Transform f(x) = x² into g(x) = -2(x - 3)² + 4</h4>
+                        <p data-i18n="learning.content.transformations.sequence.example.description">This involves:</p>
                         <ul>
-                            <li>Stretching by a factor of 2</li>
-                            <li>Reflection across the x-axis (negative sign)</li>
-                            <li>Horizontal shift 3 units to the right</li>
-                            <li>Vertical shift 4 units upward</li>
+                            <li data-i18n="learning.content.transformations.sequence.example.step1">Stretching by a factor of 2</li>
+                            <li data-i18n="learning.content.transformations.sequence.example.step2">Reflection across the x-axis (negative sign)</li>
+                            <li data-i18n="learning.content.transformations.sequence.example.step3">Horizontal shift 3 units to the right</li>
+                            <li data-i18n="learning.content.transformations.sequence.example.step4">Vertical shift 4 units upward</li>
                         </ul>
                     </div>
                 </div>
@@ -462,7 +462,7 @@
                         </div>
                     </div>
                     <div class="equation-display">
-                        Equation: <span id="trans-current-equation">f(x) = x²</span>
+                        <span data-i18n="learning.content.transformations.interactive.equation">Equation:</span> <span id="trans-current-equation">f(x) = x²</span>
                     </div>
                     <div class="key-points">
                         <div><strong data-i18n="learning.content.transformations.interactive.vertex">Vertex:</strong> <span id="trans-vertex">(0, 0)</span></div>

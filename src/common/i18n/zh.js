@@ -257,27 +257,52 @@ window.i18n.zh = {
                 intro: "二次函数可以通过各种方式进行变换，如平移、拉伸、压缩或反射其图形。理解这些变换有助于分析和操作抛物线。",
                 forms: {
                     title: "标准形式与顶点形式",
-                    description: "为了更好地理解变换，我们需要比较二次函数的标准形式和顶点形式："
+                    description: "为了更好地理解变换，我们需要比较二次函数的标准形式和顶点形式：",
+                    standard: "标准形式： f(x) = ax² + bx + c",
+                    vertex: "顶点形式： f(x) = a(x - h)² + k，其中(h, k)是顶点",
+                    usefulness: "顶点形式对理解变换特别有用，因为它直接显示了抛物线如何从原点移动。",
+                    conversion: "从标准形式转换为顶点形式：\nf(x) = ax² + bx + c = a(x - h)² + k，其中h = -b/(2a)且k = c - b²/(4a)"
                 },
                 horizontal: {
                     title: "水平平移",
-                    description: "函数f(x) = a(x - h)² + k的图像相对于基本抛物线f(x) = ax²水平移动h个单位："
+                    description: "函数f(x) = a(x - h)² + k的图像相对于基本抛物线f(x) = ax²水平移动h个单位：",
+                    right: "如果h > 0，抛物线向右移动h个单位",
+                    left: "如果h < 0，抛物线向左移动|h|个单位"
                 },
                 vertical: {
                     title: "垂直平移",
-                    description: "函数f(x) = a(x - h)² + k的图像相对于基本抛物线f(x) = ax²垂直移动k个单位："
+                    description: "函数f(x) = a(x - h)² + k的图像相对于基本抛物线f(x) = ax²垂直移动k个单位：",
+                    up: "如果k > 0，抛物线向上移动k个单位",
+                    down: "如果k < 0，抛物线向下移动|k|个单位"
                 },
                 stretching: {
                     title: "垂直拉伸和压缩",
-                    description: "f(x) = a(x - h)² + k中的系数'a'影响抛物线的垂直拉伸或压缩："
+                    description: "f(x) = a(x - h)² + k中的系数'a'影响抛物线的垂直拉伸或压缩：",
+                    wider: "如果|a| > 1，抛物线垂直拉伸（变窄）",
+                    narrower: "如果0 < |a| < 1，抛物线垂直压缩（变宽）",
+                    reflection: "如果a < 0，抛物线还会相对于x轴反射（向下开口）"
                 },
                 reflections: {
                     title: "反射",
-                    description: "抛物线可以相对于x轴或y轴进行反射："
+                    description: "抛物线可以相对于x轴或y轴进行反射：",
+                    xaxis: "将f(x)替换为-f(x)",
+                    yaxis: "在函数中将x替换为-x"
                 },
                 sequence: {
                     title: "变换顺序",
-                    description: "当应用多个变换时，顺序很重要。常规顺序是："
+                    description: "当应用多个变换时，顺序很重要。常规顺序是：",
+                    step1: "拉伸/压缩（乘以a）",
+                    step2: "反射（如果适用）",
+                    step3: "水平平移（将x替换为x-h）",
+                    step4: "垂直平移（加上k）",
+                    example: {
+                        title: "示例：将f(x) = x²变换为g(x) = -2(x - 3)² + 4",
+                        description: "这涉及：",
+                        step1: "拉伸2倍",
+                        step2: "相对于x轴反射（负号）",
+                        step3: "向右水平移动3个单位",
+                        step4: "向上垂直移动4个单位"
+                    }
                 },
                 interactive: {
                     title: "交互式变换探索器",
@@ -290,7 +315,8 @@ window.i18n.zh = {
                     kDesc: "垂直移动",
                     vertex: "顶点：",
                     direction: "方向：",
-                    transformations: "应用的变换："
+                    transformations: "应用的变换：",
+                    equation: "方程式："
                 },
                 applications: {
                     title: "变换的应用",
