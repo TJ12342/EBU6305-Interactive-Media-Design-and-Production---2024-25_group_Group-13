@@ -445,6 +445,9 @@
                             <span id="detail-author">Author Name</span>
                         </div>
                         <div class="post-date" id="detail-date">2025-03-15</div>
+                        <div class="post-actions" id="detail-actions">
+                            <!-- 动态添加删除按钮 -->
+                        </div>
                     </div>
                 </div>
                 
@@ -618,6 +621,8 @@
         // 初始化变量
         let currentUser = null;
         let communityPosts = [];
+        let currentDeleteTarget = null; // 保存当前要删除的目标对象
+        let deleteType = ''; // 保存删除类型（'post' 或 'comment'）
 
         // Mock learning and game data for demo purposes
         const mockUserAchievements = {
@@ -1158,6 +1163,21 @@
             detailCategory.textContent = getCategoryName(post.category);
             detailCategory.className = 'post-category ' + post.category;
             
+            // 处理删除按钮
+            const detailActions = document.getElementById('detail-actions');
+            detailActions.innerHTML = '';
+            
+            // 如果是当前用户的帖子，添加删除按钮
+            if (currentUser && currentUser.username === post.author) {
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'post-delete-btn';
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = function() {
+                    showDeleteConfirmation(post, 'post');
+                };
+                detailActions.appendChild(deleteBtn);
+            }
+            
             // 加载评论
             loadComments(post.id);
             
@@ -1258,6 +1278,7 @@
             const commentElement = document.createElement('div');
             commentElement.className = 'comment-item';
             commentElement.dataset.commentId = comment.id;
+            commentElement.dataset.postId = comment.postId;
             
             commentElement.innerHTML = `
                 <div class="comment-header">
@@ -1274,6 +1295,8 @@
                         <span class="comment-like-count">${comment.likes}</span>
                     </div>
                     <div class="comment-reply">Reply</div>
+                    ${currentUser && currentUser.username === comment.author ? 
+                    '<div class="comment-delete">Delete</div>' : ''}
                 </div>
             `;
             
@@ -1320,6 +1343,14 @@
                     loginModal.classList.remove('hidden');
                 }
             });
+            
+            // 添加删除评论事件
+            const deleteButton = commentElement.querySelector('.comment-delete');
+            if (deleteButton) {
+                deleteButton.addEventListener('click', function() {
+                    showDeleteConfirmation(comment, 'comment');
+                });
+            }
             
             return commentElement;
         }
@@ -1442,9 +1473,21 @@
                         <span class="views">👁️ ${post.views}</span>
                         <span class="replies">💬 ${post.replies ? post.replies.length : 0}</span>
                         <span class="likes" style="cursor:pointer;">❤️ ${post.likes}</span>
+                        ${currentUser && currentUser.username === post.author ? 
+                        '<span class="delete-topic-btn">Delete</span>' : ''}
                     </div>
                 </div>
             `;
+            
+            // 添加删除帖子事件
+            const deleteButton = postDiv.querySelector('.delete-topic-btn');
+            if (deleteButton) {
+                deleteButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    showDeleteConfirmation(post, 'post');
+                });
+            }
             
             return postDiv;
         }
@@ -1789,6 +1832,26 @@
                 categoryButtons.forEach(btn => btn.classList.remove('active'));
                 document.querySelector('.category-btn[data-category="all"]').classList.add('active');
             });
+            
+            // 绑定删除确认和取消按钮
+            document.getElementById('cancel-delete-btn').addEventListener('click', function() {
+                document.getElementById('delete-confirm-modal').classList.add('hidden');
+                currentDeleteTarget = null;
+                deleteType = '';
+            });
+            
+            document.getElementById('confirm-delete-btn').addEventListener('click', function() {
+                if (currentDeleteTarget) {
+                    if (deleteType === 'post') {
+                        deletePost(currentDeleteTarget);
+                    } else if (deleteType === 'comment') {
+                        deleteComment(currentDeleteTarget);
+                    }
+                    document.getElementById('delete-confirm-modal').classList.add('hidden');
+                    currentDeleteTarget = null;
+                    deleteType = '';
+                }
+            });
         }
 
         // 打开个人资料编辑器
@@ -1910,6 +1973,96 @@
 
         // 初始化社区
         initCommunity();
+
+        // 显示删除确认弹窗
+        function showDeleteConfirmation(target, type) {
+            // 保存删除目标和类型
+            currentDeleteTarget = target;
+            deleteType = type;
+            
+            // 显示确认弹窗
+            document.getElementById('delete-confirm-modal').classList.remove('hidden');
+        }
+
+        // 删除帖子
+        function deletePost(post) {
+            if (!currentUser || currentUser.username !== post.author) {
+                alert('你没有权限删除此帖子');
+                return;
+            }
+            
+            // 从列表中移除帖子
+            const postIndex = communityPosts.findIndex(p => p.id === post.id);
+            if (postIndex !== -1) {
+                communityPosts.splice(postIndex, 1);
+                
+                // 更新localStorage
+                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                
+                // 清除该帖子的评论
+                localStorage.removeItem(`post_comments_${post.id}`);
+                
+                // 更新UI
+                renderPosts();
+                updateStats();
+                
+                // 如果是在详情页，关闭详情页
+                if (document.getElementById('post-detail-modal').classList.contains('hidden') === false) {
+                    document.getElementById('post-detail-modal').classList.add('hidden');
+                }
+                
+                console.log("Post deleted:", post.id);
+            }
+        }
+
+        // 删除评论
+        function deleteComment(comment) {
+            if (!currentUser || currentUser.username !== comment.author) {
+                alert('你没有权限删除此评论');
+                return;
+            }
+            
+            // 获取该帖子的评论
+            const comments = getPostComments(comment.postId);
+            const commentIndex = comments.findIndex(c => c.id === comment.id);
+            
+            if (commentIndex !== -1) {
+                // 从评论列表中移除
+                comments.splice(commentIndex, 1);
+                
+                // 更新localStorage
+                saveComments(comment.postId, comments);
+                
+                // 更新UI
+                const commentElement = document.querySelector(`.comment-item[data-comment-id="${comment.id}"]`);
+                if (commentElement) {
+                    commentElement.remove();
+                }
+                
+                // 更新评论数量显示
+                const commentCount = comments.length;
+                document.getElementById('detail-comments').textContent = commentCount;
+                
+                // 如果没有评论了，显示空评论提示
+                if (commentCount === 0) {
+                    document.querySelector('.comments-empty').classList.remove('hidden');
+                }
+                
+                // 更新列表中的帖子评论数
+                const post = communityPosts.find(p => p.id == comment.postId);
+                if (post) {
+                    post.replies = comments;
+                    updatePostInStorage(post);
+                    
+                    const postElement = document.querySelector(`.topic-item[data-post-id="${post.id}"]`);
+                    if (postElement) {
+                        postElement.querySelector('.replies').innerHTML = `💬 ${commentCount}`;
+                    }
+                }
+                
+                console.log("Comment deleted:", comment.id);
+            }
+        }
     });
     </script>
 
@@ -2347,6 +2500,37 @@
         margin-right: 10px;
     }
     
+    .post-actions {
+        display: flex;
+        align-items: center;
+    }
+    
+    .post-delete-btn {
+        background-color: #3498db;
+        border: none;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-left: 10px;
+        display: inline-block;
+    }
+    
+    .post-delete-btn:hover {
+        background-color: #2980b9;
+    }
+    
+    .dark-mode .post-delete-btn {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    .dark-mode .post-delete-btn:hover {
+        background-color: #2980b9;
+    }
+    
     .post-detail-body {
         font-size: 16px;
         line-height: 1.6;
@@ -2551,6 +2735,17 @@
         font-size: 12px;
         color: #6c757d;
         cursor: pointer;
+        margin-right: 15px;
+    }
+    
+    .comment-delete {
+        font-size: 12px;
+        color: #3498db;
+        cursor: pointer;
+    }
+    
+    .comment-delete:hover {
+        text-decoration: underline;
     }
     
     .comments-empty {
@@ -2686,6 +2881,63 @@
     
     .dark-mode .avatar-option.selected {
         border-color: #4d9fff;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .secondary-btn {
+        padding: 8px 16px;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        color: #6c757d;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .secondary-btn:hover {
+        background-color: #e9ecef;
+    }
+
+    .dark-mode .secondary-btn {
+        background-color: #343a40;
+        border-color: #495057;
+        color: #adb5bd;
+    }
+
+    .dark-mode .secondary-btn:hover {
+        background-color: #495057;
+        color: #dee2e6;
+    }
+
+    .danger-btn {
+        padding: 8px 16px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .danger-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .dark-mode .danger-btn {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .dark-mode .danger-btn:hover {
+        background-color: #2980b9;
     }
     </style>
 </body>
