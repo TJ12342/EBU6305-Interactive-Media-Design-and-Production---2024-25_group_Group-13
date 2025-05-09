@@ -1004,7 +1004,7 @@ function initParabolaShooterGame() {
             ctx.fillStyle = `rgba(244, 67, 54, ${alpha})`;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`差距: ${distance}`, targetX + 15, (calculatedCanvasY + actualCanvasY) / 2);
+            ctx.fillText(`${distance}`, targetX + 15, (calculatedCanvasY + actualCanvasY) / 2);
             
             // 在实际点绘制目标点 - 以红色突出显示
             ctx.beginPath();
