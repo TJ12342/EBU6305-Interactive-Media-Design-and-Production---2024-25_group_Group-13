@@ -235,7 +235,7 @@ function drawParabola(ctx, a, b, c, width, height, t) {
     ctx.font = '12px Arial';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'bottom';
-    ctx.fillText(`顶点(${vertexX.toFixed(1)}, ${vertexY.toFixed(1)})`, canvasVertexX + 8, canvasVertexY - 5);
+    ctx.fillText(`(${vertexX.toFixed(1)}, ${vertexY.toFixed(1)})`, canvasVertexX + 8, canvasVertexY - 5);
 }
 
 // 显示方程

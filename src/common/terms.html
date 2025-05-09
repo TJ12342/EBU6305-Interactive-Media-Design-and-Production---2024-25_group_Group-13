@@ -242,8 +242,9 @@
           </p>
 
           <h2 data-i18n="terms.contact.title">Contact Us</h2>
-          <p data-i18n="terms.contact.text">
-            If you have any questions about these Terms, please contact us at <a href="mailto:contact@quadraticlearning.com">contact@quadraticlearning.com</a>.
+          <p>
+            <span data-i18n="terms.contact.textPrefix">If you have any questions about these Terms, please contact us at</span>
+            <a href="mailto:contact@quadraticlearning.com">contact@quadraticlearning.com</a><span data-i18n="terms.contact.textSuffix">.</span>
           </p>
 
           <p class="last-updated" data-i18n="terms.footer">This document was last updated on May 15, 2024.</p>
@@ -268,7 +269,6 @@
   </footer>
 
   <script src="../common/scripts/i18n.js" defer></script>
-  <script src="../common/scripts/i18n-app.js" defer></script>
   <script src="../common/scripts/dark-mode.js" defer></script>
   
   <script>
@@ -276,7 +276,7 @@
       // Set active state for the Terms of Service link in the footer
       const termsLink = document.querySelector('footer a[href="terms.html"]');
       if (termsLink) {
-        termsLink.className = 'active';
+        termsLink.classList.add('active'); // Corrected to use classList.add
       }
     });
   </script>

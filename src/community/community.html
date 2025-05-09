@@ -78,10 +78,10 @@
                 <!-- 用户信息卡片 -->
                 <div class="user-card">
                     <div class="user-avatar">
-                        <img src="../assets/images/community/avatar-default.jpg" alt="User Avatar" id="user-avatar">
+                        <img src="../assets/images/community/avatar-default.jpg" alt="User Avatar" id="user-avatar" data-i18n-alt="community.profile.avatarAlt">
                     </div>
                     <div class="user-info">
-                        <h3 class="user-name" id="user-name">Guest</h3>
+                        <h3 class="user-name" id="user-name" data-i18n-placeholder="community.profile.guestPlaceholder">Guest</h3>
                         <p class="user-status" id="login-status"><span data-i18n="community.posting.loginPrompt">Please</span> <a href="#" id="login-link" onclick="document.getElementById('login-modal').classList.remove('hidden'); return false;" data-i18n="community.posting.login">login</a> <span data-i18n="community.posting.participatePrompt">to participate in discussions</span></p>
                         <button id="edit-profile-btn" class="edit-profile-btn hidden" data-i18n="community.profile.edit">Edit Profile</button>
                     </div>
@@ -123,18 +123,18 @@
                         <p class="bio-interests" id="bio-interests">-</p>
                     </div>
                     
-                    <button id="new-post-btn" disabled data-i18n="community.posting.newPost" onclick="if(currentUser) { document.getElementById('new-topic-modal').classList.remove('hidden'); } else { document.getElementById('login-modal').classList.remove('hidden'); }">Create New Topic</button>
+                    <button id="new-post-btn" disabled data-i18n="community.posting.newPostButton" onclick="if(currentUser) { document.getElementById('new-topic-modal').classList.remove('hidden'); } else { document.getElementById('login-modal').classList.remove('hidden'); }">Create New Topic</button>
                 </div>
 
                 <!-- 热门话题 -->
                 <div class="hot-topics">
                     <h3 data-i18n="community.hotTopics.title">Hot Topics</h3>
                     <ul id="hot-topics-list">
-                        <li><a href="#">How to quickly solve quadratic equations?</a> <span class="topic-heat">🔥</span></li>
-                        <li><a href="#">Applications of parabolas in physics</a> <span class="topic-heat">🔥</span></li>
-                        <li><a href="#">Quadratic function transformation techniques</a></li>
-                        <li><a href="#">Help: How to understand the discriminant?</a></li>
-                        <li><a href="#">Sharing my parabola drawing tool</a></li>
+                        <li><a href="#" data-i18n="community.hotTopics.item1">How to quickly solve quadratic equations?</a> <span class="topic-heat">🔥</span></li>
+                        <li><a href="#" data-i18n="community.hotTopics.item2">Applications of parabolas in physics</a> <span class="topic-heat">🔥</span></li>
+                        <li><a href="#" data-i18n="community.hotTopics.item3">Quadratic function transformation techniques</a></li>
+                        <li><a href="#" data-i18n="community.hotTopics.item4">Help: How to understand the discriminant?</a></li>
+                        <li><a href="#" data-i18n="community.hotTopics.item5">Sharing my parabola drawing tool</a></li>
                     </ul>
                 </div>
 
@@ -155,10 +155,8 @@
                     <h3 data-i18n="community.leaderboard.title">Star Learners</h3>
                     <div class="leaderboard-description" data-i18n="community.leaderboard.description">Top users with outstanding performance in learning and games</div>
                     
-                    <!-- Leaderboard entries will be dynamically populated -->
                     <div class="leaderboard-entries" id="leaderboard-entries">
-                        <!-- Loading placeholder -->
-                        <div class="leaderboard-loading">Loading top learners...</div>
+                        <div class="leaderboard-loading" data-i18n="community.leaderboard.loading">Loading top learners...</div>
                     </div>
                     
                     <a href="#" class="view-all-link" data-i18n="community.leaderboard.viewAll">View Full Leaderboard</a>
@@ -190,15 +188,15 @@
                         <div class="topic-content">
                             <h3 class="topic-title"><a href="#">Community Guide: How to Ask and Answer</a></h3>
                             <div class="topic-meta">
-                                <span class="topic-category official">Official</span>
-                                <span class="topic-author">Author: Admin</span>
+                                <span class="topic-category official" data-i18n="community.posts.categoryOfficial">Official</span>
+                                <span class="topic-author"><span data-i18n="community.posts.authorPrefix">Author:</span> Admin</span>
                                 <span class="topic-time">2025-03-01</span>
                             </div>
                             <p class="topic-preview">This guide introduces how to ask high-quality questions in the community and how to provide helpful answers. Following these suggestions can make our community more efficient and friendly...</p>
                             <div class="topic-stats">
-                                <span class="views">👁️ 1024</span>
-                                <span class="replies">💬 57</span>
-                                <span class="likes">❤️ 138</span>
+                                <span class="views" title="Views" data-i18n-title="community.posts.viewsLabel">👁️ 1024</span>
+                                <span class="replies" title="Replies" data-i18n-title="community.posts.repliesLabel">💬 57</span>
+                                <span class="likes" title="Likes" data-i18n-title="community.posts.likesLabel">❤️ 138</span>
                             </div>
                         </div>
                     </div>
@@ -209,15 +207,15 @@
                         <div class="topic-content">
                             <h3 class="topic-title"><a href="#">How to understand the discriminant of quadratic functions?</a></h3>
                             <div class="topic-meta">
-                                <span class="topic-category question">Question</span>
-                                <span class="topic-author">Author: MathEnthusiast</span>
+                                <span class="topic-category question" data-i18n="community.categories.questions">Question</span>
+                                <span class="topic-author"><span data-i18n="community.posts.authorPrefix">Author:</span> MathEnthusiast</span>
                                 <span class="topic-time">2025-03-15</span>
                             </div>
                             <p class="topic-preview">I'm confused about the discriminant Δ=b²-4ac of quadratic functions, especially its relationship with the graph and equation solutions. Could someone explain the geometric meaning of the discriminant in detail...</p>
                             <div class="topic-stats">
-                                <span class="views">👁️ 256</span>
-                                <span class="replies">💬 12</span>
-                                <span class="likes">❤️ 24</span>
+                                <span class="views" title="Views" data-i18n-title="community.posts.viewsLabel">👁️ 256</span>
+                                <span class="replies" title="Replies" data-i18n-title="community.posts.repliesLabel">💬 12</span>
+                                <span class="likes" title="Likes" data-i18n-title="community.posts.likesLabel">❤️ 24</span>
                             </div>
                         </div>
                     </div>
@@ -227,15 +225,15 @@
                         <div class="topic-content">
                             <h3 class="topic-title"><a href="#">Understanding Quadratic Function Transformations</a></h3>
                             <div class="topic-meta">
-                                <span class="topic-category share">Experience</span>
-                                <span class="topic-author">Author: FunctionMaster</span>
+                                <span class="topic-category share" data-i18n="community.categories.experiences">Experience</span>
+                                <span class="topic-author"><span data-i18n="community.posts.authorPrefix">Author:</span> FunctionMaster</span>
                                 <span class="topic-time">2025-03-14</span>
                             </div>
                             <p class="topic-preview">I've summarized a method for understanding quadratic function transformations, including intuitive understanding of translations, stretches, compressions, etc. This approach has helped me solve related problems quickly in exams...</p>
                             <div class="topic-stats">
-                                <span class="views">👁️ 320</span>
-                                <span class="replies">💬 18</span>
-                                <span class="likes">❤️ 45</span>
+                                <span class="views" title="Views" data-i18n-title="community.posts.viewsLabel">👁️ 320</span>
+                                <span class="replies" title="Replies" data-i18n-title="community.posts.repliesLabel">💬 18</span>
+                                <span class="likes" title="Likes" data-i18n-title="community.posts.likesLabel">❤️ 45</span>
                             </div>
                         </div>
                     </div>
@@ -245,15 +243,15 @@
                         <div class="topic-content">
                             <h3 class="topic-title"><a href="#">Real-world Applications of Parabolas</a></h3>
                             <div class="topic-meta">
-                                <span class="topic-category discuss">Discussion</span>
-                                <span class="topic-author">Author: PhysicsLover</span>
+                                <span class="topic-category discuss" data-i18n="community.categories.discussions">Discussion</span>
+                                <span class="topic-author"><span data-i18n="community.posts.authorPrefix">Author:</span> PhysicsLover</span>
                                 <span class="topic-time">2025-03-12</span>
                             </div>
                             <p class="topic-preview">I've been researching applications of parabolas in the real world and found many interesting examples like bridge design, satellite dishes, fountain water jets, etc. Does anyone know of other application cases for parabolas?</p>
                             <div class="topic-stats">
-                                <span class="views">👁️ 185</span>
-                                <span class="replies">💬 23</span>
-                                <span class="likes">❤️ 37</span>
+                                <span class="views" title="Views" data-i18n-title="community.posts.viewsLabel">👁️ 185</span>
+                                <span class="replies" title="Replies" data-i18n-title="community.posts.repliesLabel">💬 23</span>
+                                <span class="likes" title="Likes" data-i18n-title="community.posts.likesLabel">❤️ 37</span>
                             </div>
                         </div>
                     </div>

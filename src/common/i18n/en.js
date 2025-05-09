@@ -20,8 +20,8 @@ window.i18n.en = {
         selectLanguage: "Select Language",
         backToTop: "Back to Top",
         contact: "Contact Us",
-        email: "parabola@math-learning.com",
-        copyright: "© 2024 ParabolaMaster All Rights Reserved",
+        email: "contact@quadraticlearning.com",
+        copyright: "© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.",
         privacy: "Privacy Policy",
         terms: "Terms of Service",
         cookies: {
@@ -34,7 +34,7 @@ window.i18n.en = {
     
     // Home page
     home: {
-        pageTitle: "ParabolaMaster - Interactive Quadratic Equations Learning",
+        pageTitle: "Quadratic Equations & Parabolas - Interactive Learning",
         hero: {
             title: "Welcome to ParabolaMaster",
             subtitle: "Master Quadratic Equations Through Interactive Learning",
@@ -78,7 +78,7 @@ window.i18n.en = {
     
     // Learning page
     learning: {
-        pageTitle: "Learn Quadratic Equations and Parabolas | ParabolaMaster",
+        pageTitle: "Learn Quadratic Equations and Parabolas | Interactive Learning",
         intro: {
             title: "Parabolas and Quadratic Equations",
             description1: "Quadratic equations and parabolas are fundamental concepts in mathematics, but they can be challenging for many students. Through interactive learning, we can understand these important concepts more intuitively.",
@@ -710,7 +710,9 @@ window.i18n.en = {
             good: "Well done! You have a good grasp of quadratic equations and parabolas.",
             average: "You have a basic understanding of quadratic equations and parabolas, but there's room for improvement.",
             needsImprovement: "You need more practice to strengthen your understanding of quadratic equations and parabolas.",
-            strengthWeakness: "You excel in {strength}, but need to work on {weakness}."
+            strengthWeakness: "You excel in {strength}, but need to work on {weakness}.",
+            onlyStrengths: "You show strong understanding in {strength}. Keep up the great work!",
+            onlyWeaknesses: "It would be beneficial to focus on improving your understanding of {weakness}."
         },
         
         // Difficulty level results descriptions
@@ -747,72 +749,52 @@ window.i18n.en = {
         placeholder: {
             xCoordinate: "x-coordinate",
             yCoordinate: "y-coordinate"
+        },
+        // Learning recommendations items, moved under test object directly
+        recommendations: {
+            reviewBasics: "Review the basic concepts and properties of quadratic equations.",
+            basic: "Strengthen your understanding of basic concepts, especially standard form and graphical representation.",
+            transformation: "Continue practicing graph transformations, especially the effects of translation, stretching, and reflection on parabolas.",
+            equation: "Do more equation-solving problems to master formula methods, factorization, and completing the square.",
+            application: "Try more applied problems to improve your ability to translate real-world problems into mathematical models.",
+            strength: "Continue to leverage your strengths in {topic} and try more challenging problems.",
+            general: "Maintain good study habits, practice regularly, and continuously consolidate and expand your knowledge."
         }
     },
     
     // Community page
     community: {
-        pageTitle: "Quadratic Equation Learning Community | ParabolaMaster",
+        pageTitle: "Learning Community | Quadratic Equations & Parabolas",
         welcome: {
             title: "Welcome to Our Learning Community",
             description: "Here, you can share experiences, ask questions, and discuss topics related to quadratic equations with other learners."
         },
-        
-        // Statistics information
         stats: {
             members: "Community Members",
-            active: "Active Users",
+            active: "Active Today",
             topics: "Discussion Topics",
             posts: "Total Posts",
             online: "Users Online"
         },
-        
-        // Hot topics
-        hotTopics: {
-            title: "Hot Topics",
-            viewAll: "View All"
+        profile: {
+            avatarAlt: "User Avatar",
+            guestPlaceholder: "Guest", 
+            edit: "Edit Profile",
+            aboutMe: "About Me",
+            interests: "Interests"
         },
-        
-        // Community rules
-        rules: {
-            title: "Community Rules",
-            viewAll: "View All Rules",
-            rule1: "Respect all community members",
-            rule2: "No spam or advertising content",
-            rule3: "Search for similar questions before posting",
-            rule4: "Provide detailed explanations when sharing solutions"
+        achievements: {
+            title: "Achievements",
+            learning: "Learning Progress:",
+            game: "Game Score:",
+            badges: "Badges:"
         },
-        
-        // Categories
-        categories: {
-            all: "All",
-            questions: "Questions",
-            experiences: "Experiences",
-            discussions: "Discussions",
-            resources: "Resources"
-        },
-        
-        // Search
-        search: {
-            placeholder: "Search Community...",
-            button: "Search"
-        },
-        
-        // Post interactions
-        interactions: {
-            reply: "Reply",
-            share: "Share",
-            save: "Save",
-            report: "Report",
-            like: "Like",
-            liked: "Liked",
-            posted: "Posted on",
-            replies: "Replies"
-        },
-        
-        // Posting related
         posting: {
-            newPost: "Create New Post",
+            loginPrompt: "Please",
+            login: "login",
+            participatePrompt: "to participate in discussions",
+            newPostButton: "Create New Topic", 
+            newPost: "Create New Post", 
             title: "Title",
             category: "Category",
             content: "Content",
@@ -820,6 +802,69 @@ window.i18n.en = {
             tags: "Tags (separate with commas)",
             post: "Post",
             cancel: "Cancel"
+        },
+        hotTopics: {
+            title: "Hot Topics",
+            viewAll: "View All", 
+            item1: "How to quickly solve quadratic equations?",
+            item2: "Applications of parabolas in physics",
+            item3: "Quadratic function transformation techniques",
+            item4: "Help: How to understand the discriminant?",
+            item5: "Sharing my parabola drawing tool"
+        },
+        rules: {
+            title: "Community Rules",
+            viewAll: "View Complete Rules", 
+            rule1: "Respect all community members", 
+            rule2: "No spam or advertising content",
+            rule3: "Search for similar questions before posting",
+            rule4: "Provide detailed explanations when sharing solutions"
+        },
+        leaderboard: {
+            title: "Star Learners",
+            description: "Top users with outstanding performance in learning and games",
+            loading: "Loading top learners...",
+            viewAll: "View Full Leaderboard",
+            rank: "Rank", 
+            player: "Player",
+            score: "Score",
+            date: "Date",
+            game: "Game",
+            noRecords: "No records yet"
+        },
+        roles: { 
+            functionMaster: "FunctionMaster",
+            toolExpert: "ToolExpert",
+            mathEnthusiast: "MathEnthusiast"
+        },
+        categories: {
+            all: "All",
+            questions: "Questions",
+            experiences: "Experiences",
+            discussions: "Discussions",
+            resources: "Resources"
+        },
+        search: {
+            placeholder: "Search topics...",
+            button: "Search"
+        },
+        posts: {
+            categoryOfficial: "Official",
+            authorPrefix: "Author:",
+            viewsLabel: "Views",
+            repliesLabel: "Replies",
+            likesLabel: "Likes",
+            reply: "Reply",
+            share: "Share",
+            report: "Report",
+            comments: "Comments"
+        },
+        tips: { 
+            askQuestion: "How to ask a good question?",
+            tip1: "Ensure your title is clear and specific",
+            tip2: "Include methods you've tried",
+            tip3: "Add relevant formulas or images",
+            tip4: "Check spelling and formatting"
         }
     },
     
@@ -914,9 +959,96 @@ window.i18n.en = {
         
         contact: {
             title: "Contact Us",
-            text: "If you have any questions about this Privacy Policy, please contact us at contact@quadraticlearning.com."
+            text: "If you have any questions about this Privacy Policy, please contact us at <a href=\"mailto:contact@quadraticlearning.com\">contact@quadraticlearning.com</a>."
         },
         
+        footer: "This document was last updated on May 15, 2024.",
+        returnToHome: "Return to Home"
+    },
+
+    // Terms Page
+    terms: {
+        pageTitle: "Terms of Service | Quadratic Equations & Parabolas Interactive Learning",
+        title: "Terms of Service",
+        lastUpdated: "Last Updated: May, 2024",
+        introduction: "Welcome to Quadratic Equations & Parabolas Interactive Learning. These Terms of Service (\"Terms\") govern your access to and use of our website. Please read these Terms carefully before using our website.",
+        agreement: {
+            title: "Agreement to Terms",
+            text: "By accessing or using our website, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you must not access or use our website."
+        },
+        changes: {
+            title: "Changes to Terms",
+            text: "We may revise these Terms at any time by amending this page. Please check this page regularly to ensure you understand the current version of the Terms, as they are binding on you."
+        },
+        account: {
+            title: "Account Registration",
+            text1: "Some features of our website may require you to register for an account. When you register, you agree to provide accurate, current, and complete information about yourself.",
+            text2: "You are responsible for:",
+            item1: "Maintaining the confidentiality of your account and password",
+            item2: "Restricting access to your computer or device",
+            item3: "Accepting responsibility for all activities that occur under your account or password",
+            text3: "We reserve the right to refuse service, terminate accounts, remove or edit content, or cancel orders at our sole discretion."
+        },
+        content: {
+            title: "Intellectual Property and Content",
+            text1: "Our website and its original content, features, and functionality are owned by us and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.",
+            text2: "You may not:",
+            item1: "Modify copies of any materials from our website",
+            item2: "Use any illustrations, photographs, or graphics separately from accompanying text",
+            item3: "Delete or alter any copyright, trademark, or other proprietary notices",
+            item4: "Access or use for any commercial purposes any part of the website or materials available through the website",
+            text3: "If you print, copy, modify, download, or otherwise use or provide any other person with access to any part of our website in breach of the Terms, your right to use our website will cease immediately, and you must, at our option, return or destroy any copies of the materials you have made."
+        },
+        userContent: {
+            title: "User-Generated Content",
+            text1: "Our website may allow you to post, link, store, share, and otherwise make available certain information, text, graphics, videos, or other material. You are responsible for the content you post to our website.",
+            text2: "By posting content to our website, you grant us the right to use, modify, publicly perform, publicly display, reproduce, and distribute such content on and through our website. You retain any and all of your rights to any content you submit, post, or display on or through our website.",
+            text3: "You represent and warrant that:",
+            item1: "The content is yours or you have the right to use it and grant us the rights and license as provided in these Terms",
+            item2: "The content does not violate the privacy rights, publicity rights, copyrights, contract rights, or any other rights of any person or entity",
+            item3: "The content does not contain material that is false, intentionally misleading, defamatory, obscene, harmful, threatening, harassing, abusive, or offensive"
+        },
+        conduct: {
+            title: "Prohibited Uses",
+            text: "You may use our website only for lawful purposes and in accordance with these Terms. You agree not to use our website:",
+            item1: "In any way that violates any applicable federal, state, local, or international law or regulation",
+            item2: "To impersonate or attempt to impersonate us, our employees, or other users",
+            item3: "To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the website, or which may harm us or users of the website",
+            item4: "To use the website in any manner that could disable, overburden, damage, or impair the site",
+            item5: "To use any robot, spider, or other automatic device, process, or means to access the website for any purpose",
+            item6: "To introduce any viruses, trojan horses, worms, logic bombs, or other harmful material",
+            item7: "To attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the website"
+        },
+        links: {
+            title: "Links to Other Websites",
+            text: "Our website may contain links to third-party websites that are not owned or controlled by us. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites. We strongly advise you to read the terms and privacy policy of any third-party website you visit."
+        },
+        disclaimer: {
+            title: "Disclaimer of Warranties",
+            text: "Our website and its content are provided on an \"as is\" and \"as available\" basis without any warranties of any kind. We disclaim all warranties, whether express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement."
+        },
+        liability: {
+            title: "Limitation of Liability",
+            text: "To the fullest extent permitted by law, in no event will we, our affiliates, or their licensors, service providers, employees, agents, officers, or directors be liable for damages of any kind, under any legal theory, arising out of or in connection with your use of, or inability to use, our website, including any direct, indirect, special, incidental, consequential, or punitive damages."
+        },
+        indemnification: {
+            title: "Indemnification",
+            text: "You agree to defend, indemnify, and hold us harmless from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the website."
+        },
+        termination: {
+            title: "Termination",
+            text1: "We may terminate or suspend your account and access to our website immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.",
+            text2: "Upon termination, your right to use the website will immediately cease."
+        },
+        governing: {
+            title: "Governing Law",
+            text: "These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions."
+        },
+        contact: {
+            title: "Contact Us",
+            textPrefix: "If you have any questions about these Terms, please contact us at ",
+            textSuffix: "."
+        },
         footer: "This document was last updated on May 15, 2024.",
         returnToHome: "Return to Home"
     }

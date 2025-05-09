@@ -39,23 +39,36 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('languageChanged事件触发', e.detail);
         
         // 更新测试页面特定的翻译
-        translateTestQuestions();
+        translateTestQuestions(); // 翻译题目数据本身（如果题目内容也需要翻译）
         
-        // 如果测试已开始，重新显示当前问题以应用新语言
-        if (currentTest.questions && currentTest.questions.length > 0) {
-            // 强制刷新当前问题显示
+        if (currentTest.questions && currentTest.questions.length > 0 && !currentTest.endTime) {
+            // 测试进行中，更新当前问题显示
             showQuestion(currentTest.currentQuestionIndex);
+            updateDisplayedQuestionText(); // 确保选项等也更新
+        } else if (currentTest.endTime) {
+            // 测试已结束，结果页面已显示，需要重新渲染结果或更新其文本
+            const results = calculateResults(); // 重新计算或获取结果数据
             
-            // 直接更新DOM上的问题文本
-            updateDisplayedQuestionText();
+            updateResultsLabels(); // 这个函数会调用 generateResultsTable
+            
+            const summaryContainer = document.getElementById('performance-text');
+            if (summaryContainer) {
+                 setPerformanceSummary(results); // 确保此函数内部使用 getTranslation
+            }
+            
+            // Explicitly update topic performance and recommendations
+            updateTopicPerformance(results.topicPerformance);
+            generateRecommendations(results);
+
         } else {
-            // 手动更新介绍页面的文本
+            // 测试未开始，更新介绍文本
             updateIntroText();
         }
         
+        // 更新通用的测试标签 (按钮等)
         setTimeout(() => {
-            updateTestLabels();
-        }, 100);
+            updateTestLabels(); // 这个函数也可能需要检查，确保它能正确更新所有相关标签
+        }, 100); // 延迟以确保i18n资源已加载
     });
     
     // 尝试加载保存的测试进度
@@ -234,35 +247,60 @@ function updateCurrentQuestionLabels() {
 
 // 更新结果页面标签
 function updateResultsLabels() {
-    // 主要翻译已在i18n.js中的updateTestPageContent函数中处理
-    // 这里处理动态生成内容的翻译
+    // 更新静态的data-i18n标签 (i18n.js应该会自动处理这些)
+    // 例如: document.querySelector('[data-i18n="test.results.title"]').textContent = getTranslation('test.results.title');
+
+    // 更新动态填充的表格内容
+    const tableBody = document.getElementById('results-table-body');
+    if (tableBody && tableBody.rows.length > 0 && currentTest.questions.length > 0) {
+        const results = calculateResults(); // 获取最新的结果数据，它可能包含原始键
+        // 重新生成表格以确保所有文本都被翻译
+        generateResultsTable(results);
+    }
     
-    // 更新表格中的结果状态（正确/错误）
-    document.querySelectorAll('#results-table-body .result-status').forEach(status => {
-        const isCorrect = status.classList.contains('correct');
-        const key = isCorrect ? 'test.feedback.correct' : 'test.feedback.incorrect';
-        const translated = getTranslation(key);
-        if (translated) {
-            status.textContent = translated;
+    // 更新分数和用时 (这些可能已经是data-i18n或者需要手动更新标签)
+    const scoreLabel = document.querySelector('.score-details p:nth-child(1) span[data-i18n="test.results.score"]');
+    if(scoreLabel) scoreLabel.textContent = getTranslation('test.results.score');
+
+    const timeUsedLabel = document.querySelector('.score-details p:nth-child(2) span[data-i18n="test.results.timeUsed"]');
+    if(timeUsedLabel) timeUsedLabel.textContent = getTranslation('test.results.timeUsed');
+
+    // 更新知识点掌握度中的知识点名称
+    document.querySelectorAll('.topic-bar .topic-name').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (key) {
+            el.textContent = getTranslation(key) || el.textContent;
         }
     });
 }
 
 // 辅助函数：获取翻译文本
 function getTranslation(key) {
-    // 检查是否有window.i18n公共函数可用
+    // 优先使用 window.i18n.js 提供的 getTranslation (如果可用)
     if (window.i18n && typeof window.i18n.getTranslation === 'function') {
+        // i18n.js 的 getTranslation 通常会处理找不到键的情况 (例如返回键本身)
         return window.i18n.getTranslation(key);
     }
     
-    const language = document.getElementById('language').value || 'en';
-    
-    if (window.i18n && window.i18n[language] && key.split('.').reduce((obj, prop) => obj && obj[prop], window.i18n[language])) {
-        return key.split('.').reduce((obj, prop) => obj[prop], window.i18n[language]);
+    // 极简的回退逻辑，只在 i18n.js 或其核心功能未加载时使用
+    // 这部分更可能是开发/集成阶段的临时措施
+    const language = document.getElementById('language')?.value || 'en';
+    if (window.i18n && window.i18n[language]) {
+        const keys = key.split('.');
+        let result = window.i18n[language];
+        for (const k of keys) {
+            result = result?.[k];
+            if (result === undefined) {
+                // 如果在当前语言包中找不到，返回键的最后一部分作为默认值
+                return keys[keys.length -1];
+            }
+        }
+        return result;
     }
     
-    // 如果没有找到翻译，返回键的最后一部分作为默认值
-    return key.split('.').pop();
+    // 如果完全找不到，返回键的最后一部分
+    const keyParts = key.split('.');
+    return keyParts[keyParts.length - 1];
 }
 
 // 初始化测试页面
@@ -856,7 +894,9 @@ function getQuestionsForDifficulty(difficulty) {
 
 // 获取难度文本
 function getDifficultyText(difficulty) {
-    return getTranslation(`test.difficulty.${difficulty}`) || difficulty;
+    // 返回本地化的难度文本
+    // 确保此函数使用翻译服务
+    return getTranslation('test.difficulty.' + difficulty) || difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
 }
 
 // 生成问题导航点
@@ -1497,58 +1537,62 @@ function showResults(results) {
 
 // 设置性能总结文本
 function setPerformanceSummary(results) {
-    const performanceText = document.getElementById('performance-text');
-    if (!performanceText) return;
-    
-    // 根据得分率生成总结文本
-    let summaryText = '';
-    let performanceLevel = '';
-    
-    if (results.percentage >= 90) {
-        performanceLevel = 'excellent';
-    } else if (results.percentage >= 75) {
-        performanceLevel = 'good';
-    } else if (results.percentage >= 60) {
-        performanceLevel = 'average';
+    const performanceTextElement = document.getElementById('performance-text');
+    if (!performanceTextElement) return;
+
+    let summaryKey = 'test.summary.needsImprovement'; // Default
+    if (results.scorePercentage >= 90) {
+        summaryKey = 'test.difficultyResults.' + currentTest.difficulty + '.excellent';
+    } else if (results.scorePercentage >= 75) {
+        summaryKey = 'test.difficultyResults.' + currentTest.difficulty + '.good';
+    } else if (results.scorePercentage >= 60) {
+        summaryKey = 'test.difficultyResults.' + currentTest.difficulty + '.average';
     } else {
-        performanceLevel = 'needsImprovement';
+        summaryKey = 'test.difficultyResults.' + currentTest.difficulty + '.needsImprovement';
     }
-    
-    // 获取基本总结文本
-    summaryText = getTranslation(`test.summary.${performanceLevel}`);
-    
-    // 添加基于难度级别的具体总结文本
-    const difficultySpecificText = getTranslation(`test.difficultyResults.${currentTest.difficulty}.${performanceLevel}`);
-    if (difficultySpecificText) {
-        summaryText += ' ' + difficultySpecificText;
-    }
-    
-    // 添加强项和弱项分析
-    const topics = Object.entries(results.topicPerformance)
-        .filter(([_, performance]) => performance.total > 0);
-    
-    if (topics.length > 0) {
-        // 找出最强和最弱的主题
-        const sortedTopics = [...topics].sort((a, b) => b[1].percentage - a[1].percentage);
-        const strongestTopic = sortedTopics[0];
-        const weakestTopic = sortedTopics[sortedTopics.length - 1];
-        
-        // 只有当有明显差距时才添加强弱项分析
-        if (strongestTopic[1].percentage - weakestTopic[1].percentage >= 20) {
-            const strongTopicName = getTopicName(strongestTopic[0]);
-            const weakTopicName = getTopicName(weakestTopic[0]);
-            
-            let strengthWeaknessText = getTranslation('test.summary.strengthWeakness');
-            if (strengthWeaknessText) {
-                strengthWeaknessText = strengthWeaknessText
-                    .replace('{strength}', strongTopicName)
-                    .replace('{weakness}', weakTopicName);
-                summaryText += ' ' + strengthWeaknessText;
+
+    let performanceMessage = getTranslation(summaryKey);
+
+    // 分析强弱项 (如果适用)
+    const topics = results.topicPerformance;
+    if (topics && Object.keys(topics).length > 0) {
+        let strengths = [];
+        let weaknesses = [];
+        for (const topicKey in topics) {
+            // Assuming topics[topicKey] is an object like { total: X, correct: Y, percentage: Z }
+            // Access percentage directly from the topicPerformance object passed in results
+            const performanceData = topics[topicKey];
+            if (performanceData && typeof performanceData.percentage === 'number') {
+                if (performanceData.percentage >= 80) {
+                    strengths.push(getTranslation('test.topic.' + topicKey) || topicKey);
+                } else if (performanceData.percentage < 60) {
+                    weaknesses.push(getTranslation('test.topic.' + topicKey) || topicKey);
+                }
+            }
+        }
+
+        if (strengths.length > 0 && weaknesses.length > 0) {
+            let strengthWeaknessKey = 'test.summary.strengthWeakness';
+            let swMessage = getTranslation(strengthWeaknessKey);
+            if (swMessage) {
+                performanceMessage += " " + swMessage.replace('{strength}', strengths.join(', ')).replace('{weakness}', weaknesses.join(', '));
+            }
+        } else if (strengths.length > 0) {
+            let onlyStrengthsKey = 'test.summary.onlyStrengths';
+            let sMessage = getTranslation(onlyStrengthsKey);
+            if (sMessage) {
+                performanceMessage += " " + sMessage.replace('{strength}', strengths.join(', '));
+            }
+        } else if (weaknesses.length > 0) {
+            let onlyWeaknessesKey = 'test.summary.onlyWeaknesses';
+            let wMessage = getTranslation(onlyWeaknessesKey);
+            if (wMessage) {
+                performanceMessage += " " + wMessage.replace('{weakness}', weaknesses.join(', '));
             }
         }
     }
-    
-    performanceText.textContent = summaryText;
+
+    performanceTextElement.textContent = performanceMessage || (getTranslation('test.summary.needsImprovement') + " (Default fallback)");
 }
 
 // 获取主题名称
@@ -1567,117 +1611,49 @@ function getTopicName(topic) {
 function generateResultsTable(results) {
     const tableBody = document.getElementById('results-table-body');
     if (!tableBody) return;
-    
-    // 清空表格
-    tableBody.innerHTML = '';
-    
-    // 添加每个问题的结果行
-    results.questionResults.forEach((result, index) => {
-        const row = document.createElement('tr');
+    tableBody.innerHTML = ''; // 清空现有行
+
+    // 确保我们遍历的是 currentTest.questions 结合 results.answers
+    // 或者如果 results 对象本身包含了题目的所有信息包括类型和难度键，则直接用它
+    // 假设 results.questionResults 是一个包含 { question: (原始问题对象), isCorrect: ..., userAnswer: ... } 的数组
+
+    results.questionResults.forEach((resultItem, index) => {
+        const questionData = currentTest.questions[index]; // 从原始测试题中获取类型和难度键
+        const row = tableBody.insertRow();
+        row.insertCell().textContent = index + 1;
         
-        // 问题编号
-        const numberCell = document.createElement('td');
-        numberCell.textContent = index + 1;
-        row.appendChild(numberCell);
+        // 使用 getQuestionTypeName 获取翻译后的类型名称
+        // 假设 questionData.type 是 'multiple-choice', 'fill-in-blank' 等键
+        row.insertCell().textContent = getQuestionTypeName(questionData.type); 
         
-        // 问题类型
-        const typeCell = document.createElement('td');
-        typeCell.textContent = getQuestionTypeName(result.type);
-        row.appendChild(typeCell);
-        
-        // 难度
-        const difficultyCell = document.createElement('td');
-        difficultyCell.textContent = getDifficultyText(currentTest.difficulty);
-        row.appendChild(difficultyCell);
-        
-        // 结果状态
-        const statusCell = document.createElement('td');
-        const statusSpan = document.createElement('span');
-        statusSpan.className = `result-status ${result.status}`;
-        statusSpan.textContent = result.isCorrect 
-            ? getTranslation('test.feedback.correct') 
-            : getTranslation('test.feedback.incorrect');
-        statusCell.appendChild(statusSpan);
-        row.appendChild(statusCell);
-        
-        // 解释
-        const explanationCell = document.createElement('td');
-        
-        // 创建解释容器
-        const explanationContainer = document.createElement('div');
-        explanationContainer.className = 'explanation-container';
-        
-        // 如果用户没有回答，显示"未回答"文本
-        if (result.status === 'unanswered') {
-            explanationContainer.textContent = getTranslation('test.feedback.unanswered');
+        // 使用 getDifficultyText 获取翻译后的难度名称
+        // currentTest.difficulty 应该是 'easy', 'medium', 'hard'
+        row.insertCell().textContent = getDifficultyText(currentTest.difficulty);
+
+        const resultCell = row.insertCell();
+        const resultSpan = document.createElement('span');
+        resultSpan.classList.add('result-status');
+        if (resultItem.isCorrect) {
+            resultSpan.textContent = getTranslation('test.feedback.correct') || 'Correct';
+            resultSpan.classList.add('correct');
         } else {
-            // 添加正确答案信息
-            const correctAnswerDiv = document.createElement('div');
-            correctAnswerDiv.className = 'correct-answer';
-            
-            if (result.type === 'multiple-choice') {
-                // 找到正确选项的文本
-                const correctOption = currentTest.questions[index].options.find(opt => opt.id === result.correctAnswer);
-                correctAnswerDiv.textContent = `${getTranslation('test.feedback.correctAnswer')}: ${result.correctAnswer}. ${correctOption ? correctOption.text : ''}`;
-            } else if (result.type === 'fill-in-blank') {
-                correctAnswerDiv.textContent = `${getTranslation('test.feedback.correctAnswer')}: (${result.correctAnswer[0]}, ${result.correctAnswer[1]})`;
-            } else if (result.type === 'graph-question') {
-                correctAnswerDiv.textContent = `${getTranslation('test.feedback.correctAnswer')}: f(x) = ${result.correctAnswer[0]}x² + ${result.correctAnswer[1]}x + ${result.correctAnswer[2]}`;
-            }
-            
-            explanationContainer.appendChild(correctAnswerDiv);
-            
-            // 添加解释文本
-            if (result.explanation) {
-                const explanationDiv = document.createElement('div');
-                explanationDiv.className = 'explanation-text';
-                explanationDiv.textContent = result.explanation;
-                explanationContainer.appendChild(explanationDiv);
-            }
+            resultSpan.textContent = getTranslation('test.feedback.incorrect') || 'Incorrect';
+            resultSpan.classList.add('incorrect');
         }
-        
-        explanationCell.appendChild(explanationContainer);
-        row.appendChild(explanationCell);
-        
-        // 将行添加到表格
-        tableBody.appendChild(row);
+        resultCell.appendChild(resultSpan);
+
+        const explanationCell = row.insertCell();
+        // Use displayExplanation which is set by translateTestQuestions to ensure correct language
+        explanationCell.textContent = questionData.displayExplanation || questionData.explanation || '';
     });
 }
 
-// 获取问题类型名称
-function getQuestionTypeName(type) {
-    // 修正翻译键格式，确保与zh.js中定义的键匹配
-    let translationKey;
-    switch (type) {
-        case 'multiple-choice':
-            translationKey = 'test.questionTypes.multipleChoice';
-            break;
-        case 'fill-in-blank':
-            translationKey = 'test.questionTypes.fillInBlank';
-            break;
-        case 'graph-question':
-            translationKey = 'test.questionTypes.graphQuestion';
-            break;
-        default:
-            translationKey = `test.questionTypes.${type}`;
-    }
-
-    const translated = getTranslation(translationKey);
-    if (translated) {
-        return translated;
-    }
-    
-    // 默认英文类型名称
-    switch (type) {
-        case 'multiple-choice':
-            return 'Multiple Choice';
-        case 'fill-in-blank':
-            return 'Fill in the Blank';
-        case 'graph-question':
-            return 'Graph Question';
-        default:
-            return type;
-    }
+// 获取问题类型的本地化名称
+function getQuestionTypeName(typeKey) { // typeKey 应该是 'multiple-choice', 'fill-in-blank' 等
+    // 将连字符命名转换为驼峰命名以匹配i18n文件中的键
+    const camelCaseTypeKey = typeKey.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+    // 确保此函数使用翻译服务
+    return getTranslation('test.questionTypes.' + camelCaseTypeKey) || typeKey; // Fallback to original typeKey if no translation
 }
 
 // 更新主题表现图表
