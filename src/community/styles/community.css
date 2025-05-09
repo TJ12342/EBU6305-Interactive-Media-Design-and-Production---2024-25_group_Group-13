@@ -75,6 +75,90 @@
     margin-bottom: 40px;
 }
 
+/* === General Button Styles === */
+.btn {
+    display: inline-block;
+    padding: 10px 20px; /* Consistent padding */
+    font-size: 1rem; /* Consistent font size */
+    font-weight: 600; /* Consistent font weight */
+    border-radius: 5px; /* Consistent border radius */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+    border: 1px solid transparent; /* Base for outline and to prevent layout shifts */
+}
+
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* Primary Button Style */
+.btn-primary {
+    background-color: #00acc1; /* Main site CTA color */
+    color: white;
+    border-color: #00acc1;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #007c91; /* Darker shade for hover */
+    border-color: #007c91;
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3); /* Focus ring */
+}
+
+/* Secondary Button Style (for cancel, less prominent actions) */
+.btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+    border-color: #ddd;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: #e0e0e0;
+    border-color: #ccc;
+}
+
+.btn-secondary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.3); /* Focus ring */
+}
+
+/* Outline Button Style */
+.btn-outline {
+    background-color: transparent;
+    color: #00acc1; /* Main site CTA color */
+    border-color: #00acc1;
+}
+
+.btn-outline:hover:not(:disabled) {
+    background-color: #00acc1;
+    color: white;
+}
+
+.btn-outline:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3); /* Focus ring */
+}
+
+/* Danger Button Style (retained but standardized padding/radius if needed) */
+.btn-danger { /* This will be applied via class, e.g. <button class="btn btn-danger"> */
+    background-color: #e74c3c;
+    color: white;
+    border-color: #e74c3c;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+/* === End General Button Styles === */
+
 /* 侧边栏样式 */
 .community-sidebar {
     flex: 0 0 280px;
@@ -127,24 +211,31 @@
     text-decoration: underline;
 }
 
+/* #new-post-btn - Apply new standard */
 #new-post-btn {
-    background-color: #3498db;
+    background-color: #00acc1;
     color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    transition: background-color 0.3s;
+    border: 1px solid #00acc1;
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    font-weight: 600; 
+    width: 100%; 
+    transition: background-color 0.3s, border-color 0.3s;
+    cursor: pointer; /* Ensure cursor is pointer */
+    text-align: center; /* Ensure text is centered */
 }
 
-#new-post-btn:hover {
-    background-color: #2980b9;
+#new-post-btn:hover:not(:disabled) {
+    background-color: #007c91;
+    border-color: #007c91;
 }
 
-#new-post-btn:disabled {
-    background-color: #95a5a6;
+#new-post-btn:disabled,
+#new-post-btn.disabled {
+    background-color: #95a5a6; 
+    border-color: #95a5a6;
+    color: #ccc; /* Dim text color for disabled state */
+    opacity: 0.65; 
     cursor: not-allowed;
 }
 
@@ -250,65 +341,83 @@
 /* 主要内容区 */
 .community-content {
     flex: 1;
+    min-width: 0; /* Prevent overflow issues with flex items */
 }
 
-/* 分类标签 */
+/* 主题类别和搜索栏 */
+.topic-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Add gap for wrapped items */
+}
+
+/* 主题分类按钮 */
 .topic-categories {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow category buttons to wrap */
 }
 
 .category-btn {
-    background-color: #f5f5f5;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 14px;
+    background-color: #f0f0f0;
     color: #555;
+    border: 1px solid #ddd; /* Added border for consistency */
+    padding: 8px 15px;
+    border-radius: 20px; /* Pill shape */
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
-.category-btn:hover {
+.category-btn:hover:not(.active):not(:disabled) {
     background-color: #e0e0e0;
+    border-color: #ccc;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .category-btn.active {
-    background-color: #3498db;
+    background-color: #00acc1; /* Aligned with primary color */
     color: white;
+    border-color: #00acc1; /* Aligned with primary color */
+    box-shadow: 0 1px 3px rgba(0,172,193,0.4);
 }
 
 /* 搜索栏 */
 .search-bar {
     display: flex;
     margin-bottom: 20px;
+    border-radius: 5px; /* Apply to container for consistent look */
 }
 
 .search-bar input {
-    flex: 1;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px 0 0 5px;
-    font-size: 14px;
+    flex-grow: 1;
+    padding: 10px 15px; /* Consistent padding */
+    border: none; /* Border handled by container or button */
+    border-radius: 5px 0 0 5px; /* Match container */
+    font-size: 1rem;
+    outline: none;
 }
 
 .search-bar button {
-    background-color: #3498db;
+    background-color: #00acc1; /* Primary color */
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 0 5px 5px 0;
+    border: none; 
+    padding: 10px 20px; /* Consistent padding */
+    border-radius: 0 5px 5px 0; /* Match container */
     cursor: pointer;
+    font-weight: 600; /* Consistent with .btn */
     transition: background-color 0.3s;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
-.search-bar button:hover {
-    background-color: #2980b9;
+.search-bar button:hover:not(:disabled) {
+    background-color: #007c91; /* Darker primary */
 }
 
-/* 话题列表 */
+/* 主题列表 */
 .topic-list {
     margin-bottom: 30px;
 }
@@ -428,29 +537,38 @@
 .pagination {
     display: flex;
     justify-content: center;
-    gap: 5px;
+    align-items: center;
+    margin-top: 30px;
+    gap: 8px; /* Spacing between buttons */
 }
 
 .page-btn {
-    background-color: #f5f5f5;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
+    background-color: transparent;
+    color: #00acc1; /* Primary color for text/border */
+    border: 1px solid #00acc1;
+    padding: 8px 12px; /* Slightly smaller for pagination */
+    border-radius: 5px; /* Consistent radius */
     cursor: pointer;
-    transition: all 0.3s;
+    font-weight: 600; /* Consistent with .btn */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-.page-btn:hover {
-    background-color: #e0e0e0;
-}
-
+.page-btn:hover:not(:disabled),
 .page-btn.active {
-    background-color: #3498db;
+    background-color: #00acc1;
     color: white;
+    border-color: #00acc1;
 }
 
-/* 模态框样式 */
-.login-modal, .new-topic-modal {
+.page-btn:disabled {
+    color: #aaa;
+    border-color: #ddd;
+    cursor: not-allowed;
+    background-color: #f9f9f9;
+}
+
+/* 登录和新主题模态框 */
+.login-modal, .new-topic-modal, .edit-profile-modal, .confirm-modal { /* Added more modal classes */
     display: none;
     position: fixed;
     top: 0;
@@ -465,12 +583,20 @@
 
 .modal-content {
     background-color: #fff;
-    padding: 30px;
+    padding: 20px; /* Reduced padding for smaller screens */
     border-radius: 10px;
     width: 90%;
-    max-width: 500px;
+    max-width: 550px; /* Slightly increased max-width for more space */
     position: relative;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Allow scrolling if content overflows vertically */
+    max-height: 90vh; /* Limit height to 90% of viewport height */
+}
+
+@media (min-width: 600px) {
+    .modal-content {
+        padding: 30px; /* Restore larger padding for larger screens */
+    }
 }
 
 .close-modal {
@@ -483,7 +609,7 @@
 }
 
 .close-modal:hover {
-    color: #333;
+    color: #e74c3c; /* Danger color for close */
 }
 
 .modal-content h2 {
@@ -498,68 +624,177 @@
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* Consistent margin */
     color: #555;
     font-weight: 500;
 }
 
 .form-group input, .form-group textarea, .form-group select {
     width: 100%;
-    padding: 10px;
+    padding: 12px 15px; /* Increased padding for better touch targets */
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 1rem; /* Ensure readable font size */
+    box-sizing: border-box; /* Ensure padding doesn't expand width */
 }
 
 .form-group textarea {
+    min-height: 100px; /* Adjusted min-height */
     resize: vertical;
-    min-height: 100px;
+}
+
+/* Profile Picture Specific Styles */
+.profile-picture-group {
+    margin-bottom: 20px;
+}
+
+.profile-picture-group label:first-of-type { /* The main label for "Profile Picture" */
+    display: block;
+    margin-bottom: 12px; /* Increased margin for main label */
+    color: #555;
+    font-weight: 500;
+}
+
+.current-avatar-display {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.current-avatar-display img {
+    width: 60px; /* Slightly smaller preview */
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #00acc1;
+    object-fit: cover;
+}
+
+.upload-avatar-label { /* This is the "Upload New" button */
+    padding: 8px 12px;
+    background-color: #e9ecef;
+    color: #495057;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    display: inline-flex; /* Allow vertical align if needed */
+    align-items: center;
+}
+
+.upload-avatar-label:hover {
+    background-color: #dee2e6;
+}
+
+.avatar-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px; /* Slightly increased gap */
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee; /* Separator */
+}
+
+.avatar-options-label {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.avatar-option {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    object-fit: cover;
+    padding: 2px; /* Add padding to prevent border clipping image */
+    background-color: #f9f9f9; /* Slight background for empty ones */
+}
+
+.avatar-option:hover,
+.avatar-option.selected {
+    border-color: #007c91; /* Darker primary on hover/select */
+    box-shadow: 0 0 5px rgba(0, 124, 145, 0.5);
+}
+
+.avatar-option.selected {
+    border-width: 3px;
+}
+
+.checkbox-group {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.checkbox-group label { /* Label for the checkbox text */
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 0; /* Remove bottom margin from individual checkbox labels */
+    font-size: 0.95rem; /* Align with input field text */
 }
 
 .form-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
 }
 
-.login-btn, .submit-topic-btn {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+/* Group for primary and secondary actions (Save, Cancel) */
+.form-actions .action-group-main {
+    display: flex;
+    gap: 12px;
 }
 
-.login-btn:hover, .submit-topic-btn:hover {
-    background-color: #2980b9;
+/* Delete Account Button - specific styling if needed, but mainly for layout */
+/* Assuming .delete-account-btn is already styled as .btn .btn-danger */
+
+/* Styles for Delete Account Button Section in Profile Edit */
+.delete-account-section {
+    /* margin-top: 20px; */ /* Removed, as it's part of form-actions now or handled by its own placement */
+    /* padding-top: 20px; */ /* Removed */
+    /* border-top: 1px solid #e5e5e5; */  /* Removed */
+    /* display: flex; */ /* Removed */
+    /* justify-content: flex-end; */ /* Removed */
+    /* The delete button will be positioned by the new .form-actions flex layout */
 }
 
-.register-link {
-    color: #3498db;
-    text-decoration: none;
+.delete-account-btn {
+    padding: 8px 15px; 
+    font-size: 0.9rem;
 }
 
-.register-link:hover {
-    text-decoration: underline;
+/* Dark mode specific button adjustments if needed, for now relying on general dark mode text/bg changes */
+/* Example:
+body.dark-mode .btn-secondary {
+    background-color: #444;
+    color: #f0f0f0;
+    border-color: #555;
 }
-
-.cancel-btn {
-    background-color: #95a5a6;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+body.dark-mode .btn-secondary:hover:not(:disabled) {
+    background-color: #555;
+    border-color: #666;
 }
+*/
 
-.cancel-btn:hover {
-    background-color: #7f8c8d;
-}
-
-/* 暗黑模式适配 */
+/* Ensure dark mode styles for other elements are maintained or adjusted */
 .dark-mode .community-welcome {
     background-color: #2c3e50;
     color: #f5f5f5;
@@ -657,9 +892,56 @@
 .dark-mode .form-group input,
 .dark-mode .form-group textarea,
 .dark-mode .form-group select {
-    background-color: #2c3e50;
-    border-color: #4a6278;
-    color: #f5f5f5;
+    background-color: #333;
+    border-color: #555;
+    color: #f0f0f0;
+}
+
+.dark-mode .form-group input::placeholder,
+.dark-mode .form-group textarea::placeholder {
+    color: #888;
+}
+
+/* Ensure .danger-btn and .secondary-btn (from original file) are styled with .btn base if used with those classes */
+/* Assuming these are less common or being phased out for .btn-danger, .btn-secondary */
+.danger-btn, .secondary-btn { /* Generic catch for old classes if still in HTML */
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: 1px solid #e74c3c;
+}
+.danger-btn:hover:not(:disabled) {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+.danger-btn:disabled, .danger-btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.secondary-btn {
+    background-color: #95a5a6;
+    color: white;
+    border: 1px solid #95a5a6;
+}
+.secondary-btn:hover:not(:disabled) {
+    background-color: #7f8c8d;
+    border-color: #7f8c8d;
+}
+.secondary-btn:disabled, .secondary-btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }
 
 /* 响应式设计 */
@@ -763,4 +1045,406 @@
 /* 隐藏元素 */
 .hidden {
     display: none !important;
+}
+
+/* Make modal buttons full width on small screens */
+@media (max-width: 480px) {
+    .form-actions {
+        flex-direction: column-reverse; /* Stack main actions on top of delete */
+        align-items: stretch; /* Make buttons full width */
+    }
+
+    .form-actions .action-group-main {
+        flex-direction: column-reverse; /* Stack Save on top of Cancel */
+        width: 100%;
+        gap: 10px; /* Adjust gap for vertical stacking */
+    }
+    .form-actions .btn { /* Apply to all buttons within form-actions */
+        width: 100%; /* Make buttons full width */
+        margin-left: 0; /* Reset any specific margins if present */
+        margin-right: 0;
+    }
+
+    .delete-account-btn { /* Ensure it's also full width and has some top margin */
+        width: 100%;
+        margin-top: 10px; /* Add margin when stacked */
+    }
+
+    .modal-content {
+        padding: 15px; /* Further reduce padding on very small screens */
+    }
+
+    .avatar-options {
+        justify-content: center; /* Center avatar options on small screens */
+    }
+}
+
+/* Privacy Options / Checkbox group styling */
+.privacy-options-group {
+    margin-top: 25px; /* Increased top margin for separation */
+    padding-top: 15px; /* Add some padding if a border is added */
+    /* border-top: 1px solid #eee; */ /* Optional separator line */
+}
+
+.privacy-options-group > label { /* The main label "Privacy Options" */
+    display: block;
+    margin-bottom: 15px; /* Increased space below main label */
+    color: #333; /* Darker color for main label */
+    font-weight: 600; /* Bolder main label */
+    font-size: 1.05rem;
+}
+
+.checkbox-group {
+    margin-bottom: 12px; /* Spacing between checkbox lines */
+    display: flex;
+    align-items: center; /* Vertically center checkbox and label */
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto; /* Override full width for checkbox */
+    margin-right: 10px; /* Space between checkbox and its label text */
+    height: 1.1em; 
+    width: 1.1em;
+    accent-color: #00acc1; 
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+}
+
+.checkbox-group label { /* Label for the checkbox text itself */
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 0; 
+    font-size: 1rem; /* Ensure consistent font size */
+    line-height: 1.4; /* Improve line height for readability */
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Group for primary and secondary actions (Save, Cancel) */
+.form-actions .action-group-main {
+    display: flex;
+    gap: 12px;
+}
+
+/* Delete Account Button - specific styling if needed, but mainly for layout */
+/* Assuming .delete-account-btn is already styled as .btn .btn-danger */
+
+/* Styles for Delete Account Button Section in Profile Edit */
+.delete-account-section {
+    /* margin-top: 20px; */ /* Removed, as it's part of form-actions now or handled by its own placement */
+    /* padding-top: 20px; */ /* Removed */
+    /* border-top: 1px solid #e5e5e5; */  /* Removed */
+    /* display: flex; */ /* Removed */
+    /* justify-content: flex-end; */ /* Removed */
+    /* The delete button will be positioned by the new .form-actions flex layout */
+}
+
+.delete-account-btn {
+    padding: 8px 15px; 
+    font-size: 0.9rem;
+}
+
+/* Dark mode specific button adjustments if needed, for now relying on general dark mode text/bg changes */
+/* Example:
+body.dark-mode .btn-secondary {
+    background-color: #444;
+    color: #f0f0f0;
+    border-color: #555;
+}
+body.dark-mode .btn-secondary:hover:not(:disabled) {
+    background-color: #555;
+    border-color: #666;
+}
+*/
+
+/* Ensure dark mode styles for other elements are maintained or adjusted */
+.dark-mode .community-welcome {
+    background-color: #2c3e50;
+    color: #f5f5f5;
+}
+
+.dark-mode .community-welcome h2,
+.dark-mode .community-welcome p {
+    color: #f5f5f5;
+}
+
+.dark-mode .stat-number {
+    color: #3498db;
+}
+
+.dark-mode .stat-label {
+    color: #bbb;
+}
+
+.dark-mode .user-card,
+.dark-mode .hot-topics,
+.dark-mode .community-rules,
+.dark-mode .topic-item {
+    background-color: #34495e;
+    color: #f5f5f5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .user-card h3,
+.dark-mode .hot-topics h3,
+.dark-mode .community-rules h3 {
+    color: #f5f5f5;
+}
+
+.dark-mode .user-status,
+.dark-mode .hot-topics a,
+.dark-mode .community-rules li {
+    color: #ddd;
+}
+
+.dark-mode .hot-topics li {
+    border-bottom-color: #4a6278;
+}
+
+.dark-mode .topic-title a {
+    color: #f5f5f5;
+}
+
+.dark-mode .topic-preview {
+    color: #ddd;
+}
+
+.dark-mode .topic-meta,
+.dark-mode .topic-stats {
+    color: #bbb;
+}
+
+.dark-mode .category-btn {
+    background-color: #2c3e50;
+    color: #ddd;
+}
+
+.dark-mode .category-btn:hover {
+    background-color: #243342;
+}
+
+.dark-mode .category-btn.active {
+    background-color: #3498db;
+    color: white;
+}
+
+.dark-mode .search-bar input {
+    background-color: #2c3e50;
+    border-color: #4a6278;
+    color: #f5f5f5;
+}
+
+.dark-mode .page-btn {
+    background-color: #2c3e50;
+    color: #ddd;
+}
+
+.dark-mode .page-btn:hover {
+    background-color: #243342;
+}
+
+.dark-mode .modal-content {
+    background-color: #34495e;
+    color: #f5f5f5;
+}
+
+.dark-mode .form-group label {
+    color: #ddd;
+}
+
+.dark-mode .form-group input,
+.dark-mode .form-group textarea,
+.dark-mode .form-group select {
+    background-color: #333;
+    border-color: #555;
+    color: #f0f0f0;
+}
+
+.dark-mode .form-group input::placeholder,
+.dark-mode .form-group textarea::placeholder {
+    color: #888;
+}
+
+/* Ensure .danger-btn and .secondary-btn (from original file) are styled with .btn base if used with those classes */
+/* Assuming these are less common or being phased out for .btn-danger, .btn-secondary */
+.danger-btn, .secondary-btn { /* Generic catch for old classes if still in HTML */
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: 1px solid #e74c3c;
+}
+.danger-btn:hover:not(:disabled) {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+.danger-btn:disabled, .danger-btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.secondary-btn {
+    background-color: #95a5a6;
+    color: white;
+    border: 1px solid #95a5a6;
+}
+.secondary-btn:hover:not(:disabled) {
+    background-color: #7f8c8d;
+    border-color: #7f8c8d;
+}
+.secondary-btn:disabled, .secondary-btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* 响应式设计 */
+@media (max-width: 900px) {
+    .community-main {
+        flex-direction: column;
+    }
+    
+    .community-sidebar {
+        flex: none;
+        width: 100%;
+    }
+    
+    .community-stats {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .community-welcome {
+        padding: 20px 15px;
+    }
+    
+    .community-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .stat-item {
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 5px;
+    }
+    
+    .topic-categories {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    
+    .category-btn {
+        white-space: nowrap;
+    }
+    
+    .topic-item {
+        padding: 15px;
+    }
+    
+    .topic-title {
+        font-size: 16px;
+    }
+}
+
+/* 危险操作按钮样式 */
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
+
+.secondary-btn {
+    background-color: #95a5a6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.secondary-btn:hover {
+    background-color: #7f8c8d;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 复选框组样式 */
+.checkbox-group {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* 隐藏元素 */
+.hidden {
+    display: none !important;
+}
+
+/* Make modal buttons full width on small screens */
+@media (max-width: 480px) {
+    .form-actions {
+        flex-direction: column-reverse; /* Stack main actions on top of delete */
+        align-items: stretch; /* Make buttons full width */
+    }
+
+    .form-actions .action-group-main {
+        flex-direction: column-reverse; /* Stack Save on top of Cancel */
+        width: 100%;
+        gap: 10px; /* Adjust gap for vertical stacking */
+    }
+    .form-actions .btn { /* Apply to all buttons within form-actions */
+        width: 100%; /* Make buttons full width */
+        margin-left: 0; /* Reset any specific margins if present */
+        margin-right: 0;
+    }
+
+    .delete-account-btn { /* Ensure it's also full width and has some top margin */
+        width: 100%;
+        margin-top: 10px; /* Add margin when stacked */
+    }
+
+    .modal-content {
+        padding: 15px; /* Further reduce padding on very small screens */
+    }
+
+    .avatar-options {
+        justify-content: center; /* Center avatar options on small screens */
+    }
 } 

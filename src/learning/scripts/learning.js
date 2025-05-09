@@ -19,9 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化变换测验功能
     initTransformationsQuiz();
-    
-    // 初始化返回顶部功能
-    initBackToTop();
 });
 
 // 模块导航功能
@@ -29,7 +26,6 @@ function initModuleNavigation() {
     // 获取所有模块按钮和内容
     const moduleButtons = document.querySelectorAll('.module-btn');
     const moduleContents = document.querySelectorAll('.module-content');
-    const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
     
     // 显示默认模块（如果URL中有锚点）
     const hash = window.location.hash;
@@ -43,9 +39,6 @@ function initModuleNavigation() {
             
             // 显示目标模块
             targetModule.style.display = 'block';
-            
-            // 更新侧边栏活动链接
-            updateActiveSidebarLink(hash);
         }
     }
     
@@ -71,75 +64,9 @@ function initModuleNavigation() {
                 
                 // 更新URL锚点（不触发页面跳转）
                 history.pushState(null, null, targetId);
-                
-                // 更新侧边栏活动链接
-                updateActiveSidebarLink(targetId);
             }
         });
     });
-    
-    // 为侧边栏链接添加点击事件
-    sidebarLinks.forEach(link => {
-        if (link.classList.contains('back-to-top')) {
-            return; // 跳过返回顶部链接，它有单独的处理
-        }
-        
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetModule = document.querySelector(targetId);
-            
-            if (targetModule) {
-                // 隐藏所有模块
-                moduleContents.forEach(content => {
-                    content.style.display = 'none';
-                });
-                
-                // 显示目标模块
-                targetModule.style.display = 'block';
-                
-                // 滚动到模块
-                targetModule.scrollIntoView({ behavior: 'smooth' });
-                
-                // 更新URL锚点
-                history.pushState(null, null, targetId);
-                
-                // 更新侧边栏活动链接
-                updateActiveSidebarLink(targetId);
-            }
-        });
-    });
-}
-
-// 更新侧边栏活动链接
-function updateActiveSidebarLink(targetId) {
-    const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-    
-    sidebarLinks.forEach(link => {
-        const linkTarget = link.getAttribute('href');
-        
-        if (linkTarget === targetId) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
-}
-
-// 初始化返回顶部功能
-function initBackToTop() {
-    const backToTopButton = document.querySelector('.back-to-top');
-    
-    if (backToTopButton) {
-        backToTopButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
 }
 
 // 初始化交互式图表
@@ -252,7 +179,7 @@ function initInteractiveGraph() {
         axis.textContent = `x = ${vertexX.toFixed(1)}`;
         
         // 更新开口方向
-        direction.textContent = a > 0 ? '向上' : '向下';
+        direction.textContent = window.i18n.getCurrentLanguage() === 'zh' ? (a > 0 ? '向上' : '向下') : (a > 0 ? 'Upward' : 'Downward');
     }
     
     // 绘制函数图像
@@ -597,7 +524,7 @@ function initCoefficientEffectsGraph() {
         axis.textContent = `x = ${vertexX.toFixed(1)}`;
         
         // 更新开口方向
-        direction.textContent = a > 0 ? '向上' : '向下';
+        direction.textContent = window.i18n.getCurrentLanguage() === 'zh' ? (a > 0 ? '向上' : '向下') : (a > 0 ? 'Upward' : 'Downward');
         
         // 更新y轴截距
         yIntercept.textContent = `(0, ${c.toFixed(1)})`;
@@ -927,7 +854,7 @@ function initTransformationsGraph() {
         vertex.textContent = `(${h.toFixed(1)}, ${k.toFixed(1)})`;
         
         // Update direction
-        direction.textContent = a > 0 ? 'Upward' : 'Downward';
+        direction.textContent = window.i18n.getCurrentLanguage() === 'zh' ? (a > 0 ? '向上' : '向下') : (a > 0 ? 'Upward' : 'Downward');
         
         // Update transformation list
         updateTransformationList(a, h, k);

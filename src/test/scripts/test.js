@@ -437,13 +437,15 @@ function resetTest() {
     document.querySelector('.test-intro').style.display = 'block';
     
     console.log('测试已重置');
+    // 使用 getTranslation 获取本地化提示信息
     showNotification(getTranslation('test.notification.reset') || '测试已重置');
 }
 
 // 添加确认重启测试的函数
 function confirmRestartTest() {
-    // 显示确认对话框，确保用户真的想要重新开始测试
-    if (confirm(getTranslation('test.reset.confirm') || '确定要重新开始测试吗？当前进度将丢失。')) {
+    // 使用 getTranslation 获取本地化确认信息
+    const confirmationMessage = getTranslation('test.reset.confirm') || '确定要重新开始测试吗？当前进度将丢失。';
+    if (confirm(confirmationMessage)) {
         resetTest();
     }
 }
@@ -684,7 +686,7 @@ const testQuestions = {
             explanation: '设方程的两根为 r 和 s，则 r + s = -p，rs = q。根据题意，r³ + s³ = r² + s²。利用代数恒等式：r³ + s³ = (r + s)³ - 3rs(r + s) = (r + s)[(r + s)² - 3rs]，以及 r² + s² = (r + s)² - 2rs，代入得 (r + s)[(r + s)² - 3rs] = (r + s)² - 2rs。由于 r ≠ s，所以 r + s ≠ 0，因此 (r + s)² - 3rs = (r + s)² - 2rs - (r + s)(rs)。简化得 -3rs = -2rs - (r + s)(rs)，进一步简化得 1 = r + s。代回 r + s = -p，得 -p = 1，即 p = -1。再代入 r³ + s³ = r² + s²，可得 q = 1/3。因此 p² = 1 = 3q 成立。',
             translations: {
                 en: {
-                    question: 'If the equation x² + px + q = 0 has two unequal real roots, and the sum of the cubes of these roots equals the sum of their squares, which of the following relations is correct?',
+                    question: 'If the equation x² + px + q = 0 has two unequal real roots, and the sum of the cubes of these roots equals the sum of their squares, which of the following relationships is correct?',
                     options: ['p² = 3q', 'p² = 4q', 'q = 3p', 'q = 0'],
                     explanation: 'Let the two roots be r and s, then r + s = -p, rs = q. According to the condition, r³ + s³ = r² + s². Using the algebraic identity: r³ + s³ = (r + s)³ - 3rs(r + s) = (r + s)[(r + s)² - 3rs], and r² + s² = (r + s)² - 2rs, we get (r + s)[(r + s)² - 3rs] = (r + s)² - 2rs. Since r ≠ s, r + s ≠ 0, therefore (r + s)² - 3rs = (r + s)² - 2rs - (r + s)(rs). Simplifying: -3rs = -2rs - (r + s)(rs), further simplifying: 1 = r + s. Substituting r + s = -p, we get -p = 1, so p = -1. Substituting back, we can find q = 1/3. Therefore, p² = 1 = 3q is correct.'
                 }
@@ -702,7 +704,7 @@ const testQuestions = {
                 { id: 'D', text: 'f(x) = x² - 2x + 3' }
             ],
             answer: 'A',
-            explanation: '由对称轴 x = 1，得 -b/2a = 1，即 b = -2a。点 (-1, 4) 和 (2, 4) 在抛物线上，代入函数得：4 = a(-1)² + b(-1) + c = a - b + c，4 = a(2)² + b(2) + c = 4a + 2b + c。由 b = -2a，代入第一个方程：4 = a - (-2a) + c = 3a + c，即 c = 4 - 3a。代入第二个方程：4 = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4。再代回 c = 4 - 3a，得 4 = 4 - 3a，解得 a = 0，但题目说明 a ≠ 0，所以这里出现矛盾。检查一下，我们可能有计算错误。重新计算：代入点 (-1, 4)：4 = a - b + c；代入点 (2, 4)：4 = 4a + 2b + c；代入 b = -2a：4 = a + 2a + c = 3a + c，4 = 9a + 3(-2a) + c = 9a - 6a + c = 3a + c。所以 3a + c = 4，解得 a = 0，这与题目 a ≠ 0 矛盾。如果我们换个思路，因为抛物线上两点函数值相等且对称轴为 x = 1，则这两点分别位于对称轴两侧且与对称轴等距，即这两点是 (1-k, 4) 和 (1+k, 4)。由题给点 (-1, 4)，则 1-k = -1，k = 2，所以另一点是 (1+2, 4) = (3, 4)。所以题目中的 (2, 4) 应该是 (3, 4)。或者，对称轴不是 x = 1 而是 x = 0.5，此时 -1 和 2 关于 x = 0.5 对称。在这种情况下，b = -2a * 0.5 = -a。代入两点：4 = a - (-a) + c = 2a + c，4 = 4a + 2(-a) + c = 4a - 2a + c = 2a + c。所以 2a + c = 4, c = 4 - 2a。由对称轴 x = 0.5 和 a ≠ 0，函数值在对称轴处取极值。代入 x = 0.5：f(0.5) = a(0.5)² + b(0.5) + c = 0.25a - 0.5a + c = c - 0.25a = 4 - 2a - 0.25a = 4 - 2.25a。根据题目信息，我们可以假设图像是开口向下的抛物线（这样两点处函数值相等且小于顶点函数值），则 a < 0。取 a = -1，则 c = 4 - 2(-1) = 4 + 2 = 6，b = -a = -(-1) = 1。所以函数为 f(x) = -x² + x + 6。但这与选项不符。如果对称轴确实是 x = 1，则 b = -2a。两点 (-1, 4) 和 (2, 4) 的 x 坐标关于 x = 1/2 对称，而不是关于 x = 1 对称。但如果抛物线的对称轴是 x = 1，则 (-1, 4) 和 (3, 4) 关于对称轴对称，或者 (0, 4) 和 (2, 4) 关于对称轴对称。所以题目可能出现了错误。如果我们假设对称轴确实是 x = 1，则 b = -2a。如果点 (-1, 4) 在抛物线上，那么关于 x = 1 对称的另一点是 (3, 4) 也应在抛物线上。代入这两点：4 = a(-1)² + b(-1) + c = a + a + c = a + c，4 = a(3)² + b(3) + c = 9a - 6a + c = 3a + c。解得 a + c = 4，3a + c = 4，进一步解得 2a = 0，a = 0，矛盾。如果对称轴是 x = 1，且 a ≠ 0，则 (-1, 4) 和 (3, 4) 不可能都在抛物线上取相同的函数值。所以，题目中的条件是不相容的，或者题目有误。如果假设 a = -1（开口向下），b = 2，且点 (-1, 4) 在抛物线上，则 4 = (-1)(-1)² + 2(-1) + c = -1 - 2 + c，即 c = 7。此时函数为 f(x) = -x² + 2x + 7，代入 (2, 4) 验证：f(2) = -(2)² + 2(2) + 7 = -4 + 4 + 7 = 7，不等于 4。如果取 a = -1，b = 2，c = 3，则函数为 f(x) = -x² + 2x + 3。代入验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0，不等于 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3，不等于 4。取 a = -1，b = 2，c = 5，则函数为 f(x) = -x² + 2x + 5。代入验证：f(-1) = -(-1)² + 2(-1) + 5 = -1 - 2 + 5 = 2，不等于 4；f(2) = -(2)² + 2(2) + 5 = -4 + 4 + 5 = 5，不等于 4。再次检查选项：根据选项 A：f(x) = -x² + 2x + 3。验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0 ≠ 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3 ≠ 4。所以选项 A 也不对。可能题目条件有误或者答案有误。',
+            explanation: '由对称轴 x = 1，得 -b/2a = 1，即 b = -2a。点 (-1, 4) 和 (2, 4) 在抛物线上，代入函数得：4 = a(-1)² + b(-1) + c = a - b + c，4 = a(2)² + b(2) + c = 4a + 2b + c。由 b = -2a，代入第一个方程：4 = a - (-2a) + c = 3a + c，即 c = 4 - 3a。代入第二个方程：4 = 4a + 2(-2a) + c = 4a - 4a + c = c。所以 c = 4。再代回 c = 4 - 3a，得 4 = 4 - 3a，解得 a = 0，但题目说明 a ≠ 0，所以这里出现矛盾。检查一下，我们可能有计算错误。重新计算：代入点 (-1, 4)：4 = a - b + c；代入点 (2, 4)：4 = 4a + 2b + c；代入 b = -2a：4 = a + 2a + c = 3a + c，4 = 9a + 3(-2a) + c = 9a - 6a + c = 3a + c。所以 3a + c = 4，解得 a = 0，这与题目 a ≠ 0 矛盾。如果我们换个思路，因为抛物线上两点函数值相等且对称轴为 x = 1，则这两点分别位于对称轴两侧且与对称轴等距，即这两点是 (1-k, 4) 和 (1+k, 4)。由题给点 (-1, 4)，则 1-k = -1，k = 2，所以另一点是 (1+2, 4) = (3, 4)。所以题目中的 (2, 4) 应该是 (3, 4)。或者，对称轴不是 x = 1 而是 x = 0.5，此时 -1 和 2 关于 x = 0.5 对称。在这种情况下，b = -2a * 0.5 = -a。代入两点：4 = a - (-a) + c = 2a + c，4 = 4a + 2(-a) + c = 4a - 4a + c = 2a + c。所以 2a + c = 4, c = 4 - 2a。由对称轴 x = 0.5 和 a ≠ 0，函数值在对称轴处取极值。代入 x = 0.5：f(0.5) = a(0.5)² + b(0.5) + c = 0.25a - 0.5a + c = c - 0.25a = 4 - 2a - 0.25a = 4 - 2.25a。根据题目信息，我们可以假设图像是开口向下的抛物线（这样两点处函数值相等且小于顶点函数值），则 a < 0。取 a = -1，则 c = 4 - 2(-1) = 4 + 2 = 6，b = -a = -(-1) = 1。所以函数为 f(x) = -x² + x + 6。但这与选项不符。如果对称轴确实是 x = 1，则 b = -2a。两点 (-1, 4) 和 (2, 4) 的 x 坐标关于 x = 1/2 对称，而不是关于 x = 1 对称。但如果抛物线的对称轴是 x = 1，则 (-1, 4) 和 (3, 4) 关于对称轴对称，或者 (0, 4) 和 (2, 4) 关于对称轴对称。所以题目可能出现了错误。如果我们假设对称轴确实是 x = 1，则 b = -2a。如果点 (-1, 4) 在抛物线上，那么关于 x = 1 对称的另一点是 (3, 4) 也应在抛物线上。代入这两点：4 = a(-1)² + b(-1) + c = a + a + c = a + c，4 = a(3)² + b(3) + c = 9a - 6a + c = 3a + c。解得 a + c = 4，3a + c = 4，进一步解得 2a = 0，a = 0，矛盾。如果对称轴是 x = 1，且 a ≠ 0，则 (-1, 4) 和 (3, 4) 不可能都在抛物线上取相同的函数值。所以，题目中的条件是不相容的，或者题目有误。如果假设 a = -1（开口向下），b = 2，且点 (-1, 4) 在抛物线上，则 4 = (-1)(-1)² + 2(-1) + c = -1 - 2 + c = 7。此时函数为 f(x) = -x² + 2x + 7，代入 (2, 4) 验证：f(2) = -(2)² + 2(2) + 7 = -4 + 4 + 7 = 7，不等于 4。如果取 a = -1，b = 2，c = 3，则函数为 f(x) = -x² + 2x + 3。代入验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0，不等于 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3，不等于 4。取 a = -1，b = 2，c = 5，则函数为 f(x) = -x² + 2x + 5。代入验证：f(-1) = -(-1)² + 2(-1) + 5 = -1 - 2 + 5 = 2，不等于 4；f(2) = -(2)² + 2(2) + 5 = -4 + 4 + 5 = 5，不等于 4。再次检查选项：根据选项 A：f(x) = -x² + 2x + 3。验证：f(-1) = -(-1)² + 2(-1) + 3 = -1 - 2 + 3 = 0 ≠ 4；f(2) = -(2)² + 2(2) + 3 = -4 + 4 + 3 = 3 ≠ 4。所以选项 A 也不对。可能题目条件有误或者答案有误。',
             translations: {
                 en: {
                     question: 'Given that the graph of the function f(x) = ax² + bx + c (a ≠ 0) contains the points (-1, 4) and (2, 4), and the axis of symmetry of the parabola is x = 1, what is the analytical expression of the function?',

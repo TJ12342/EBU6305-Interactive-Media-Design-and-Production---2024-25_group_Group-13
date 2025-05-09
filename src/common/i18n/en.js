@@ -24,11 +24,51 @@ window.i18n.en = {
         copyright: "© 2025 Quadratic Equations & Parabolas Interactive Learning. All rights reserved.",
         privacy: "Privacy Policy",
         terms: "Terms of Service",
+        pleaseSelect: "Please select",
+        saveChanges: "Save Changes",
+        cancel: "Cancel",
         cookies: {
             title: "Cookie Notice",
             message: "We use cookies to enhance your experience on our website. By continuing to use this site, you consent to our use of cookies in accordance with our Privacy Policy.",
             acceptAll: "Accept All",
             customize: "Customize"
+        },
+        profile: {
+            avatarAlt: "User Avatar",
+            guestPlaceholder: "Guest", 
+            edit: "Edit Profile",
+            aboutMe: "About Me",
+            interests: "Interests",
+            editTitle: "Edit Profile",
+            usernameLabel: "Username",
+            profilePictureLabel: "Profile Picture",
+            aboutMeLabel: "About Me",
+            genderLabel: "Gender",
+            pronounsLabel: "Pronouns",
+            interestsLabel: "Interests",
+            privacyOptionsLabel: "Privacy Options",
+            showGender: "Show gender on profile",
+            showPronouns: "Show pronouns on profile",
+            aboutMePlaceholder: "Tell the community about yourself...",
+            interestsPlaceholder: "e.g., Algebra, Geometry, Physics...",
+            uploadAvatarButton: "Upload New",
+            deleteAccountButton: "Delete Account",
+            genderMale: "Male",
+            genderFemale: "Female",
+            genderNonBinary: "Non-Binary",
+            genderOther: "Other",
+            genderPreferNotToSay: "Prefer not to say",
+            pronounsHeHim: "He/Him",
+            pronounsSheHer: "She/Her",
+            pronounsTheyThem: "They/Them",
+            pronounsOther: "Other",
+            pronounsPreferNotToSay: "Prefer not to say"
+        },
+        achievements: {
+            title: "Achievements",
+            learning: "Learning Progress:",
+            game: "Game Score:",
+            badges: "Badges:"
         }
     },
     
@@ -135,7 +175,8 @@ window.i18n.en = {
             coefficients: "Coefficient Effects",
             transformations: "Graph Transformations",
             applications: "Practical Applications",
-            resources: "Additional Resources"
+            resources: "Additional Resources",
+            backToTop: "Back to Top"
         },
         // Detailed module content
         content: {
@@ -363,7 +404,7 @@ window.i18n.en = {
                     projectile: {
                         title: "Projectile Motion",
                         description: "When an object is thrown or launched, its vertical position follows a quadratic function of time:",
-                        formula: "h(t) = -½gt² + v₀t + h₀",
+                        formula: "h(t) = -½gt² + v₀·sin(θ)·t + h₀",
                         variables: "Where:",
                         variable1: "h(t) is the height at time t",
                         variable2: "g is the acceleration due to gravity (approximately 9.8 m/s²)",
@@ -789,7 +830,31 @@ window.i18n.en = {
             guestPlaceholder: "Guest", 
             edit: "Edit Profile",
             aboutMe: "About Me",
-            interests: "Interests"
+            interests: "Interests",
+            editTitle: "Edit Profile",
+            usernameLabel: "Username",
+            profilePictureLabel: "Profile Picture",
+            aboutMeLabel: "About Me",
+            genderLabel: "Gender",
+            pronounsLabel: "Pronouns",
+            interestsLabel: "Interests",
+            privacyOptionsLabel: "Privacy Options",
+            showGender: "Show gender on profile",
+            showPronouns: "Show pronouns on profile",
+            aboutMePlaceholder: "Tell the community about yourself...",
+            interestsPlaceholder: "e.g., Algebra, Geometry, Physics...",
+            uploadAvatarButton: "Upload New",
+            deleteAccountButton: "Delete Account",
+            genderMale: "Male",
+            genderFemale: "Female",
+            genderNonBinary: "Non-Binary",
+            genderOther: "Other",
+            genderPreferNotToSay: "Prefer not to say",
+            pronounsHeHim: "He/Him",
+            pronounsSheHer: "She/Her",
+            pronounsTheyThem: "They/Them",
+            pronounsOther: "Other",
+            pronounsPreferNotToSay: "Prefer not to say"
         },
         achievements: {
             title: "Achievements",
@@ -823,7 +888,7 @@ window.i18n.en = {
         rules: {
             title: "Community Rules",
             viewAll: "View Complete Rules", 
-            rule1: "Respect all community members", 
+            rule1: "Respect all community members",
             rule2: "No spam or advertising content",
             rule3: "Search for similar questions before posting",
             rule4: "Provide detailed explanations when sharing solutions"

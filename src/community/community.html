@@ -78,12 +78,12 @@
                 <!-- 用户信息卡片 -->
                 <div class="user-card">
                     <div class="user-avatar">
-                        <img src="../assets/images/community/avatar-default.jpg" alt="User Avatar" id="user-avatar" data-i18n-alt="community.profile.avatarAlt">
+                        <img src="../assets/images/community/avatar-default.jpg" alt="User Avatar" id="user-avatar" data-i18n="[alt]community.profile.avatarAlt">
                     </div>
                     <div class="user-info">
-                        <h3 class="user-name" id="user-name" data-i18n-placeholder="community.profile.guestPlaceholder">Guest</h3>
+                        <h3 class="user-name" id="user-name" data-i18n="[placeholder]community.profile.guestPlaceholder">Guest</h3>
                         <p class="user-status" id="login-status"><span data-i18n="community.posting.loginPrompt">Please</span> <a href="#" id="login-link" onclick="document.getElementById('login-modal').classList.remove('hidden'); return false;" data-i18n="community.posting.login">login</a> <span data-i18n="community.posting.participatePrompt">to participate in discussions</span></p>
-                        <button id="edit-profile-btn" class="edit-profile-btn hidden" data-i18n="community.profile.edit">Edit Profile</button>
+                        <button id="edit-profile-btn" class="edit-profile-btn hidden btn btn-secondary" data-i18n="community.profile.edit">Edit Profile</button>
                     </div>
                     
                     <!-- User Achievements Section -->
@@ -113,17 +113,17 @@
                     <!-- User Bio Section -->
                     <div class="user-bio" id="user-bio">
                         <div class="bio-header">
-                            <h4 data-i18n="community.profile.aboutMe">About Me</h4>
+                            <h4 data-i18n="community.profile.aboutMeLabel">About Me</h4>
                         </div>
-                        <p class="bio-content" id="bio-content">-</p>
+                        <p class="bio-content" id="bio-content" data-i18n="[placeholder]community.profile.bioPlaceholder">-</p>
                         
                         <div class="bio-header">
-                            <h4 data-i18n="community.profile.interests">Interests</h4>
+                            <h4 data-i18n="community.profile.interestsLabel">Interests</h4>
                         </div>
-                        <p class="bio-interests" id="bio-interests">-</p>
+                        <p class="bio-interests" id="bio-interests" data-i18n="[placeholder]community.profile.interestsPlaceholder">-</p>
                     </div>
                     
-                    <button id="new-post-btn" disabled data-i18n="community.posting.newPostButton" onclick="if(currentUser) { document.getElementById('new-topic-modal').classList.remove('hidden'); } else { document.getElementById('login-modal').classList.remove('hidden'); }">Create New Topic</button>
+                    <button id="new-post-btn" class="btn btn-primary" disabled data-i18n="community.posting.newPostButton" onclick="if(currentUser) { document.getElementById('new-topic-modal').classList.remove('hidden'); } else { document.getElementById('login-modal').classList.remove('hidden'); }">Create New Topic</button>
                 </div>
 
                 <!-- 热门话题 -->
@@ -504,92 +504,88 @@
     <!-- 个人资料编辑模态框 -->
     <div id="profile-edit-modal" class="modal hidden">
         <div class="modal-content">
-            <span class="close-modal" onclick="document.getElementById('profile-edit-modal').classList.add('hidden');">&times;</span>
+            <span class="close-modal" onclick="document.getElementById('profile-edit-modal').classList.add('hidden');" data-i18n="[title]common.close" title="Close">&times;</span>
             <h2 data-i18n="community.profile.editTitle">Edit Profile</h2>
             <form id="profile-edit-form">
                 <div class="form-group">
-                    <label for="edit-username" data-i18n="community.profile.username">Username</label>
+                    <label for="edit-username" data-i18n="community.profile.usernameLabel">Username</label>
                     <input type="text" id="edit-username" required>
                 </div>
                 
-                <div class="form-group">
-                    <label for="edit-avatar" data-i18n="community.profile.avatar">Profile Picture</label>
-                    <div class="avatar-selection">
-                        <div class="current-avatar">
-                            <img src="../assets/images/community/avatar-default.jpg" id="current-avatar-preview">
-                        </div>
-                        <div class="avatar-options">
-                            <div class="avatar-option selected" data-avatar="../assets/images/community/avatar-default.jpg">
-                                <img src="../assets/images/community/avatar-default.jpg">
-                            </div>
-                            <div class="avatar-option" data-avatar="../assets/images/community/avatar-default.jpg">
-                                <img src="../assets/images/community/avatar-default.jpg">
-                            </div>
-                            <div class="avatar-option" data-avatar="../assets/images/community/avatar-default.jpg">
-                                <img src="../assets/images/community/avatar-default.jpg">
-                            </div>
-                            <div class="avatar-option" data-avatar="../assets/images/community/avatar-default.jpg">
-                                <img src="../assets/images/community/avatar-default.jpg">
-                            </div>
-                        </div>
-                        <input type="hidden" id="edit-avatar" value="../assets/images/community/avatar-default.jpg">
+                <div class="form-group profile-picture-group">
+                    <label data-i18n="community.profile.profilePictureLabel">Profile Picture</label>
+                    <div class="current-avatar-display">
+                         <img src="../assets/images/community/avatar-default.jpg" alt="Current Avatar" id="current-avatar-preview" data-i18n="[alt]community.profile.avatarAlt">
+                         <label for="avatar-upload-input-modal" class="btn btn-secondary btn-sm" data-i18n="community.profile.uploadAvatarButton">Upload New</label>
+                         <input type="file" id="avatar-upload-input-modal" accept="image/*" style="display:none;">
                     </div>
+                    <div class="avatar-options" id="modal-avatar-options">
+                        <!-- Avatar options will be populated by JS -->
+                        <img src="../assets/images/community/avatar1.jpg" class="avatar-option" data-avatar="../assets/images/community/avatar1.jpg" alt="Avatar 1" data-i18n="[alt]community.profile.avatarAlt">
+                        <img src="../assets/images/community/avatar2.jpg" class="avatar-option" data-avatar="../assets/images/community/avatar2.jpg" alt="Avatar 2" data-i18n="[alt]community.profile.avatarAlt">
+                        <img src="../assets/images/community/avatar3.jpg" class="avatar-option" data-avatar="../assets/images/community/avatar3.jpg" alt="Avatar 3" data-i18n="[alt]community.profile.avatarAlt">
+                        <img src="../assets/images/community/avatar4.jpg" class="avatar-option" data-avatar="../assets/images/community/avatar4.jpg" alt="Avatar 4" data-i18n="[alt]community.profile.avatarAlt">
+                        <img src="../assets/images/community/default.jpg" class="avatar-option selected" data-avatar="../assets/images/community/default.jpg" alt="Default Avatar" data-i18n="[alt]community.profile.avatarAlt">
+                    </div>
+                    <input type="hidden" id="edit-avatar-src" name="avatarSrc" value="../assets/images/community/default.jpg">
                 </div>
                 
                 <div class="form-group">
-                    <label for="edit-bio" data-i18n="community.profile.bio">About Me</label>
-                    <textarea id="edit-bio" rows="3" placeholder="Tell the community about yourself..."></textarea>
+                    <label for="edit-bio" data-i18n="community.profile.aboutMeLabel">About Me</label>
+                    <textarea id="edit-bio" rows="3" data-i18n="[placeholder]community.profile.aboutMePlaceholder" placeholder="Tell the community about yourself..."></textarea>
                 </div>
                 
-                <!-- 添加性别选项 -->
                 <div class="form-group">
-                    <label for="edit-gender" data-i18n="community.profile.gender">Gender</label>
-                    <select id="edit-gender">
-                        <option value="" data-i18n="community.profile.genderSelect">Please select</option>
+                    <label for="edit-gender" data-i18n="community.profile.genderLabel">Gender</label>
+                    <select id="edit-gender" name="gender">
+                        <option value="" data-i18n="common.pleaseSelect">Please select</option>
                         <option value="male" data-i18n="community.profile.genderMale">Male</option>
                         <option value="female" data-i18n="community.profile.genderFemale">Female</option>
-                        <option value="nonbinary" data-i18n="community.profile.genderNonBinary">Non-Binary</option>
-                        <option value="notsay" data-i18n="community.profile.genderNotSay">Prefer not to say</option>
+                        <option value="nonbinary" data-i18n="community.profile.genderNonBinary">Non-Binary</option> <!-- Added Non-binary -->
                         <option value="other" data-i18n="community.profile.genderOther">Other</option>
+                        <option value="notsay" data-i18n="community.profile.genderPreferNotToSay">Prefer not to say</option>
                     </select>
-                    <input type="text" id="edit-gender-other" class="hidden" placeholder="Please specify" data-i18n-placeholder="community.profile.genderSpecify">
+                    <input type="text" id="edit-gender-other" name="genderOther" class="hidden form-control mt-2" data-i18n="[placeholder]community.profile.genderSpecifyPlaceholder" placeholder="Please specify">
                 </div>
                 
-                <!-- 添加代词选项 -->
                 <div class="form-group">
-                    <label for="edit-pronouns" data-i18n="community.profile.pronouns">Pronouns</label>
-                    <select id="edit-pronouns">
-                        <option value="" data-i18n="community.profile.pronounsSelect">Please select</option>
-                        <option value="he/him" data-i18n="community.profile.pronounsHe">He/Him</option>
-                        <option value="she/her" data-i18n="community.profile.pronounsShe">She/Her</option>
-                        <option value="they/them" data-i18n="community.profile.pronounsThey">They/Them</option>
-                        <option value="notsay" data-i18n="community.profile.pronounsNotSay">Prefer not to say</option>
+                    <label for="edit-pronouns" data-i18n="community.profile.pronounsLabel">Pronouns</label>
+                    <select id="edit-pronouns" name="pronouns">
+                        <option value="" data-i18n="common.pleaseSelect">Please select</option>
+                        <option value="he/him" data-i18n="community.profile.pronounsHeHim">He/Him</option>
+                        <option value="she/her" data-i18n="community.profile.pronounsSheHer">She/Her</option>
+                        <option value="they/them" data-i18n="community.profile.pronounsTheyThem">They/Them</option>
                         <option value="other" data-i18n="community.profile.pronounsOther">Other</option>
+                        <option value="notsay" data-i18n="community.profile.pronounsPreferNotToSay">Prefer not to say</option>
                     </select>
-                    <input type="text" id="edit-pronouns-other" class="hidden" placeholder="Please specify" data-i18n-placeholder="community.profile.pronounsSpecify">
+                    <input type="text" id="edit-pronouns-other" name="pronounsOther" class="hidden form-control mt-2" data-i18n="[placeholder]community.profile.pronounsSpecifyPlaceholder" placeholder="Please specify">
                 </div>
                 
                 <div class="form-group">
-                    <label for="edit-interests" data-i18n="community.profile.interests">Interests</label>
-                    <input type="text" id="edit-interests" placeholder="e.g., Algebra, Geometry, Physics...">
+                    <label for="edit-interests" data-i18n="community.profile.interestsLabel">Interests</label>
+                    <input type="text" id="edit-interests" name="interests" data-i18n="[placeholder]community.profile.interestsPlaceholder" placeholder="e.g., Algebra, Geometry, Physics...">
                 </div>
                 
-                <!-- 添加个人隐私选项 -->
-                <div class="form-group">
-                    <label data-i18n="community.profile.privacyOptions">Privacy Options</label>
+                <div class="form-group privacy-options-group">
+                    <label data-i18n="community.profile.privacyOptionsLabel">Privacy Options</label>
                     <div class="checkbox-group">
-                        <input type="checkbox" id="edit-show-gender" checked>
+                        <input type="checkbox" id="edit-show-gender" name="showGender" checked>
                         <label for="edit-show-gender" data-i18n="community.profile.showGender">Show gender on profile</label>
                     </div>
                     <div class="checkbox-group">
-                        <input type="checkbox" id="edit-show-pronouns" checked>
+                        <input type="checkbox" id="edit-show-pronouns" name="showPronouns" checked>
                         <label for="edit-show-pronouns" data-i18n="community.profile.showPronouns">Show pronouns on profile</label>
                     </div>
                 </div>
                 
-                <div class="form-buttons">
-                    <button type="button" class="btn btn-cancel" onclick="document.getElementById('profile-edit-modal').classList.add('hidden');" data-i18n="community.profile.cancel">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-i18n="community.profile.save">Save Changes</button>
+                <div class="form-actions">
+                    <div> <!-- Wrapper for delete button -->
+                        <button type="button" class="btn btn-danger delete-account-btn" id="show-delete-account-confirm-modal-btn" data-i18n="community.profile.deleteAccountButton">Delete Account</button>
+                    </div>
+                    <div class="action-group-main"> <!-- Group for Cancel and Save -->
+                        <button type="button" class="btn btn-secondary modal-close-btn" onclick="document.getElementById('profile-edit-modal').classList.add('hidden');" data-i18n="common.cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary save-profile-btn" data-i18n="common.saveChanges">Save Changes</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -623,6 +619,18 @@
         let communityPosts = [];
         let currentDeleteTarget = null; // 保存当前要删除的目标对象
         let deleteType = ''; // 保存删除类型（'post' 或 'comment'）
+
+        const availableAvatars = [
+            "../assets/images/community/default.jpg",
+            "../assets/images/community/avatar1.jpg",
+            "../assets/images/community/avatar2.jpg",
+            "../assets/images/community/avatar3.jpg",
+            "../assets/images/community/avatar4.jpg"
+        ];
+
+        function getRandomAvatar() {
+            return availableAvatars[Math.floor(Math.random() * availableAvatars.length)];
+        }
 
         // Mock learning and game data for demo purposes
         const mockUserAchievements = {
@@ -901,6 +909,20 @@
             if (savedUser) {
                 try {
                     currentUser = JSON.parse(savedUser);
+                    // Ensure user has an avatar, assign random if not or if it's a placeholder
+                    if (!currentUser.avatar || currentUser.avatar === '../assets/images/community/avatar-default.jpg' || !availableAvatars.includes(currentUser.avatar)) {
+                        // If only default is available or avatar is invalid, try to pick one that is not default if possible
+                        if (availableAvatars.length > 1 && currentUser.avatar === '../assets/images/community/default.jpg') {
+                            let newAvatar = getRandomAvatar();
+                            while (newAvatar === '../assets/images/community/default.jpg') {
+                                newAvatar = getRandomAvatar();
+                            }
+                            currentUser.avatar = newAvatar;
+                        } else if (!availableAvatars.includes(currentUser.avatar)) {
+                             currentUser.avatar = getRandomAvatar(); // Assign a random one if current is invalid
+                        }
+                        // If no specific avatar and default is fine, it will be used from existing logic or profile load
+                    }
                     console.log("User loaded:", currentUser);
                     updateUserUI(currentUser);
                 } catch (e) {
@@ -961,6 +983,7 @@
         function updateUserUI(user) {
             console.log("Updating UI for user:", user ? user.username : "Guest");
             
+            const userAvatarElement = document.getElementById('user-avatar'); // Sidebar avatar
             const userNameElement = document.getElementById('user-name');
             const loginStatusElement = document.getElementById('login-status');
             const userAchievementsElement = document.getElementById('user-achievements');
@@ -975,7 +998,8 @@
             if (user) {
                 // 用户已登录
                 userNameElement.textContent = user.username;
-                loginStatusElement.innerHTML = `<span>${user.username}</span> · <a href="#" id="logout-link">Logout</a>`;
+                if (userAvatarElement) userAvatarElement.src = user.avatar || getRandomAvatar(); // Use user's avatar or random
+                loginStatusElement.innerHTML = `<span>${user.username}</span> · <a href="#" id="logout-link" data-i18n="community.profile.logout">Logout</a>`;
                 newPostBtn.disabled = false;
                 
                 // 显示编辑资料按钮
@@ -1026,8 +1050,12 @@
                 }
             } else {
                 // 用户未登录
-                userNameElement.textContent = 'Guest';
-                
+                // userNameElement.textContent = 'Guest'; // This will be handled by i18n placeholder
+                const guestPlaceholderText = document.querySelector('[data-i18n="community.profile.guestPlaceholder"]');
+                userNameElement.textContent = guestPlaceholderText ? guestPlaceholderText.textContent : 'Guest';
+
+                if (userAvatarElement) userAvatarElement.src = "../assets/images/community/default.jpg"; // Ensure default for guest
+
                 // 隐藏编辑资料按钮
                 if (editProfileBtn) {
                     editProfileBtn.classList.add('hidden');
@@ -1154,6 +1182,13 @@
             // 设置帖子详情
             document.getElementById('detail-title').textContent = post.title;
             document.getElementById('detail-author').textContent = post.author;
+            // Set author avatar for post detail
+            const detailAvatarElement = document.getElementById('detail-avatar');
+            if (detailAvatarElement) {
+                 // Attempt to find author's specific avatar, otherwise random
+                const authorProfile = userProfiles[post.author]; // Assuming userProfiles might store avatar paths
+                detailAvatarElement.src = authorProfile?.avatar || getRandomAvatar();
+            }
             document.getElementById('detail-date').textContent = post.date;
             document.getElementById('detail-content').textContent = post.content;
             document.getElementById('detail-likes').textContent = post.likes;
@@ -1280,10 +1315,13 @@
             commentElement.dataset.commentId = comment.id;
             commentElement.dataset.postId = comment.postId;
             
+            // Assign random avatar to comment author for mock display
+            const commentAuthorAvatar = userProfiles[comment.author]?.avatar || getRandomAvatar();
+
             commentElement.innerHTML = `
                 <div class="comment-header">
                     <div class="comment-author">
-                        <img src="../assets/images/community/avatar-default.jpg" class="comment-avatar">
+                        <img src="${commentAuthorAvatar}" class="comment-avatar" alt="${comment.author}">
                         <span>${comment.author}</span>
                     </div>
                     <div class="comment-time">${comment.date}</div>
@@ -1359,6 +1397,7 @@
         function updateCommentForm() {
             const commentPlaceholder = document.getElementById('comment-placeholder');
             const commentFormContent = document.getElementById('comment-form-content');
+            const currentUserAvatarElement = document.getElementById('current-user-avatar');
             
             if (currentUser) {
                 commentPlaceholder.classList.add('hidden');
@@ -1366,7 +1405,7 @@
                 
                 // 更新用户信息
                 document.getElementById('current-user-name').textContent = currentUser.username;
-                document.getElementById('current-user-avatar').src = currentUser.avatar;
+                if (currentUserAvatarElement) currentUserAvatarElement.src = currentUser.avatar || getRandomAvatar();
             } else {
                 commentPlaceholder.classList.remove('hidden');
                 commentFormContent.classList.add('hidden');
@@ -1536,6 +1575,9 @@
                 const userElement = document.createElement('div');
                 userElement.className = 'leaderboard-entry';
                 
+                // Use actual avatar paths for leaderboard if available, else random
+                const userAvatarSrc = user.avatar && availableAvatars.includes(user.avatar) ? user.avatar : getRandomAvatar();
+
                 // Display badges if any
                 const badgesHTML = user.badges.length > 0 ? 
                     `<div class="leaderboard-badges">${user.badges.join('')}</div>` : '';
@@ -1543,7 +1585,7 @@
                 userElement.innerHTML = `
                     <div class="leaderboard-rank ${rankClass}">${index + 1}</div>
                     <div class="leaderboard-user">
-                        <img src="${user.avatar}" alt="${user.username}" class="leaderboard-avatar">
+                        <img src="${userAvatarSrc}" alt="${user.username}" class="leaderboard-avatar">
                         <span class="leaderboard-username">${user.username}</span>
                         ${badgesHTML}
                     </div>
@@ -1601,7 +1643,7 @@
             tableBody.innerHTML = '';
             
             // Sort data based on the selected tab
-            let sortedData = [...leaderboardData];
+            let sortedData = [...leaderboardData]; // leaderboardData should have avatar paths
             
             if (tabType === 'score') {
                 sortedData.sort((a, b) => b.totalScore - a.totalScore);
@@ -1617,6 +1659,8 @@
                 const rankClass = index < 3 ? 'top-rank rank-' + (index + 1) : '';
                 const row = document.createElement('tr');
                 
+                const userAvatarSrc = user.avatar && availableAvatars.includes(user.avatar) ? user.avatar : getRandomAvatar();
+                
                 // Get value to display based on tab
                 let valueToShow = user.totalScore;
                 if (tabType === 'progress') {
@@ -1631,7 +1675,7 @@
                     <td class="rank-cell ${rankClass}">${index + 1}</td>
                     <td>
                         <div class="user-cell">
-                            <img src="${user.avatar}" alt="${user.username}" class="user-avatar">
+                            <img src="${userAvatarSrc}" alt="${user.username}" class="user-avatar">
                             <span>${user.username}</span>
                         </div>
                     </td>
@@ -1860,7 +1904,7 @@
             
             // 确保用户已登录
             if (!currentUser) {
-                alert('请先登录后再编辑个人资料');
+                alert('请先登录后再编辑个人资料'); // Needs to be translatable
                 loginModal.classList.remove('hidden');
                 return;
             }
@@ -1870,11 +1914,21 @@
             const bioField = document.getElementById('edit-bio');
             const interestsField = document.getElementById('edit-interests');
             const avatarPreview = document.getElementById('current-avatar-preview');
+            const avatarSrcInput = document.getElementById('edit-avatar-src');
             
             usernameField.value = currentUser.username;
             bioField.value = currentUser.profile?.bio || '';
             interestsField.value = currentUser.profile?.interests || '';
+            
+            // Set current avatar for preview and hidden input
+            const currentAvatar = currentUser.avatar || getRandomAvatar();
+            if (!availableAvatars.includes(currentAvatar)) { // If saved avatar is somehow invalid
+                currentUser.avatar = getRandomAvatar(); // Assign a new random one
+            } else {
+                 currentUser.avatar = currentAvatar; // Ensure it's set if it was null
+            }
             avatarPreview.src = currentUser.avatar;
+            avatarSrcInput.value = currentUser.avatar;
             
             // 设置表单提交事件
             const profileForm = document.getElementById('profile-edit-form');
@@ -1884,17 +1938,36 @@
             };
             
             // 设置头像选择事件
-            const avatarOptions = document.querySelectorAll('.avatar-option');
-            avatarOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // 移除其他选项的选中状态
-                    avatarOptions.forEach(opt => opt.classList.remove('selected'));
-                    // 添加选中状态到当前选项
+            const avatarOptionsContainer = document.getElementById('modal-avatar-options');
+            // Clear existing options and repopulate to ensure paths are correct (optional, if HTML is source of truth)
+            // Or simply ensure click handlers are correctly bound
+            const avatarOptionElements = avatarOptionsContainer.querySelectorAll('.avatar-option');
+
+            avatarOptionElements.forEach(option => {
+                // Ensure correct src for display if they were placeholders or dynamically added
+                // option.src = option.dataset.avatar; // This line assumes img tags are direct children
+                
+                // Highlight the currently selected avatar
+                if (option.dataset.avatar === currentUser.avatar) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+
+                // Re-bind or ensure event listener is correct
+                const newOption = option.cloneNode(true);
+                option.parentNode.replaceChild(newOption, option);
+
+                newOption.addEventListener('click', function() {
+                    // First, remove 'selected' class from ALL avatar options
+                    const allAvatarOptions = avatarOptionsContainer.querySelectorAll('.avatar-option'); // Re-query to get live list
+                    allAvatarOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Then, add 'selected' class to the clicked one
                     this.classList.add('selected');
-                    // 更新头像预览
                     const avatarSrc = this.getAttribute('data-avatar');
                     avatarPreview.src = avatarSrc;
-                    document.getElementById('edit-avatar').value = avatarSrc;
+                    avatarSrcInput.value = avatarSrc;
                 });
             });
             
@@ -1907,10 +1980,10 @@
             const username = document.getElementById('edit-username').value.trim();
             const bio = document.getElementById('edit-bio').value.trim();
             const interests = document.getElementById('edit-interests').value.trim();
-            const avatar = document.getElementById('edit-avatar').value;
+            const avatar = document.getElementById('edit-avatar-src').value; // Use the hidden input
             
             if (!username) {
-                alert('用户名不能为空');
+                alert('用户名不能为空'); // Needs to be translatable
                 return;
             }
             

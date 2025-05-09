@@ -21,14 +21,21 @@ window.i18n.zh = {
         backToTop: "返回顶部",
         contact: "联系我们",
         email: "contact@quadraticlearning.com",
-        copyright: "© 2025 二次方程与抛物线互动学习。保留所有权利。",
+        copyright: "© 2025 二次方程与抛物线互动学习平台. 保留所有权利.",
         privacy: "隐私政策",
         terms: "服务条款",
+        pleaseSelect: "请选择",
+        saveChanges: "保存更改",
+        cancel: "取消",
+        close: "关闭",
+        points: "积分",
+        complete: "完成",
         cookies: {
             title: "Cookie 通知",
             message: "我们使用 cookie 来增强您在我们网站上的体验。继续使用本网站，即表示您同意我们根据隐私政策使用 cookie。",
             acceptAll: "接受全部",
-            customize: "自定义"
+            customize: "自定义",
+            online: "在线用户"
         }
     },
     
@@ -808,7 +815,7 @@ window.i18n.zh = {
         pageTitle: "学习社区 | 二次方程与抛物线", 
         welcome: {
             title: "欢迎来到我们的学习社区",
-            description: "在这里，你可以与其他学习者分享经验、提出问题，并讨论与二次方程相关的主题。"
+            description: "在这里，您可以与其他学习者分享经验、提出问题、讨论与二次方程相关的话题。"
         },
         stats: {
             members: "社区成员",
@@ -822,13 +829,40 @@ window.i18n.zh = {
             guestPlaceholder: "访客", 
             edit: "编辑资料",
             aboutMe: "关于我",
-            interests: "兴趣爱好"
+            interests: "兴趣爱好",
+            editTitle: "编辑资料",
+            usernameLabel: "用户名",
+            profilePictureLabel: "头像",
+            aboutMeLabel: "关于我",
+            genderLabel: "性别",
+            pronounsLabel: "称谓",
+            interestsLabel: "兴趣爱好",
+            privacyOptionsLabel: "隐私设置",
+            showGender: "在个人资料中显示性别",
+            showPronouns: "在个人资料中显示称谓",
+            aboutMePlaceholder: "向社区介绍一下你自己...",
+            interestsPlaceholder: "例如：代数、几何、物理...",
+            uploadAvatarButton: "上传新头像",
+            deleteAccountButton: "删除账户",
+            logout: "退出登录",
+            genderMale: "男性",
+            genderFemale: "女性",
+            genderOther: "其他",
+            genderPreferNotToSay: "不愿透露",
+            pronounsHeHim: "他/他的",
+            pronounsSheHer: "她/她的",
+            pronounsTheyThem: "他们/他们的",
+            pronounsOther: "其他",
+            pronounsPreferNotToSay: "不愿透露"
         },
         achievements: {
             title: "成就",
             learning: "学习进度：",
             game: "游戏得分：",
-            badges: "徽章："
+            badges: "徽章：",
+            badgeNewcomer: "新手",
+            badgeExplorer: "探索者",
+            badgeMaster: "大师"
         },
         posting: {
             loginPrompt: "请",
