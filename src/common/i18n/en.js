@@ -568,7 +568,10 @@ window.i18n.en = {
             description: "Use parabolic trajectories to aim at targets, testing your understanding of quadratic equations.",
             difficulty: "Difficulty: Easy",
             button: "Play Now",
-            instructions: "Adjust the parameters of the quadratic equation to create the correct parabolic trajectory to hit the target. You have 60 seconds to score as many points as possible."
+            instructions: "Adjust the parameters of the quadratic equation to create the correct parabolic trajectory to hit the target. You have 60 seconds to score as many points as possible.",
+            instructionsTitle: "Instructions",
+            shootButton: "SHOOT!",
+            currentEquationLabel: "Current Equation:"
         },
         
         equationMatching: {

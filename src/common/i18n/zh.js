@@ -569,7 +569,10 @@ window.i18n.zh = {
             description: "使用抛物线轨迹瞄准目标，测试你对二次方程的理解。",
             difficulty: "简单",
             button: "开始游戏",
-            instructions: "调整二次方程的参数，创建正确的抛物线轨迹击中目标。你有60秒的时间尽可能获得更多分数。"
+            instructions: "调整二次方程的参数，创建正确的抛物线轨迹击中目标。你有60秒的时间尽可能获得更多分数。",
+            instructionsTitle: "操作说明",
+            shootButton: "发射！",
+            currentEquationLabel: "当前方程："
         },
         
         equationMatching: {

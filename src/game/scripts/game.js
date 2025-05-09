@@ -763,10 +763,10 @@ function initParabolaShooterGame() {
         ctx.fill();
         
         // 添加顶点的小标签
-        ctx.font = '12px Arial';
-        ctx.fillStyle = '#333';
-        ctx.textAlign = 'left';
-        ctx.fillText('Vertex', vertexPixelX + 8, vertexPixelY);
+        // ctx.font = '12px Arial';
+        // ctx.fillStyle = '#333';
+        // ctx.textAlign = 'left';
+        // ctx.fillText('Vertex', vertexPixelX + 8, vertexPixelY);
         
         // 计算并绘制零点（如果存在）
         const delta = b * b - 4 * a * c;
@@ -1963,6 +1963,20 @@ function updateGameUI() {
             if (diff) diff.textContent = getTranslation(`game.${game.key}.difficulty`) || diff.textContent;
         }
     });
+
+    // 更新当前激活游戏的标题
+    const currentGameTitleElement = document.getElementById('current-game-title');
+    const gameArea = document.getElementById('game-area'); // 需要获取gameArea元素
+    if (currentGameTitleElement && gameArea && gameArea.style.display === 'block') { 
+        const currentGameId = getCurrentGameId(); 
+        if (currentGameId) {
+            // 将 gameId 中的 '-' 替换为驼峰式命名以匹配i18n key结构
+            // 例如 'parabola-shooter' -> 'parabolaShooter'
+            const gameKey = currentGameId.replace(/-([a-z])/g, g => g[1].toUpperCase());
+            const titleKey = `game.${gameKey}.title`; 
+            currentGameTitleElement.textContent = getTranslation(titleKey) || currentGameTitleElement.textContent;
+        }
+    }
     
     // 更新游戏控制区域
     const controlElems = {
