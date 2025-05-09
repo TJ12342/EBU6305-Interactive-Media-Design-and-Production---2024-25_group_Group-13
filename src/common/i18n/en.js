@@ -624,6 +624,11 @@ window.i18n.en = {
             vertexCoordinates: {
                 x: "Vertex X-coordinate:",
                 y: "Vertex Y-coordinate:"
+            },
+            feedback: {
+                correct: "Correct!",
+                incorrect: "Incorrect, please try again.",
+                almostCorrect: "Almost correct, try again."
             }
         }
     },

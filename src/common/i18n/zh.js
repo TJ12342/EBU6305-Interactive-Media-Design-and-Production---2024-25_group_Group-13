@@ -608,12 +608,17 @@ window.i18n.zh = {
         
         // 游戏界面元素
         interface: {
-            graphs: "图形",
-            equations: "方程",
+            graphs: "图表",
+            equations: "方程式",
             currentFunction: "当前函数：",
             vertexCoordinates: {
-                x: "顶点x坐标：",
-                y: "顶点y坐标："
+                x: "顶点X坐标：",
+                y: "顶点Y坐标："
+            },
+            feedback: { // 添加反馈信息
+                correct: "正确！",
+                incorrect: "不正确，请再试一次。",
+                almostCorrect: "接近正确，再试一次。"
             }
         },
         

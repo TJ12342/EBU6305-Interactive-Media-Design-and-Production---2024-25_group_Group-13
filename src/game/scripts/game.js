@@ -2,6 +2,43 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('游戏页面已加载');
     
+    let feedbackIconContainer, correctIcon, incorrectIcon;
+    let feedbackTimeout = null; // 用于存储反馈图标的超时ID
+    
+    // 获取反馈图标元素
+    feedbackIconContainer = document.getElementById('feedback-icon-container');
+    correctIcon = document.getElementById('correct-icon');
+    incorrectIcon = document.getElementById('incorrect-icon');
+    
+    // 显示反馈图标的辅助函数
+    window.showGameFeedbackIcon = function(type, duration = 800) {
+        if (!feedbackIconContainer || !correctIcon || !incorrectIcon) {
+            console.warn('Feedback icons not found in DOM');
+            return;
+        }
+    
+        // 清除上一个超时（如果有）
+        if (feedbackTimeout) {
+            clearTimeout(feedbackTimeout);
+        }
+    
+        feedbackIconContainer.style.display = 'block';
+        if (type === 'correct') {
+            correctIcon.style.display = 'inline';
+            incorrectIcon.style.display = 'none';
+        } else if (type === 'incorrect') {
+            correctIcon.style.display = 'none';
+            incorrectIcon.style.display = 'inline';
+        }
+    
+        feedbackTimeout = setTimeout(() => {
+            feedbackIconContainer.style.display = 'none';
+            correctIcon.style.display = 'none';
+            incorrectIcon.style.display = 'none';
+            feedbackTimeout = null;
+        }, duration);
+    }
+    
     // 延迟初始化，确保DOM完全渲染
     setTimeout(function() {
         console.log('开始初始化游戏组件 - 延迟执行');
@@ -823,6 +860,7 @@ function initParabolaShooterGame() {
         
         // 播放正确音效
         window.playSound('correct');
+        window.showGameFeedbackIcon('correct'); // <--- 添加对勾反馈
         
         // 动画效果（简单闪烁）
         animateHit();
@@ -838,6 +876,7 @@ function initParabolaShooterGame() {
     function handleMiss(calculatedY) {
         // 播放错误音效
         window.playSound('wrong');
+        window.showGameFeedbackIcon('incorrect'); // <--- 添加叉反馈
         
         // 显示实际函数经过的点
         animateMiss(calculatedY);
@@ -1354,6 +1393,7 @@ function initEquationMatchingGame() {
         
         // 播放正确音效
         window.playSound('correct');
+        window.showGameFeedbackIcon('correct'); // <--- 添加对勾反馈
         
         // 更新方程和图形的状态
         const equationIndex = equations.findIndex(eq => eq.id === selectedEquation.id);
@@ -1408,6 +1448,7 @@ function initEquationMatchingGame() {
         
         // 播放错误音效
         window.playSound('wrong');
+        window.showGameFeedbackIcon('incorrect'); // <--- 添加叉反馈
         
         // 获取选中的元素
         const selectedEquationElement = document.querySelector(`.equation-item.selected`);
@@ -1823,6 +1864,7 @@ function initVertexHunterGame() {
             feedbackDisplay.textContent = getTranslation('game.interface.feedback.incorrect') || '不正确，请再试一次';
             feedbackDisplay.className = 'feedback-message incorrect';
             window.playSound('wrong');
+            window.showGameFeedbackIcon('incorrect'); // <--- 添加叉反馈
             return false;
         }
         
@@ -1840,6 +1882,7 @@ function initVertexHunterGame() {
             
             // 播放正确音效
             window.playSound('correct');
+            window.showGameFeedbackIcon('correct'); // <--- 添加对勾反馈
             
             // 增加分数
             score += 10;
@@ -1860,12 +1903,14 @@ function initVertexHunterGame() {
             feedbackDisplay.textContent = getTranslation('game.interface.feedback.almostCorrect') || '接近正确，再试一次';
             feedbackDisplay.className = 'feedback-message almost';
             window.playSound('wrong');
+            window.showGameFeedbackIcon('incorrect'); // <--- 添加叉反馈 (也视为错误的一种)
             return false;
         } else {
             // 不正确
             feedbackDisplay.textContent = getTranslation('game.interface.feedback.incorrect') || '不正确，请再试一次';
             feedbackDisplay.className = 'feedback-message incorrect';
             window.playSound('wrong');
+            window.showGameFeedbackIcon('incorrect'); // <--- 添加叉反馈
             return false;
         }
     }
